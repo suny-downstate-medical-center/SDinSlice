@@ -7,6 +7,8 @@ in the extracellular space of a brain slice, which is itself embedded in an bath
 We initiate SD in the slice by elevating extracellular K+ in a spherical region at the center of the slice.
 Effects of hypoxia and propionate on the slice were modeled by appropriate changes to the volume fraction 
 and tortuosity of the extracellular space and oxygen/chloride concentrations.
+Users need to install [NEURON](https://neuron.yale.edu/neuron/), and we recommend using 
+[MPI](https://www.open-mpi.org/) to parallelize simulations.
 
 ## Code
 **SpatialModel.py** -- Simulation of SD with user specification of slice and cell properties via a json configuration file.
@@ -25,17 +27,28 @@ space in perfused slice.
 **figures.py** -- Functions for plotting output from SD simulations.
 
 ## Basic Usage 
-### SD in small (500 um x 500 um x 200 um), perfused slice for 2s
+### SD in small, perfused slice for 2s
+The following runs a simulation of SD in a small (500 um x 500 um x 200 um), perfused 
+slice for 2 seconds using a pre-made configuration file.  MPI is used for parallelizing 
+and is highly recommended, especially for larger simulations.
 ```
 mpiexec -n 6 nrniv -python -mpi SpatialModel.py cfgs/small_sim.json
 ```
 
-### SD in small (500 um x 500 um x 200 um), hypoxic slice for 2s
+### SD in small, hypoxic slice for 2s
+The following runs a simulation of SD in a small, hypoxic slice for 2 seconds using 
+another pre-made configuration file.
 ```
 mpiexec -n 6 nrniv -python -mpi SpatialModel.py cfgs/small_hypoxic_sim.json
 ```
 
-### SD in larger (1 mm x 1 mm x 400 um), hypoxic slice for 10 s (recommend running on HPC)
+### SD in larger, hypoxic slice for 10 s (recommend running on HPC)
+The following uses **genCfgs.py** to create a configuration file for 
+simulating SD in a larger (1 mm x 1 mm x 400 um), hypoxic slice for 10 s, 
+then runs the simulation with MPI.  Because of the size and duration of the 
+simulation, we recommend only running this on an HPC.  The number of threads (nthreads) 
+and number of processes passed to MPI (-n) can be changed depending on the available 
+resources.  
 ```
 python3 genCfgs.py --tstop=10000 --ox=anoxic --k0=70 --r0=100 --pas=-70.0 --uniformRec=True \
 --nthreads=40 --nrec=40 --dir=Data/hypox_1mmmx1mmx400um_10s/ --sa2v=3.0 --O2consume=True \
