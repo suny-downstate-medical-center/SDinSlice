@@ -857,7 +857,7 @@ def centerAndThick():
     ax1.text(-0.25, 1.1, 'A)', transform=ax1.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
     ax2.set_ylim(0,600)
-    ax2.set_title('Pefursed - Periphery', fontsize=18)
+    ax2.set_title('Perfused - Periphery', fontsize=18)
     ax2.text(-0.25, 1.1, 'B)', transform=ax2.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
     ax3.set_ylim(0,600)
@@ -1059,11 +1059,11 @@ def sliceConds():
     speeds_cl = getKwaveSpeed(datadirs, r0=100, tcut=8)
     ax3.plot([i for i in range(len(speeds_alpha))], speeds_alpha, '*-', linewidth=4, markersize=8, color='orange', label=r'$\alpha_{ECCS}$')
     ax3.plot([i for i in range(len(speeds_lambda))], speeds_lambda, '*-', linewidth=4, markersize=8, color='aqua', label=r'$\lambda_{ECS}$')
-    ax3.plot([i for i in range(len(speeds_o2))], speeds_o2, '*-', linewidth=4, markersize=8, color='black', label=r'[O$_2$]$_{ECS}$')
-    ax3.plot([i for i in range(len(speeds_cl))], speeds_cl, '*-', linewidth=4, markersize=8, color='lime', label=r'[Cl$^-$]$_{ECS}$')
+    ax3.plot([i for i in range(len(speeds_o2))], speeds_o2, '*-', linewidth=4, markersize=8, color='black', label=r'[O$_2$]')
+    ax3.plot([i for i in range(len(speeds_cl))], speeds_cl, '*-', linewidth=4, markersize=8, color='lime', label=r'[Cl$^-$]')
     ax3.set_ylabel(r'K$^+$ Wave Speed', fontsize=16)
     ax3.set_xticks([])
-    ax3.set_title(r'Influence of $\alpha_{ECS}$, $\lambda_{ECS}$, and [O$_2$]$_{bath}$', fontsize=18)
+    ax3.set_title(r'Influence of $\alpha_{ECS}$, $\lambda_{ECS}$, [Cl$^-$], [O$_2$]', fontsize=18)
     ax3.set_xlim(0,len(speeds_cl)-1)
     plt.setp(ax3.get_yticklabels(), fontsize=14)
     ax3.text(-0.125, 1.25, 'C)', transform=ax3.transAxes,
@@ -1340,8 +1340,8 @@ def tissueProps():
     ax1.plot(alphas, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
     plt.setp(ax1.get_xticklabels(), fontsize=14)
     plt.setp(ax1.get_yticklabels(), fontsize=14)
-    ax1.set_xlabel(r'$\alpha_{nrn}$', fontsize=16)
-    ax1.set_title('Neuronal Volume Fraction', fontsize=18)
+    ax1.set_xlabel(r'$\beta_{nrn}$', fontsize=16)
+    ax1.set_title(r'Neuronal Volume Fraction ($\beta_{nrn}$)', fontsize=18)
     ax1.set_ylim(-0.1, 15.5)
     ax1.text(-0.1, 1.1, 'B)', transform=ax1.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
@@ -1366,7 +1366,7 @@ def tissueProps():
     plt.setp(ax2.get_xticklabels(), fontsize=14)
     plt.setp(ax2.get_yticklabels(), fontsize=14)
     ax2.set_xlabel(r'Cell Density (neurons/mm$^3$)', fontsize=16)
-    ax2.set_title(r'Cell Density - Constant Neuron Morphology', fontsize=18)
+    ax2.set_title(r'Cell Density - Constant S$_{nrn}$, vol$_{nrn}$', fontsize=18)
     ax2.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
     ax2.set_ylim(-0.1, 15.5)
     ax2.text(-0.1, 1.4, 'C)', transform=ax2.transAxes,
@@ -1393,7 +1393,7 @@ def tissueProps():
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
     ax3.set_xlabel(r'Cell Density (neurons/mm$^3$)', fontsize=16)
-    ax3.set_title(r'Cell Density - Constant $\alpha_{nrn}$', fontsize=18)
+    ax3.set_title(r'Cell Density - Constant $\beta_{nrn}$, S:V', fontsize=18)
     ax3.set_ylim(-0.1, 15.5)
     ax3.text(-0.1, 1.4, 'D)', transform=ax3.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
