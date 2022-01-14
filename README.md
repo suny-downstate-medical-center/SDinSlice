@@ -34,6 +34,10 @@ and is highly recommended, especially for larger simulations.
 ```
 mpiexec -n 6 nrniv -python -mpi SpatialModel.py cfgs/small_sim.json
 ```
+To plot the output from that simulation:
+```
+python3 basicPlots.py Data/small_sim/
+```
 
 ### SD in small, hypoxic slice for 2s
 The following runs a simulation of SD in a small, hypoxic slice for 2 seconds using 

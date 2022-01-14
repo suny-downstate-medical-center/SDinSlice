@@ -5,12 +5,10 @@ from neuron import h, rxd
 #h.nrnmpi_init()
 from neuron.rxd import v
 from neuron.rxd.rxdmath import exp, log, tanh
-from neuron.units import sec, mM, ms
+from neuron.units import sec, mM
 import matplotlib
 matplotlib.use('Agg')
 from matplotlib import pyplot, colors, colorbar
-# from matplotlib_scalebar import scalebar
-from mpl_toolkits.mplot3d import Axes3D
 import math
 from math import pi
 from matplotlib import pyplot
@@ -18,7 +16,6 @@ import numpy
 import os
 import sys
 import pickle
-from pylab import convolve
 import json 
 import itertools
 from scipy.signal import find_peaks 
@@ -827,23 +824,6 @@ def run(tstop):
                                 'Chloride concentration; t = %6.0fms'
                                 % h.t)
 
-        # if (int(h.t) % dumpint == 0) and (h.t - last_dump > 500):
-        #     ## interval saving for restoring 
-        #     last_dump = h.t
-        #     ### save state
-        #     runSS()
-        #     saveRxd()
-            ### save recs 
-            # with open(os.path.join(outdir,"recs" + str(numpy.round(h.t)) + ".pkl"),'wb') as fileObj:
-            #     pickle.dump(recs,fileObj)
-            # ### save membrane potentials
-            # soma, pos = [], []
-            # for n in rec_neurons:
-            #     soma.append(n.somaV)
-            #     pos.append([n.x,n.y,n.z])
-            # with open(os.path.join(outdir,"membrane_potential_%i_%i.pkl" % (pcid, numpy.round(h.t))),'wb') as pout:
-            #     pickle.dump([soma,pos,time],pout)
-
         if pcid == 0: progress_bar(tstop)
         pc.psolve(pc.t(0)+h.dt)  # run the simulation for 1 time step
 
@@ -865,31 +845,6 @@ def run(tstop):
                         dist1 = r
             fout.write("%g\t%g\t%g\n" %(h.t, dist, dist1))
             fout.flush()
-
-        # Plot concentration and membrane potential vs radius every 10 ms
-        # if int(h.t) % 10 == 0 and pcid == 0:
-        #     k_rs = []
-        #     concs = []
-        #     for nd in k.nodes:
-        #         if str(nd.region).split('(')[0] == 'Extracellular':
-        #             k_rs.append((nd.x3d**2+nd.y3d**2+nd.z3d**2)**0.5)
-        #             concs.append(nd.concentration)
-        #     fig = pyplot.figure(dpi=200)
-        #     pyplot.subplot(211)
-        #     pyplot.scatter(k_rs, concs)
-        #     pyplot.title(str(int(h.t))+' ms')
-        #     pyplot.ylabel('[K+]')
-        #     pyplot.ylim(0,70)
-        #     pyplot.subplot(212)
-        #     # vs = [sec.v for sec in h.allsec()]
-        #     vs = [sec.v for sec in soma_list]
-        #     pyplot.scatter(cell_positions, vs)
-        #     pyplot.ylabel('Membrane Potential (mV)')
-        #     pyplot.ylim(-80,40)
-        #     pyplot.xlabel('Radius (microns)')
-        #     fig.savefig(outdir+'/gifFigs/k_conc_'+str(int(h.t))+'.png')
-        #     pyplot.close()
-        #     del(fig)
 
     if pcid == 0:
         progress_bar(tstop)
@@ -946,29 +901,6 @@ run(args['tstop'])
 # save final sim state 
 runSS()
 saveRxd()
-
-# plot raster
-if pcid == 0:
-    raster = {}
-    files = os.listdir(outdir)
-    mem_files = [file for file in files if (file[:8] == 'centermembrane')]
-    for file in mem_files:
-        fileObj = open(os.path.join(outdir,file), 'rb')
-        data = pickle.load(fileObj)
-        fileObj.close()
-        for v, pos in zip(data[0],data[1]):
-            pks, _ = find_peaks(v.as_numpy(), 0)
-            if len(pks):
-                r = (pos[0]**2 + pos[1]**2 + pos[2]**2)**(0.5)
-                raster[r] = [data[2][ind] for ind in pks]
-    raster_fig = pyplot.figure(figsize=(16,8))
-    for key in raster.keys():
-        pyplot.plot(numpy.divide(raster[key],1000), [key for i in range(len(raster[key]))], 'b.')
-    pyplot.xlabel('Time (s)', fontsize=16)
-    pyplot.ylabel('Distance (microns)', fontsize=16)
-    pyplot.xticks(fontsize=14)
-    pyplot.yticks(fontsize=14)
-    raster_fig.savefig(os.path.join(outdir,'raster_plot.png'))
 
 pc.barrier()  
 h.quit()

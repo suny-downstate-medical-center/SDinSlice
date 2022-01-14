@@ -241,7 +241,7 @@ def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=N
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
 
-def plotRasters(dirs, figname='raster_plot.png', outdir='./'):
+def plotRasters(dirs, figname='raster_plot.png'):
     raster_fig = plt.figure(figsize=(16,8))
     for ind, datadir in enumerate(dirs):
         raster = getRaster(datadir)
@@ -252,7 +252,7 @@ def plotRasters(dirs, figname='raster_plot.png', outdir='./'):
         plt.ylabel('Distance (microns)', fontsize=16)
         plt.xticks(fontsize=14)
         plt.yticks(fontsize=14)
-    raster_fig.savefig(os.path.join(outdir,figname))
+    raster_fig.savefig(os.path.join(figname))
 
 def combineMemFiles(datadirs, file):
     # combine mem files from fragmented runs
@@ -432,7 +432,7 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
 
 
 
-def allSpeciesGifs(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40):
+def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40):
     try:
         os.mkdir(outpath)
     except:
@@ -511,7 +511,7 @@ def allSpeciesGifs(datadir, outpath, vmins, vmaxes, figname, condition='Perfused
     imagesc = []
     for filename in filenames_sort: 
         imagesc.append(imageio.imread(outpath+filename)) 
-    imageio.mimsave(figname + '.mp4', imagesc)
+    imageio.mimsave(figname, imagesc)
         
         
 def spkPlusMovie(dirs, outpath, species='k', vmin=3.5, vmax=40, figname='kmovie', dur=10, extent=None, titles=None):
@@ -991,49 +991,49 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
     axs[0][0].set_ylabel('Membrane Potential (mV)', fontsize=16)
     plt.setp(axs[0][0].get_xticklabels(), fontsize=14)
     plt.setp(axs[0][0].get_yticklabels(), fontsize=14)
-    axs[0][0].text(-0.1, 1.1, 'A)', transform=axs[0][0].transAxes,
+    axs[0][0].text(-0.15, 1.0, 'A)', transform=axs[0][0].transAxes,
         fontsize=16, fontweight='bold', va='top', ha='right')
 
     axs[1][0].set_ylabel(r'Extracellular [O$_{2}$] (mM)', fontsize=16)
     plt.setp(axs[1][0].get_xticklabels(), fontsize=14)
     plt.setp(axs[1][0].get_yticklabels(), fontsize=14)
-    axs[1][0].text(-0.1, 1.1, 'E)', transform=axs[1][0].transAxes,
+    axs[1][0].text(-0.15, 1., 'E)', transform=axs[1][0].transAxes,
         fontsize=16, fontweight='bold', va='top', ha='right')
     
     axs[0][1].set_ylabel(r'Intracellular [K$^{+}$] (mM)', fontsize=16)
     plt.setp(axs[0][1].get_xticklabels(), fontsize=14)
     plt.setp(axs[0][1].get_yticklabels(), fontsize=14)
-    axs[0][1].text(-0.1, 1.1, 'B)', transform=axs[0][1].transAxes,
+    axs[0][1].text(-0.15, 1., 'B)', transform=axs[0][1].transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
     
     axs[1][1].set_ylabel(r'Extracellular [K$^{+}$] (mM)', fontsize=16)
     plt.setp(axs[1][1].get_xticklabels(), fontsize=14)
     plt.setp(axs[1][1].get_yticklabels(), fontsize=14)
-    axs[1][1].text(-0.1, 1.1, 'F)', transform=axs[1][1].transAxes,
+    axs[1][1].text(-0.15, 1.0, 'F)', transform=axs[1][1].transAxes,
       fontsize=18, fontweight='bold', va='top', ha='right')
     
     axs[0][2].set_ylabel(r'Intracellular [Na$^{+}$] (mM)', fontsize=16)
     plt.setp(axs[0][2].get_xticklabels(), fontsize=14)
     plt.setp(axs[0][2].get_yticklabels(), fontsize=14)
-    axs[0][2].text(-0.1, 1.1, 'C)', transform=axs[0][2].transAxes,
+    axs[0][2].text(-0.15, 1.0, 'C)', transform=axs[0][2].transAxes,
       fontsize=18, fontweight='bold', va='top', ha='right')
 
     axs[1][2].set_ylabel(r'Extracellular [Na$^{+}$] (mM)', fontsize=16)
     plt.setp(axs[1][2].get_xticklabels(), fontsize=14)
     plt.setp(axs[1][2].get_yticklabels(), fontsize=14)
-    axs[1][2].text(-0.1, 1.1, 'G)', transform=axs[1][2].transAxes,
+    axs[1][2].text(-0.15, 1.0, 'G)', transform=axs[1][2].transAxes,
       fontsize=18, fontweight='bold', va='top', ha='right')
     
     axs[0][3].set_ylabel(r'Intracellular [Cl$^{-}$] (mM)', fontsize=16)
     plt.setp(axs[0][3].get_xticklabels(), fontsize=14)
     plt.setp(axs[0][3].get_yticklabels(), fontsize=14)
-    axs[0][3].text(-0.1, 1.1, 'D)', transform=axs[0][3].transAxes,
+    axs[0][3].text(-0.15, 1.0, 'D)', transform=axs[0][3].transAxes,
       fontsize=18, fontweight='bold', va='top', ha='right')
     
     axs[1][3].set_ylabel(r'Extracellular [Cl$^{-}$] (mM)', fontsize=16)
     plt.setp(axs[1][3].get_xticklabels(), fontsize=14)
     plt.setp(axs[1][3].get_yticklabels(), fontsize=14)
-    axs[1][3].text(-0.1, 1.1, 'H)', transform=axs[1][3].transAxes,
+    axs[1][3].text(-0.15, 1.0, 'H)', transform=axs[1][3].transAxes,
       fontsize=18, fontweight='bold', va='top', ha='right')
 
     fig.text(0.55, 0.01, 'Time (s)', fontsize=16)
@@ -1070,3 +1070,4 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
 # v0.19 - changing all species gif to mp4
 # v0.20 - sinkVsSource for looking at periods where cells act as K+ sink 
 # v0.21 - new method for K+ wave speed in core vs periphery of slice
+# v1.0 - minor updates to raster ploting and mp4 functions 
