@@ -7,6 +7,8 @@ import pickle
 import multiprocessing
 
 def totalSurfaceArea(Lx, Ly, Lz, density, alphaNrn, sa2v, rs=None):
+    """Computes the total neuronal surface area given dimensions of the slice,
+    neuronal density, neuronal volume fraction (alphaNrn), and neuronal S:V ratio"""
     Vtissue = Lx*Ly*Lz 
     # cell numbers 
     Ncell = int(density*(Lx*Ly*Lz*1e-9))
@@ -17,6 +19,8 @@ def totalSurfaceArea(Lx, Ly, Lz, density, alphaNrn, sa2v, rs=None):
     return a * Ncell 
     
 def totalCellVolume(Lx, Ly, Lz, density, alphaNrn, sa2v, rs=None):
+    """Computes the total neuronal volume given dimensions of the slice,
+    neuronal density, neuronal volume fraction (alphaNrn), and neuronal S:V ratio"""
     Vtissue = Lx*Ly*Lz 
     # cell numbers 
     Ncell = int(density*(Lx*Ly*Lz*1e-9))
@@ -28,6 +32,8 @@ def totalCellVolume(Lx, Ly, Lz, density, alphaNrn, sa2v, rs=None):
     return v * Ncell
 
 def combineRecs(dirs, recNum=None):
+    """tool for combining recordings from multiple recordings.  dirs is a list of
+    directories with data.  intended for use with state saving/restoring"""
     # open first file 
     if recNum:
         filename = 'recs' + str(recNum) + '.pkl'
@@ -89,7 +95,7 @@ def waveSpeedVs(dirs, xaxis, xlabel, ystop=None, figname='wavespeed'):
         
 
 def compareDiffuse(dirs, outpath, species='k', figname='kconc', dur=10, start=0, vmin=3.5, vmax=40, extent=None):
-    # generates gif(s) of K+ diffusion 
+    """generates gif(s) of K+ diffusion"""
     try:
         os.mkdir(outpath)
     except:
@@ -131,7 +137,7 @@ def compareDiffuse(dirs, outpath, species='k', figname='kconc', dur=10, start=0,
     imageio.mimsave(figname + '.gif', imagesc)
 
 def getKwaveSpeed(datadir, r0=0, rmax=None, tcut=None):
-    # compute K+ wave speed, handles lists, drops points below r0
+    """computes K+ wave speed, handles lists of data folders, drops points below r0"""
     if not isinstance(datadir, list):
         f = open(datadir + 'wave_progress.txt', 'r')
         times = []
@@ -191,7 +197,7 @@ def getKwaveSpeed(datadir, r0=0, rmax=None, tcut=None):
         return speeds 
 
 def getSpkWaveSpeed(datadir, pos, r0=0):
-    # compute spike wave speed, handles lists, drops spikes within r0 
+    """compute SD wave speed from spiking activity, handles lists, drops spikes within r0 """
     radius = []
     spktimes = []
     if not isinstance(datadir, list):
@@ -212,6 +218,7 @@ def getSpkWaveSpeed(datadir, pos, r0=0):
         return speeds
 
 def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=None):
+    """plots K+ wave trajectories from sims stored in list of folders dirs"""
     # plt.figure(figsize=(10,6))
     for d, l, c in zip(dirs, labels, colors):
         f = open(d + 'wave_progress.txt', 'r')
@@ -242,6 +249,8 @@ def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=N
     plt.yticks(fontsize=14)
 
 def plotRasters(dirs, figname='raster_plot.png'):
+    """Plot raster(s) ordered by radial distance from the core of the slice for data stored in list
+    of folders - dirs"""
     raster_fig = plt.figure(figsize=(16,8))
     for ind, datadir in enumerate(dirs):
         raster = getRaster(datadir)
@@ -255,7 +264,7 @@ def plotRasters(dirs, figname='raster_plot.png'):
     raster_fig.savefig(os.path.join(figname))
 
 def combineMemFiles(datadirs, file):
-    # combine mem files from fragmented runs
+    """combine membrane potential files from fragmented runs"""
     ## load first file 
     with open(os.path.join(datadirs[0],file), 'rb') as fileObj:
         data = pickle.load(fileObj)
@@ -272,7 +281,7 @@ def combineMemFiles(datadirs, file):
     return data 
 
 def getComboRaster(datadirs, position='center', uniform=False):
-    ## get raster for fragmented run 
+    """get raster in dictionary for fragmented simulation runs"""
     raster = {}
     for ind, datadir in enumerate(datadirs):
         if ind == 0:
@@ -305,6 +314,7 @@ def getComboRaster(datadirs, position='center', uniform=False):
     return raster 
 
 def getSpkMetrics(datadir, includerecs=False, position='center', uniform=False):
+    """returns basic spiking metrics from single sim"""
     raster = getRaster(datadir, includerecs=includerecs, position=position, uniform=uniform)
     spkMetrics = {}
     for k in raster.keys():
@@ -323,6 +333,7 @@ def getSpkMetrics(datadir, includerecs=False, position='center', uniform=False):
         
 
 def getRaster(datadir, includerecs=False, position='center', uniform=False):
+    """Returns spike raster from a simulation as a dictionary (keys - radial distance)"""
     raster = {}
     files = os.listdir(datadir)
     if position:
@@ -352,6 +363,7 @@ def getRaster(datadir, includerecs=False, position='center', uniform=False):
     return raster
 
 def xyOfSpikeTime(datadir, position='center'):
+    """returns dictionary where keys are spike times and values are position data for the spiking cell(s)"""
     if isinstance(datadir, list):
         files = os.listdir(datadir[0])
     else:
@@ -384,6 +396,7 @@ def xyOfSpikeTime(datadir, position='center'):
     return posBySpkTime
 
 def centerVsPeriphKspeed(datadir, dur, rmax=600):
+    """returns K+ wave speeds for both the core of the slice and the periphery"""
     k_files = ['k_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0]
     time = []
     wave_pos_core = []
@@ -433,6 +446,7 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
 
 
 def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40):
+    """"Generates an mp4 video with heatmaps for K+, Cl-, Na+, and O2 overlaid with spiking data"""
     try:
         os.mkdir(outpath)
     except:
@@ -515,7 +529,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         
         
 def spkPlusMovie(dirs, outpath, species='k', vmin=3.5, vmax=40, figname='kmovie', dur=10, extent=None, titles=None):
-    # generates gif(s) of K+ diffusion 
+    """generates gif(s) of K+ diffusion overlaid with spiking data"""
     try:
         os.mkdir(outpath)
     except:
@@ -573,6 +587,8 @@ def spkPlusMovie(dirs, outpath, species='k', vmin=3.5, vmax=40, figname='kmovie'
     imageio.mimsave(figname + '.gif', imagesc)
 
 def spikeFreqHeatMap(datadir, rmax=300, spatialBin=25, tempBin=25, noverlap=0, dur=10, sbplt=None, spkCmax=40):
+    """Generates heatmaps where x is time, y is radial distance from center, color is average membrane potential
+    within spatiotemporal bin. Overlaid with raster plot."""
     # rmax: maximum distance from center, spatialBin: in microns, tempBin: in ms, dur: duration in seconds 
     ## generate raster with distance keys
     if isinstance(datadir, list):
@@ -628,6 +644,7 @@ def spikeFreqHeatMap(datadir, rmax=300, spatialBin=25, tempBin=25, noverlap=0, d
         return binned_binned
 
 def avgVmembHeatMap(datadir, figname='vmemb_heat_map.png', rmax=300, spatialBin=25, tempBin=50, dur=10, position='center'):
+    """Generates heatmaps where x is time, y is radial distance from center, color is average membrane potential."""
     # ignores spikes. rmax: maximum distance from center, spatialBin: in microns, tempBin: in ms, dur: duration in seconds 
     ## find membrane potential files 
     vmemb_by_pos = {}
@@ -868,6 +885,7 @@ def compositeFig(datadir, figname, dif_files, duration=20, spatialBin=75, tempBi
     vmembSpkFreqSbPlts(datadir, duration, figname=figname, tend=tend, spatialbin=spatialBin, tempBin=tempBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, sbplts=sbplts, logscale=logscale)
 
 def sinkVsSource(datadir, recNum=None):
+    """epoching based on when cells act as K+ sinks"""
     if recNum:
         filename = 'recs' + str(recNum) + '.pkl'
     else:
@@ -892,6 +910,7 @@ def sinkVsSource(datadir, recNum=None):
     return sink_periods, radius
 
 def sinkVsSourceFig(datadir, iss=[0, 7, 15], recNum=None):
+    """basic plotting for epochs where cells act as K+ sinks"""
     if recNum:
         filename = 'recs' + str(recNum) + '.pkl'
     else:
@@ -961,6 +980,8 @@ def sinkVsSourceFig(datadir, iss=[0, 7, 15], recNum=None):
     plt.setp(axs[5].get_yticklabels(), fontsize=10)
 
 def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
+    """Function for plotting Vmemb, as well as ion and o2 concentration, for selected (iss) recorded
+    neurons"""
     if recNum:
         filename = 'recs' + str(recNum) + '.pkl'
     else:
@@ -1071,3 +1092,4 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
 # v0.20 - sinkVsSource for looking at periods where cells act as K+ sink 
 # v0.21 - new method for K+ wave speed in core vs periphery of slice
 # v1.0 - minor updates to raster ploting and mp4 functions 
+# v1.1 - added doc strings for most functions

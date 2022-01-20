@@ -34,6 +34,13 @@ and is highly recommended, especially for larger simulations.
 ```
 mpiexec -n 6 nrniv -python -mpi SpatialModel.py cfgs/small_sim.json
 ```
+This simulation can take over 30 minutes to run.  If MPI is not installed, it may 
+be run with:
+```
+nrniv -python SpatialModel.py cfgs/small_sim.json
+```
+but this will take much longer.
+
 To plot the output from that simulation:
 ```
 python3 basicPlots.py Data/small_sim/
@@ -44,6 +51,19 @@ The following runs a simulation of SD in a small, hypoxic slice for 2 seconds us
 another pre-made configuration file.
 ```
 mpiexec -n 6 nrniv -python -mpi SpatialModel.py cfgs/small_hypoxic_sim.json
+```
+Similarly, to plot the out for that simulation:
+```
+python3 basicPlots.py Data/small_hypoxic_sim/
+```
+
+### Comparing results from those two simulations
+We have included a script for comparing the output of the previous two 
+simulations shown above.  After both simulations, the following will create
+a figure (**small_sim_comparison.png**) comparing the radial trajectories of the K+ waves and reduced raster plots
+(plotting only the first spike rather than all for visualization purposes).
+```
+python3 compareSims.py
 ```
 
 ### SD in larger, hypoxic slice for 10 s (recommend running on HPC)
