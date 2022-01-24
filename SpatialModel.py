@@ -17,8 +17,6 @@ import os
 import sys
 import pickle
 import json 
-import itertools
-from scipy.signal import find_peaks 
 
 # when using multiple processes get the relevant id and number of hosts 
 pc = h.ParallelContext()

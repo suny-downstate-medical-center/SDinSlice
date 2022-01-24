@@ -27,6 +27,21 @@ space in perfused slice.
 **figures.py** -- Functions for plotting output from SD simulations.
 
 ## Basic Usage 
+### Dependencies 
+Running these simulations requires Python3 and the NEURON simulator, and since some features, particularly dynamic changes in the extracellular volume fraction, we 
+employ are not included in the current NEURON distribution, we recommend installing 
+the nightly build:
+```
+pip install neuron-nightly
+```
+Other packages are also required for simulations and analyses:
+```
+pip install matplotlib
+pip install scipy 
+pip install imageio 
+pip install requests
+```
+
 ### SD in small, perfused slice for 2s
 The following runs a simulation of SD in a small (500 um x 500 um x 200 um), perfused 
 slice for 2 seconds using a pre-made configuration file.  MPI is used for parallelizing 

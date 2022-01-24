@@ -1,8 +1,6 @@
 from numpy.core.numeric import True_
 import requests 
 import numpy as np
-from matplotlib import pyplot as plt 
-plt.ion()
 
 brainstem_rxvs = ['Williams_Wilson', 'Mena-Segovia', 'Cameron', 'Irintchev']
 neo_pyramidal_rxvs = ['BICCN-MOp-miniatlas-anatomy', 'Dendritica', 'Suter_Shepherd', 'Groh', 'Buchs', 'DeKock', 'Kawaguchi', 'Jacobs', 'Meyer']
