@@ -481,7 +481,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         plt.colorbar(im, fraction=0.046, pad=0.04)
         if len(spkTimes):
             for spkTime in spkTimes:
-                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*', markerSize=5)
+                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*')
         plt.title(r'[K$^+$]$_{ECS}$ ', fontsize=20)
 
         ax2 = fig.add_subplot(142)
@@ -490,7 +490,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         plt.colorbar(im, fraction=0.046, pad=0.04)
         if len(spkTimes):
             for spkTime in spkTimes:
-                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*', markerSize=5)
+                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*')
         plt.title(r'[Cl$^-$]$_{ECS}$ ', fontsize=20)
 
         ax3 = fig.add_subplot(143)
@@ -499,7 +499,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         plt.colorbar(im, fraction=0.046, pad=0.04)
         if len(spkTimes):
             for spkTime in spkTimes:
-                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*', markerSize=5)
+                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*')
         plt.title(r'[Na$^+$]$_{ECS}$ ', fontsize=20)
 
         ax4 = fig.add_subplot(144)
@@ -508,7 +508,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         plt.colorbar(im, fraction=0.046, pad=0.04)
         if len(spkTimes):
             for spkTime in spkTimes:
-                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*', markerSize=5)
+                plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*')
         plt.title(r'[O$_2$]$_{ECS}$ ', fontsize=20)
         plt.tight_layout()
         
@@ -561,7 +561,7 @@ def spkPlusMovie(dirs, outpath, species='k', vmin=3.5, vmax=40, figname='kmovie'
             spkTimes = [key for key in posBySpkTime if (t-50 < key <= t+50)]
             if len(spkTimes):
                 for spkTime in spkTimes:
-                    plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*', markerSize=5)
+                    plt.plot(posBySpkTime[spkTime]['x'], posBySpkTime[spkTime]['y'], 'w*')
             if titles:
                 ttl = titles[ind] + ': ' + str(float(filename.split('.')[0].split('_')[1]) / 1000) + ' s'
             else:
@@ -1093,3 +1093,4 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
 # v0.21 - new method for K+ wave speed in core vs periphery of slice
 # v1.0 - minor updates to raster ploting and mp4 functions 
 # v1.1 - added doc strings for most functions
+# v1.2 - make compatible with newest matplotlib version 

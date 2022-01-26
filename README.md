@@ -39,6 +39,7 @@ Other packages are also required for simulations and analyses:
 pip install matplotlib
 pip install scipy 
 pip install imageio 
+pip install imageio-ffmpeg
 pip install requests
 ```
 

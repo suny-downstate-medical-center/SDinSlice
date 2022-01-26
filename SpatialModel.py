@@ -879,16 +879,17 @@ if args['restoredir']:
         svst.fread(f)
         svst.restore()
 
-    def restoreSim():
-        restoreSS()
-        for sp in rxd.species._all_species:
-            s = sp()
-            print(s.name)
-            temp = numpy.load(os.path.join(restoredir, s.name + '_concentrations_' + str(pcid) + '.npy'))
-            s.nodes.concentration = list(temp)
-            print('PCID ' + str(pcid) + ': resotred ' + s.name)
+    # def restoreSim():
+    #     restoreSS()
+    #     for sp in rxd.species._all_species:
+    #         s = sp()
+    #         print(s.name)
+    #         temp = numpy.load(os.path.join(restoredir, s.name + '_concentrations_' + str(pcid) + '.npy'))
+    #         s.nodes.concentration = list(temp)
+    #         print('PCID ' + str(pcid) + ': resotred ' + s.name)
 
-    fih = h.FInitializeHandler(1, restoreSim)
+    # fih = h.FInitializeHandler(1, restoreSim)
+    fih = h.FInitializeHandler(1, restoreSS)
     h.finitialize()
 else:
     h.finitialize(v_initial)
@@ -978,3 +979,4 @@ h.quit()
 # v0.55 - nonuniform recording setup now has center as random pos in middle 50%, periph as random pos in top/bottom 25%
 # v0.56 - fixed lambda for mannitol, added user specification of tortuosity and O2 with otherwise perfused parameters
 # v1.00 - cleaned up version for fresh repo associated w/ the paper 
+# v1.01 - reflects changes to NEURON SaveState
