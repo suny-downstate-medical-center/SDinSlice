@@ -146,7 +146,7 @@ run(cfg.duration)
 if pcid == 0:
     sys.path.append('../')
     from analysis import traceExamples 
-    traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,9,11,12])
+    traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,9,11,12,15,18])
 
 pc.barrier()
 h.quit()
