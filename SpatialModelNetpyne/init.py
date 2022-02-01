@@ -5,6 +5,7 @@ import numpy as np
 import os 
 import sys
 import pickle
+from neuron import h 
 
 # Instantiate network 
 sim.initialize(netParams, cfg)  # create network object and set cfg and net params
@@ -13,63 +14,67 @@ sim.net.createCells()                 # instantiate network cells based on defin
 sim.net.connectCells()                # create connections between cells based on params
 sim.net.addStims()                    # add external stimulation to cells (IClamps etc)
 sim.net.addRxD(nthreads=6)    # add reaction-diffusion (RxD)
-sim.setupRecording()             # setup variables to record for each cell (spikes, V traces, etc)
+# sim.setupRecording()             # setup variables to record for each cell (spikes, V traces, etc)
 # sim.simulate()
 
 # Additional sim setup 
 ## parallel context 
-from neuron import h 
 pc = h.ParallelContext()
 pcid = pc.id()
 nhost = pc.nhost()
 pc.timeout(0)
 pc.set_maxstep(100) # required when using multiple processes
 
-## create output dir 
-if pcid == 0 and not os.path.exists(cfg.filename):
-    try:
-        os.makedirs(cfg.filename)
-    except:
-        print("Unable to create the directory %r for the data and figures"
-              % cfg.filename)
-        os._exit(1)
+## only single core stuff
+if pcid == 0:
+    ## create output dir 
+    if not os.path.exists(cfg.filename):
+        try:
+            os.makedirs(cfg.filename)
+        except:
+            print("Unable to create the directory %r for the data and figures"
+                % cfg.filename)
+            os._exit(1)
 
-## set variables for ecs concentrations 
-k_ecs = sim.net.rxd['species']['k']['hObj'][sim.net.rxd['regions']['ecs']['hObj']]
-na_ecs = sim.net.rxd['species']['na']['hObj'][sim.net.rxd['regions']['ecs']['hObj']]
-cl_ecs = sim.net.rxd['species']['k']['hObj'][sim.net.rxd['regions']['ecs']['hObj']]
-o2_ecs = sim.net.rxd['species']['o2_extracellular']['hObj'][sim.net.rxd['regions']['ecs_o2']['hObj']]
+    ## set variables for ecs concentrations 
+    k_ecs = sim.net.rxd['species']['k']['hObj'][sim.net.rxd['regions']['ecs']['hObj']]
+    na_ecs = sim.net.rxd['species']['na']['hObj'][sim.net.rxd['regions']['ecs']['hObj']]
+    cl_ecs = sim.net.rxd['species']['k']['hObj'][sim.net.rxd['regions']['ecs']['hObj']]
+    o2_ecs = sim.net.rxd['species']['o2_extracellular']['hObj'][sim.net.rxd['regions']['ecs_o2']['hObj']]
 
-## manually record from cells according to distance from the center of the slice
-cell_positions = [((sec.x3d(0)-cfg.sizeX/2.0)**2 + (sec.y3d(0)+cfg.sizeY/2.0)**2 + (sec.z3d(0)-cfg.sizeZ/2.0)**2)**(0.5) for sec in h.allsec()]
-t = h.Vector().record(h._ref_t)
-soma_v = []
-soma_ki = []
-soma_nai = []
-soma_cli = []
-soma_nao = []
-soma_ko = []
-soma_clo = []
-soma_o2 = []
-rpos = []
-for i in range(int(cfg.sizeX//10)):
-    for r, soma in zip(cell_positions, h.allsec()):
-        if (10.0*i-2.5) < r < (10.0*i+2.5):
-            print(i,r)
-            rpos.append((soma.x3d(0)-cfg.sizeX/2, soma.y3d(0)+cfg.sizeY/2, soma.z3d(0)-cfg.sizeZ/2))
-            soma_v.append(h.Vector().record(soma(0.5)._ref_v))
-            soma_nai.append(h.Vector().record(soma(0.5)._ref_nai))
-            soma_ki.append(h.Vector().record(soma(0.5)._ref_ki))
-            soma_cli.append(h.Vector().record(soma(0.5)._ref_cli))
-            soma_nao.append(h.Vector().record(soma(0.5)._ref_nao))
-            soma_ko.append(h.Vector().record(soma(0.5)._ref_ko))
-            soma_clo.append(h.Vector().record(soma(0.5)._ref_clo))
-            soma_o2.append(h.Vector().record(o2_ecs.node_by_location(soma.x3d(0),soma.y3d(0),soma.z3d(0))._ref_concentration))
-            break
+    ## manually record from cells according to distance from the center of the slice
+    cell_positions = [((sec.x3d(0)-cfg.sizeX/2.0)**2 + (sec.y3d(0)+cfg.sizeY/2.0)**2 + (sec.z3d(0)-cfg.sizeZ/2.0)**2)**(0.5) for sec in h.allsec()]
+    t = h.Vector().record(h._ref_t)
+    soma_v = []
+    soma_ki = []
+    soma_nai = []
+    soma_cli = []
+    soma_nao = []
+    soma_ko = []
+    soma_clo = []
+    soma_o2 = []
+    rpos = []
+    cell_type = []
+    for i in range(int(cfg.sizeX//10)):
+        for r, soma in zip(cell_positions, h.allsec()):
+            if (10.0*i-2.5) < r < (10.0*i+2.5):
+                print(i,r)
+                rpos.append((soma.x3d(0)-cfg.sizeX/2, soma.y3d(0)+cfg.sizeY/2, soma.z3d(0)-cfg.sizeZ/2))
+                cell_type.append(soma.name().split('.')[1].split('s')[0])
+                soma_v.append(h.Vector().record(soma(0.5)._ref_v))
+                soma_nai.append(h.Vector().record(soma(0.5)._ref_nai))
+                soma_ki.append(h.Vector().record(soma(0.5)._ref_ki))
+                soma_cli.append(h.Vector().record(soma(0.5)._ref_cli))
+                soma_nao.append(h.Vector().record(soma(0.5)._ref_nao))
+                soma_ko.append(h.Vector().record(soma(0.5)._ref_ko))
+                soma_clo.append(h.Vector().record(soma(0.5)._ref_clo))
+                soma_o2.append(h.Vector().record(o2_ecs.node_by_location(soma.x3d(0),soma.y3d(0),soma.z3d(0))._ref_concentration))
+                break
 
-recs = {'v':soma_v, 'ki':soma_ki, 'nai':soma_nai, 'cli':soma_cli,
-        't':t,      'ko':soma_ko, 'nao':soma_nao, 'clo':soma_clo,
-        'pos':rpos, 'o2':soma_o2, 'rad':cell_positions}
+    recs = {'v':soma_v, 'ki':soma_ki, 'nai':soma_nai, 'cli':soma_cli,
+            't':t,      'ko':soma_ko, 'nao':soma_nao, 'clo':soma_clo,
+            'pos':rpos, 'o2':soma_o2, 'rad':cell_positions, 
+            'cell_type' : cell_type}
 
 def saveconc():
     np.save(os.path.join(cfg.filename,"k_%i.npy" % int(h.t)), k_ecs.states3d)
@@ -139,16 +144,9 @@ h.finitialize(cfg.hParams['v_init'])
 h.celsius = cfg.hParams['celsius']
 h.dt = cfg.dt
 
-xmins = [sec.x3d(0) for sec in h.allsec()]
-xmaxs = [sec.x3d(1) for sec in h.allsec()]
-ymins = [sec.y3d(0) for sec in h.allsec()]
-ymaxs = [sec.y3d(1) for sec in h.allsec()]
-zmins = [sec.z3d(0) for sec in h.allsec()]
-zmaxs = [sec.z3d(1) for sec in h.allsec()]
-
 run(cfg.duration)
 
-sim.analyze()  
+# sim.analyze()  
 
 ## basic plotting
 if pcid == 0:
@@ -165,3 +163,5 @@ h.quit()
 # h.load_file('stdrun.hoc')
 # h.fadvance()
 # plt.imshow(sim.net.rxd['species']['k']['hObj'][sim.net.rxd['regions']['ecs']['hObj']].states3d.mean(2), vmax=40, vmin=3.5, origin='lower')
+
+# v0.00 - requires custum run function, not using sim.analyze(), sim.setupRecording(), or sim.simulate()  

@@ -25,24 +25,39 @@ netParams.probLengthConst = 150.0  # length constant for conn probability (um)
 # netParams.popParams['E'] = {'cellType': 'E', 'numCells': 
 #                             cfg.Ncell, 
 #                             'cellModel': 'rxdE'}
-netParams.popParams['E2'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3]}
-netParams.popParams['I2'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3]}
-netParams.popParams['E4'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)]}
-netParams.popParams['I4'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)]}
-netParams.popParams['E5'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR]}
-netParams.popParams['I5'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR]}
+netParams.popParams['E2'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3], 'cellModel' : 'E2model'}
+netParams.popParams['I2'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3], 'cellModel' : 'I2model'}
+netParams.popParams['E4'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)], 'cellModel' : 'E4model'}
+netParams.popParams['I4'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)], 'cellModel' : 'I4model'}
+netParams.popParams['E5'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR], 'cellModel' : 'E5model'}
+netParams.popParams['I5'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR], 'cellModel' : 'I5model'}
 
 #------------------------------------------------------------------------------
 ## Cell property rules
-# cellRule = netParams.importCellParams(label='Erule', fileName='Neuron.py', 
-#                 conds={'cellType' : 'E', 'cellModel' : 'rxdE'}, cellName='Neuron')
-cellRule = {'conds': {'cellType': ['E', 'I']},  'secs': {}}  # cell rule dict
-cellRule['secs']['soma'] = {'geom': {'pt3d' : []}, 'mechs': {}}
-cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 0.0, 0.0, 2.0 * cfg.somaR)) # soma geometry
-cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 2.0 * cfg.somaR, 0.0,  2.0* cfg.somaR))
-if cfg.epas:
-    cellRule['secs']['soma']['mechs']['pas'] = {'g' : cfg.gpas, 'e' : cfg.epas}
-netParams.cellParams['Erule'] = cellRule                          # add dict to list of cell params
+E2Rule = netParams.importCellParams(label='E2rule', fileName='Neuron.py', 
+                conds={'cellType' : 'E', 'cellModel' : 'E2model'}, cellName='E2Neuron')
+I2Rule = netParams.importCellParams(label='I2rule', fileName='Neuron.py', 
+                conds={'cellType' : 'I', 'cellModel' : 'I2model'}, cellName='I2Neuron')
+E4Rule = netParams.importCellParams(label='E4rule', fileName='Neuron.py', 
+                conds={'cellType' : 'E', 'cellModel' : 'E4model'}, cellName='E4Neuron')
+I4Rule = netParams.importCellParams(label='I4rule', fileName='Neuron.py', 
+                conds={'cellType' : 'I', 'cellModel' : 'I4model'}, cellName='I4Neuron')
+E5Rule = netParams.importCellParams(label='E5rule', fileName='Neuron.py', 
+                conds={'cellType' : 'E', 'cellModel' : 'E5model'}, cellName='E5Neuron')
+I5Rule = netParams.importCellParams(label='I5rule', fileName='Neuron.py', 
+                conds={'cellType' : 'I', 'cellModel' : 'I5model'}, cellName='I5Neuron')
+netParams.cellParams['E2rule'] = E2Rule                          # add dict to list of cell params
+netParams.cellParams['I2rule'] = I2Rule
+netParams.cellParams['E4rule'] = E4Rule
+netParams.cellParams['I4rule'] = I4Rule
+netParams.cellParams['E5rule'] = E5Rule
+netParams.cellParams['I5rule'] = I5Rule      
+# cellRule = {'conds': {'cellType': ['E', 'I']},  'secs': {}}  # cell rule dict
+# cellRule['secs']['soma'] = {'geom': {'pt3d' : []}, 'mechs': {}}
+# cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 0.0, 0.0, 2.0 * cfg.somaR)) # soma geometry
+# cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 2.0 * cfg.somaR, 0.0,  2.0* cfg.somaR))
+# if cfg.epas:
+#     cellRule['secs']['soma']['mechs']['pas'] = {'g' : cfg.gpas, 'e' : cfg.epas}
 
 #------------------------------------------------------------------------------
 ## Connectivity rules
@@ -382,3 +397,4 @@ netParams.rxdParams['rates'] = rates
 # v0.08 - included second ecs for o2 and some other features from SDinSlice/SpatialModel.py previously missing
 # v0.09 - replicates results from SpatialModel.py
 # v0.10 - six populations, probabilistic connectivity, 60k neurons per mm3 
+# v0.11 - separate cell models for separate populations 
