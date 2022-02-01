@@ -13,9 +13,8 @@ sim.net.createCells()                 # instantiate network cells based on defin
 sim.net.connectCells()                # create connections between cells based on params
 sim.net.addStims()                    # add external stimulation to cells (IClamps etc)
 sim.net.addRxD(nthreads=6)    # add reaction-diffusion (RxD)
-# sim.setupRecording()             # setup variables to record for each cell (spikes, V traces, etc)
+sim.setupRecording()             # setup variables to record for each cell (spikes, V traces, etc)
 # sim.simulate()
-# sim.analyze()  
 
 # Additional sim setup 
 ## parallel context 
@@ -140,13 +139,22 @@ h.finitialize(cfg.hParams['v_init'])
 h.celsius = cfg.hParams['celsius']
 h.dt = cfg.dt
 
+xmins = [sec.x3d(0) for sec in h.allsec()]
+xmaxs = [sec.x3d(1) for sec in h.allsec()]
+ymins = [sec.y3d(0) for sec in h.allsec()]
+ymaxs = [sec.y3d(1) for sec in h.allsec()]
+zmins = [sec.z3d(0) for sec in h.allsec()]
+zmaxs = [sec.z3d(1) for sec in h.allsec()]
+
 run(cfg.duration)
+
+sim.analyze()  
 
 ## basic plotting
 if pcid == 0:
     sys.path.append('../')
     from analysis import traceExamples 
-    traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,9,11,12,15,18])
+    traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,12,13])
 
 pc.barrier()
 h.quit()

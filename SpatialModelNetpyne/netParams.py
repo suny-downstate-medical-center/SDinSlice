@@ -10,29 +10,65 @@ from cfg import cfg
 
 netParams = specs.NetParams()  # object of class NetParams to store the network parameters
 
-netParams.sizeX = cfg.sizeX - cfg.somaR # x-dimension (horizontal length) size in um
-netParams.sizeY = cfg.sizeY - cfg.somaR # y-dimension (vertical height or cortical depth) size in um
-netParams.sizeZ = cfg.sizeZ - cfg.somaR # z-dimension (horizontal length) size in um
+netParams.sizeX = cfg.sizeX# - 2*cfg.somaR # x-dimension (horizontal length) size in um
+netParams.sizeY = cfg.sizeY# - 2*cfg.somaR # y-dimension (vertical height or cortical depth) size in um
+netParams.sizeZ = cfg.sizeZ# - 2*cfg.somaR # z-dimension (horizontal length) size in um
+netParams.propVelocity = 100.0     # propagation velocity (um/ms)
+netParams.probLengthConst = 150.0  # length constant for conn probability (um)
 
 #------------------------------------------------------------------------------
 ## Population parameters
 # netParams.popParams['E'] = {'cellType': 'E', 'numCells': cfg.Ncell, 
 #     'xRange': [0.0, cfg.sizeX], 
-#     'yRange': [-cfg.sizeY, 0.0], 
+#     'yRange': [2 *cfg.somaR, cfg.sizeY - 2 *cfg.somaR],
 #     'zRange': [0.0, cfg.sizeZ], 'cellModel': 'rxdE'}
-netParams.popParams['E'] = {'cellType': 'E', 'numCells': cfg.Ncell, 'cellModel': 'rxdE'}
+# netParams.popParams['E'] = {'cellType': 'E', 'numCells': 
+#                             cfg.Ncell, 
+#                             'cellModel': 'rxdE'}
+netParams.popParams['E2'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3]}
+netParams.popParams['I2'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3]}
+netParams.popParams['E4'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)]}
+netParams.popParams['I4'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)]}
+netParams.popParams['E5'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR]}
+netParams.popParams['I5'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR]}
 
 #------------------------------------------------------------------------------
 ## Cell property rules
 # cellRule = netParams.importCellParams(label='Erule', fileName='Neuron.py', 
 #                 conds={'cellType' : 'E', 'cellModel' : 'rxdE'}, cellName='Neuron')
-cellRule = {'conds': {'cellType': 'E'},  'secs': {}}  # cell rule dict
+cellRule = {'conds': {'cellType': ['E', 'I']},  'secs': {}}  # cell rule dict
 cellRule['secs']['soma'] = {'geom': {'pt3d' : []}, 'mechs': {}}
 cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 0.0, 0.0, 2.0 * cfg.somaR)) # soma geometry
-cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 0.0, 2.0 * cfg.somaR, 2.0* cfg.somaR))
+cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 2.0 * cfg.somaR, 0.0,  2.0* cfg.somaR))
 if cfg.epas:
     cellRule['secs']['soma']['mechs']['pas'] = {'g' : cfg.gpas, 'e' : cfg.epas}
 netParams.cellParams['Erule'] = cellRule                          # add dict to list of cell params
+
+#------------------------------------------------------------------------------
+## Connectivity rules
+
+## Synaptic mechanism parameters
+netParams.synMechParams['exc'] = {'mod': 'Exp2Syn', 'tau1': 0.8, 'tau2': 5.3, 'e': 0}  # NMDA synaptic mechanism
+netParams.synMechParams['inh'] = {'mod': 'Exp2Syn', 'tau1': 0.6, 'tau2': 8.5, 'e': -75}  # GABA synaptic mechanism
+
+# Stimulation parameters
+netParams.stimSourceParams['bkg'] = {'type': 'NetStim', 'rate': 20, 'noise': 0.3}
+netParams.stimTargetParams['bkg->all'] = {'source': 'bkg', 'conds': {'cellType': ['E','I']}, 'weight': 0.01, 'delay': 'max(1, normal(5,2))', 'synMech': 'exc'}
+
+netParams.connParams['E->all'] = {
+    'preConds': {'cellType': 'E'}, 'postConds': {'cellType' : 'E'},  #  E -> all (100-1000 um)
+    'probability': 0.1 ,                  # probability of connection
+    'weight': '0.005*post_ynorm',         # synaptic weight
+    'delay': 'dist_3D/propVelocity',      # transmission delay (ms)
+    'synMech': 'exc'}                     # synaptic mechanism
+
+netParams.connParams['I->E'] = {
+    'preConds': {'cellType': 'I'}, 'postConds': {'pop': ['E2','E4','E5']},       #  I -> E
+    'probability': '0.4*exp(-dist_3D/probLengthConst)',   # probability of connection
+    'weight': 0.001,                                      # synaptic weight
+    'delay': 'dist_3D/propVelocity',                      # transmission delay (ms)
+    'synMech': 'inh'}                                     # synaptic mechanism
+
 
 #------------------------------------------------------------------------------
 ## RxD params
@@ -137,7 +173,7 @@ netParams.rxdParams['regions'] = regions
 ### species 
 species = {}
 
-k_init_str = 'ki_initial if isinstance(node, rxd.node.Node1D) else (70 if ((node.x3d - %f/2)**2+(node.y3d + %f/2)**2+(node.z3d - %f/2)**2 <= 100**2) else ko_initial)' % (cfg.sizeX, cfg.sizeY, cfg.sizeZ)
+k_init_str = 'ki_initial if isinstance(node, rxd.node.Node1D) else (%s if ((node.x3d - %f/2)**2+(node.y3d + %f/2)**2+(node.z3d - %f/2)**2 <= %s**2) else ko_initial)' % (cfg.k0, cfg.sizeX, cfg.sizeY, cfg.sizeZ, cfg.r0)
 species['k'] = {'regions' : ['cyt', 'mem', 'ecs'], 'd' : 2.62, 'charge' : 1,
                 'initial' : k_init_str,
                 'ecs_boundary_conditions' : constants['ko_initial'], 'name' : 'k'}
@@ -332,3 +368,4 @@ netParams.rxdParams['rates'] = rates
 # v0.07 - udpdated nkcc1 to reflect SpatialModelRealistic.py
 # v0.08 - included second ecs for o2 and some other features from SDinSlice/SpatialModel.py previously missing
 # v0.09 - replicates results from SpatialModel.py
+# v0.10 - six populations, probabilistic connectivity, 60k neurons per mm3 
