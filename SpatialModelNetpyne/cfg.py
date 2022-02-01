@@ -66,8 +66,8 @@ cfg.r0 = 100
                         #   'ik_soma': {'sec': 'soma', 'loc': 0.5, 'var': 'ik'},
                         #   'cai_soma': {'sec': 'soma', 'loc':0.5, 'var': 'cai'},
                         #   'cao_soma': {'sec': 'soma', 'loc':0.5, 'var': 'cao'}}
-cfg.analysis['plotTraces'] = {'include': [('E', i*25) for i in range(20)], 'oneFigPer': 'cell', 'figSize': (10,4), 'saveFig': True, 'showFig': False}
-cfg.analysis['plotRaster'] = {'orderBy': 'y', 'orderInverse': True, 'saveFig': True}         # Plot a raster
+# cfg.analysis['plotTraces'] = {'include': [('E', i*25) for i in range(20)], 'oneFigPer': 'cell', 'figSize': (10,4), 'saveFig': True, 'showFig': False}
+cfg.analysis['plotRaster'] = {'orderBy': 'y', 'orderInverse': True, 'saveFig': True, 'popNumCells' : [50 for i in range(6)]}         # Plot a raster
 
 # cfg.recordLFP = [[-15, y, 1.0*cfg.sizeZ] for y in range(int(cfg.sizeY/3), int(cfg.sizeY), int(cfg.sizeY/3))]
 
