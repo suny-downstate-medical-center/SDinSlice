@@ -6,6 +6,7 @@ import os
 import sys
 import pickle
 from neuron import h 
+import random 
 
 # Instantiate network 
 sim.initialize(netParams, cfg)  # create network object and set cfg and net params
@@ -24,6 +25,14 @@ pcid = pc.id()
 nhost = pc.nhost()
 pc.timeout(0)
 pc.set_maxstep(100) # required when using multiple processes
+
+random.seed(pcid+120194)
+all_secs = [sec for sec in h.allsec()]
+cells_per_node = len(all_secs)
+rec_inds = random.sample(range(cells_per_node), int(cfg.nRec / nhost))
+rec_cells = [h.Vector().record(all_secs[ind](0.5)._ref_v) for ind in rec_inds]
+pos = [[all_secs[ind].x3d(0), all_secs[ind].y3d(0), all_secs[ind].z3d(0)] for ind in rec_inds]
+pops = [str(all_secs[ind]).split('.')[1].split('s')[0] for ind in rec_inds]
 
 ## only single core stuff
 if pcid == 0:
@@ -137,6 +146,9 @@ def run(tstop):
             pickle.dump(recs,fout)
         print("\nSimulation complete. Plotting membrane potentials")
 
+    with open(os.path.join(cfg.filename,"centermembrane_potential_%i.pkl" % pcid),'wb') as pout:
+        pickle.dump([rec_cells, pos, pops, time], pout)
+
     pc.barrier()    # wait for all processes to save
 
 h.load_file('stdrun.hoc')
@@ -151,8 +163,9 @@ run(cfg.duration)
 ## basic plotting
 if pcid == 0:
     sys.path.append('../')
-    from analysis import traceExamples 
+    from analysis import traceExamples, compareKwaves
     traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,12,13])
+    compareKwaves([cfg.filename], [cfg.ox], 'Condition', colors=['r'])
 
 pc.barrier()
 h.quit()
@@ -165,3 +178,4 @@ h.quit()
 # plt.imshow(sim.net.rxd['species']['k']['hObj'][sim.net.rxd['regions']['ecs']['hObj']].states3d.mean(2), vmax=40, vmin=3.5, origin='lower')
 
 # v0.00 - requires custum run function, not using sim.analyze(), sim.setupRecording(), or sim.simulate()  
+# v0.01 - add in membrane potential recordings as in SpatialModel.py

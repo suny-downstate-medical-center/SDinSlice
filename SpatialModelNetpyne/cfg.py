@@ -8,7 +8,7 @@ import numpy as np
 
 # Run parameters
 cfg = specs.SimConfig()       # object of class cfg to store simulation configuration
-cfg.duration = 250 #1e3        # Duration of the simulation, in ms
+cfg.duration = 5e3        # Duration of the simulation, in ms
 cfg.hParams['v_init'] = -70.0   # set v_init to -65 mV
 cfg.hParams['celsius'] = 37.0
 cfg.dt = 0.1 #0.025              # Internal integration timestep to use
@@ -16,14 +16,14 @@ cfg.verbose = False            # Show detailed messages
 cfg.recordStep = 1             # Step size in ms to save data (eg. V traces, LFP, etc)
 # cfg.filename = 'hypox_10s/'   # Set file output name
 # cfg.filename = 'noelk_6pops_250ms/'   # Set file output name
-cfg.filename = 'k070_60knrnspermm3_6pops_500ms/'   # Set file output name
+cfg.filename = 'hypox_k070r0100_5s_bkgInputs/'   # Set file output name
 cfg.Kceil = 15.0
 
  # Network dimensions
-cfg.sizeX = 250.0 #1000
-cfg.sizeY = 1000.0 #250.0 #1000
-cfg.sizeZ = 250.0 #200.0
-cfg.density = 60000.0 #90000.0
+cfg.sizeX = 500.0 #250.0 #1000
+cfg.sizeY = 400.0 #250.0 #1000
+cfg.sizeZ = 500.0 #200.0
+cfg.density = 90000.0
 cfg.Vtissue = cfg.sizeX * cfg.sizeY * cfg.sizeZ
 
 # slice conditions 
@@ -58,7 +58,9 @@ cfg.cyt_fraction = cfg.rs**3 / cfg.somaR**3
 
 # sd init params 
 cfg.k0 = 70.0 #3.5
-cfg.r0 = 100
+cfg.r0 = 100.0
+
+cfg.nRec = 160
 
 # Recording/plotting parameters
 # cfg.recordCells = [('E', [0,50,100,150,200,250,300,350,400,450])]
@@ -67,7 +69,7 @@ cfg.r0 = 100
                         #   'cai_soma': {'sec': 'soma', 'loc':0.5, 'var': 'cai'},
                         #   'cao_soma': {'sec': 'soma', 'loc':0.5, 'var': 'cao'}}
 # cfg.analysis['plotTraces'] = {'include': [('E', i*25) for i in range(20)], 'oneFigPer': 'cell', 'figSize': (10,4), 'saveFig': True, 'showFig': False}
-cfg.analysis['plotRaster'] = {'orderBy': 'y', 'orderInverse': True, 'saveFig': True, 'popNumCells' : [50 for i in range(6)]}         # Plot a raster
+# cfg.analysis['plotRaster'] = {'orderBy': 'y', 'orderInverse': True, 'saveFig': True, 'popNumCells' : [50 for i in range(6)]}         # Plot a raster
 
 # cfg.recordLFP = [[-15, y, 1.0*cfg.sizeZ] for y in range(int(cfg.sizeY/3), int(cfg.sizeY), int(cfg.sizeY/3))]
 

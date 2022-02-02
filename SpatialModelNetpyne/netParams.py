@@ -201,7 +201,7 @@ netParams.rxdParams['regions'] = regions
 ### species 
 species = {}
 
-k_init_str = 'ki_initial if isinstance(node, rxd.node.Node1D) else (%s if ((node.x3d - %f/2)**2+(node.y3d + %f/2)**2+(node.z3d - %f/2)**2 <= %s**2) else ko_initial)' % (cfg.k0, cfg.sizeX, cfg.sizeY, cfg.sizeZ, cfg.r0)
+k_init_str = 'ki_initial if isinstance(node, rxd.node.Node1D) else (%f if ((node.x3d - %f/2)**2+(node.y3d + %f/2)**2+(node.z3d - %f/2)**2 <= %f**2) else ko_initial)' % (cfg.k0, cfg.sizeX, cfg.sizeY, cfg.sizeZ, cfg.r0)
 species['k'] = {'regions' : ['cyt', 'mem', 'ecs'], 'd' : 2.62, 'charge' : 1,
                 'initial' : k_init_str,
                 'ecs_boundary_conditions' : constants['ko_initial'], 'name' : 'k'}

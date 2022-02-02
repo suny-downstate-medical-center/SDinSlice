@@ -217,7 +217,7 @@ def getSpkWaveSpeed(datadir, pos, r0=0):
                 speeds.append(slope / 16.667)
         return speeds
 
-def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=None):
+def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=None, figname=None):
     """plots K+ wave trajectories from sims stored in list of folders dirs"""
     # plt.figure(figsize=(10,6))
     for d, l, c in zip(dirs, labels, colors):
@@ -247,6 +247,8 @@ def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=N
     plt.xlabel('Time (s)', fontsize=16)
     plt.xticks(fontsize=14)
     plt.yticks(fontsize=14)
+    if figname:
+        plt.savefig(figname)
 
 def plotRasters(dirs, figname='raster_plot.png'):
     """Plot raster(s) ordered by radial distance from the core of the slice for data stored in list
@@ -332,7 +334,7 @@ def getSpkMetrics(datadir, includerecs=False, position='center', uniform=False):
     return spkMetrics
         
 
-def getRaster(datadir, includerecs=False, position='center', uniform=False):
+def getRaster(datadir, center=[0,0,0], includerecs=False, position='center', uniform=False):
     """Returns spike raster from a simulation as a dictionary (keys - radial distance)"""
     raster = {}
     files = os.listdir(datadir)
@@ -347,7 +349,7 @@ def getRaster(datadir, includerecs=False, position='center', uniform=False):
             pks, _ = find_peaks(v.as_numpy(), 0)
             if len(pks):
                 if uniform:
-                    r = (pos[0]**2 + pos[1]**2 + pos[2]**2)**(0.5)
+                    r = ((pos[0]-center[0])**2 + (pos[1]-center[1])**2 + (pos[2]-center[2])**2)**(0.5)
                 else:
                     r = (pos[0]**2 + pos[1]**2)**(0.5)
                 raster[r] = [data[2][ind] for ind in pks]
