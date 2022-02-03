@@ -165,7 +165,7 @@ if pcid == 0:
     sys.path.append('../')
     from analysis import traceExamples, compareKwaves
     traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,12,13])
-    compareKwaves([cfg.filename], [cfg.ox], 'Condition', colors=['r'])
+    compareKwaves([cfg.filename], [cfg.ox], 'Condition', colors=['r'], figname=cfg.filename+'kwave.png')
 
 pc.barrier()
 h.quit()

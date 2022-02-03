@@ -16,7 +16,8 @@ cfg.verbose = False            # Show detailed messages
 cfg.recordStep = 1             # Step size in ms to save data (eg. V traces, LFP, etc)
 # cfg.filename = 'hypox_10s/'   # Set file output name
 # cfg.filename = 'noelk_6pops_250ms/'   # Set file output name
-cfg.filename = 'hypox_k070r0100_5s_bkgInputs/'   # Set file output name
+# cfg.filename = 'hypox_k070r0100_5s_bkgInputs/'   # Set file output name
+cfg.filename = 'perfused_k070r0100_5s_bkgInputs/'   # Set file output name
 cfg.Kceil = 15.0
 
  # Network dimensions
@@ -27,7 +28,7 @@ cfg.density = 90000.0
 cfg.Vtissue = cfg.sizeX * cfg.sizeY * cfg.sizeZ
 
 # slice conditions 
-cfg.ox = 'hypoxic' #'perfused'
+cfg.ox = 'perfused'
 if cfg.ox == 'perfused':
     cfg.o2_bath = 0.1
     cfg.alpha_ecs = 0.2 
