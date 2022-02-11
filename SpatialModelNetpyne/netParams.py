@@ -18,19 +18,12 @@ netParams.probLengthConst = 150.0  # length constant for conn probability (um)
 
 #------------------------------------------------------------------------------
 ## Population parameters
-# netParams.popParams['E'] = {'cellType': 'E', 'numCells': cfg.Ncell, 
-#     'xRange': [0.0, cfg.sizeX], 
-#     'yRange': [2 *cfg.somaR, cfg.sizeY - 2 *cfg.somaR],
-#     'zRange': [0.0, cfg.sizeZ], 'cellModel': 'rxdE'}
-# netParams.popParams['E'] = {'cellType': 'E', 'numCells': 
-#                             cfg.Ncell, 
-#                             'cellModel': 'rxdE'}
-netParams.popParams['E2'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3], 'cellModel' : 'E2model'}
-netParams.popParams['I2'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [2 * cfg.somaR, cfg.sizeY / 3], 'cellModel' : 'I2model'}
-netParams.popParams['E4'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)], 'cellModel' : 'E4model'}
-netParams.popParams['I4'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)], 'cellModel' : 'I4model'}
-netParams.popParams['E5'] = {'cellType': 'E', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR], 'cellModel' : 'E5model'}
-netParams.popParams['I5'] = {'cellType': 'I', 'numCells': int(cfg.Ncell / 6), 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR], 'cellModel' : 'I5model'}
+netParams.popParams['E2'] = {'cellType': 'E', 'numCells': cfg.N_L23_E, 'yRange': [2 * cfg.somaR, cfg.sizeY / 3], 'cellModel' : 'E2model'}
+netParams.popParams['I2'] = {'cellType': 'I', 'numCells': cfg.N_L23_I, 'yRange': [2 * cfg.somaR, cfg.sizeY / 3], 'cellModel' : 'I2model'}
+netParams.popParams['E4'] = {'cellType': 'E', 'numCells': cfg.N_L4_E, 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)], 'cellModel' : 'E4model'}
+netParams.popParams['I4'] = {'cellType': 'I', 'numCells': cfg.N_L4_I, 'yRange': [cfg.sizeY / 3, cfg.sizeY * (2/3)], 'cellModel' : 'I4model'}
+netParams.popParams['E5'] = {'cellType': 'E', 'numCells': cfg.N_L5_E, 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR], 'cellModel' : 'E5model'}
+netParams.popParams['I5'] = {'cellType': 'I', 'numCells': cfg.N_L5_I, 'yRange': [cfg.sizeY * (2/3), cfg.sizeY - 2*cfg.somaR], 'cellModel' : 'I5model'}
 
 #------------------------------------------------------------------------------
 ## Cell property rules
@@ -52,12 +45,6 @@ netParams.cellParams['E4rule'] = E4Rule
 netParams.cellParams['I4rule'] = I4Rule
 netParams.cellParams['E5rule'] = E5Rule
 netParams.cellParams['I5rule'] = I5Rule      
-# cellRule = {'conds': {'cellType': ['E', 'I']},  'secs': {}}  # cell rule dict
-# cellRule['secs']['soma'] = {'geom': {'pt3d' : []}, 'mechs': {}}
-# cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 0.0, 0.0, 2.0 * cfg.somaR)) # soma geometry
-# cellRule['secs']['soma']['geom']['pt3d'].append((0.0, 2.0 * cfg.somaR, 0.0,  2.0* cfg.somaR))
-# if cfg.epas:
-#     cellRule['secs']['soma']['mechs']['pas'] = {'g' : cfg.gpas, 'e' : cfg.epas}
 
 #------------------------------------------------------------------------------
 ## Connectivity rules
@@ -343,9 +330,10 @@ mcReactions['pump_current_na'] = {'reactant' : 'na[cyt]', 'product' : 'na[ecs]',
                                 'membrane' : 'mem', 'custom_dynamics' : True, 'membrane_flux' : True}
 
 # O2 depletrion from Na/K pump in neuron
-mcReactions['oxygen'] = {'reactant' : o2ecs, 'product' : 'dump[cyt]', 
-                        'rate_f' : "(%s) * (%s)" % (pump, volume_scale), 
-                        'membrane' : 'mem', 'custom_dynamics' : True}
+if cfg.O2consume:
+    mcReactions['oxygen'] = {'reactant' : o2ecs, 'product' : 'dump[cyt]', 
+                            'rate_f' : "(%s) * (%s)" % (pump, volume_scale), 
+                            'membrane' : 'mem', 'custom_dynamics' : True}
 
 netParams.rxdParams['multicompartmentReactions'] = mcReactions
 
@@ -381,8 +369,9 @@ rates['glia_k_current'] = {'species' : 'k[ecs]', 'regions' : ['ecs'],
     'rate' : '-(%s) - (2.0 * (%s))' % (glia12, gliapump)}
 
 ## Glial O2 depletion 
-rates['o2_pump'] = {'species' : o2ecs, 'regions' : ['ecs'],
-    'rate' : '-(%s)' % (gliapump)}
+if cfg.O2consume:
+    rates['o2_pump'] = {'species' : o2ecs, 'regions' : ['ecs'],
+        'rate' : '-(%s)' % (gliapump)}
 
 netParams.rxdParams['rates'] = rates
 
@@ -398,3 +387,4 @@ netParams.rxdParams['rates'] = rates
 # v0.09 - replicates results from SpatialModel.py
 # v0.10 - six populations, probabilistic connectivity, 60k neurons per mm3 
 # v0.11 - separate cell models for separate populations 
+# v0.12 - toggle O2 consumption, different E-I balance 

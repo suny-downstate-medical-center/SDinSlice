@@ -14,23 +14,42 @@ cfg.hParams['celsius'] = 37.0
 cfg.dt = 0.1 #0.025              # Internal integration timestep to use
 cfg.verbose = False            # Show detailed messages 
 cfg.recordStep = 1             # Step size in ms to save data (eg. V traces, LFP, etc)
-# cfg.filename = 'hypox_10s/'   # Set file output name
-# cfg.filename = 'noelk_6pops_250ms/'   # Set file output name
-# cfg.filename = 'hypox_k070r0100_5s_bkgInputs/'   # Set file output name
-cfg.filename = 'perfused_k070r0100_5s_bkgInputs/'   # Set file output name
+cfg.filename = 'perfused_noelk_noO2consume_bkgStims/'   # Set file output name
 cfg.Kceil = 15.0
 
  # Network dimensions
-cfg.sizeX = 500.0 #250.0 #1000
-cfg.sizeY = 400.0 #250.0 #1000
-cfg.sizeZ = 500.0 #200.0
+cfg.sizeX = 250.0 #250.0 #1000
+cfg.sizeY = 900.0 #250.0 #1000
+cfg.sizeZ = 250.0 #200.0
 cfg.density = 90000.0
 cfg.Vtissue = cfg.sizeX * cfg.sizeY * cfg.sizeZ
 
+## densities and E/I proporions based loosely on M1 paper 
+cfg.L23density = 110e3
+cfg.L4density = 111e3 
+cfg.L5density = 100e3 
+cfg.L23_eprop = 1766 / (1766 + 315)
+cfg.L23_iprop = 1 - cfg.L23_eprop
+cfg.L4_eprop = 1641 / (1641 + 89 + 182)
+cfg.L4_iprop = 1 - cfg.L4_eprop 
+cfg.L5_eprop = 2310 / (2310 + 613)
+cfg.L5_iprop = 1 - cfg.L5_eprop
+
+cfg.N_L23_E = int(cfg.L23density * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L23_eprop) 
+cfg.N_L23_I = int(cfg.L23density * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L23_iprop) 
+cfg.N_L4_E  = int(cfg.L4density  * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L4_eprop) 
+cfg.N_L4_I  = int(cfg.L4density  * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L4_iprop) 
+cfg.N_L5_E  = int(cfg.L5density  * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L5_eprop) 
+cfg.N_L5_I  = int(cfg.L5density  * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L5_iprop) 
+
 # slice conditions 
-cfg.ox = 'perfused'
+cfg.ox = 'normoxic' #'perfused'
 if cfg.ox == 'perfused':
     cfg.o2_bath = 0.1
+    cfg.alpha_ecs = 0.2 
+    cfg.tort_ecs = 1.6
+if cfg.ox == 'normoxic':
+    cfg.o2_bath = 0.04
     cfg.alpha_ecs = 0.2 
     cfg.tort_ecs = 1.6
 elif cfg.ox == 'hypoxic':
@@ -38,7 +57,8 @@ elif cfg.ox == 'hypoxic':
     cfg.alpha_ecs = 0.07 
     cfg.tort_ecs = 1.8
 
-cfg.prep = 'invitro' #'invivo'
+cfg.O2consume = False 
+# cfg.prep = 'invitro' #'invivo'
 
 # neuron params 
 cfg.betaNrn = 0.24
@@ -58,10 +78,10 @@ else:
 cfg.cyt_fraction = cfg.rs**3 / cfg.somaR**3
 
 # sd init params 
-cfg.k0 = 70.0 #3.5
+cfg.k0 = 3.5
 cfg.r0 = 100.0
 
-cfg.nRec = 160
+cfg.nRec = 240
 
 # Recording/plotting parameters
 # cfg.recordCells = [('E', [0,50,100,150,200,250,300,350,400,450])]

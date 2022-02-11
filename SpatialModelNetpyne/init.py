@@ -7,6 +7,7 @@ import sys
 import pickle
 from neuron import h 
 import random 
+from matplotlib import pyplot as plt
 
 # Instantiate network 
 sim.initialize(netParams, cfg)  # create network object and set cfg and net params
@@ -165,7 +166,9 @@ if pcid == 0:
     sys.path.append('../')
     from analysis import traceExamples, compareKwaves
     traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,12,13])
+    plt.close()
     compareKwaves([cfg.filename], [cfg.ox], 'Condition', colors=['r'], figname=cfg.filename+'kwave.png')
+    plt.close()
 
 pc.barrier()
 h.quit()
