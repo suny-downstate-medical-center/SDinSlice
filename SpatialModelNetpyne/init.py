@@ -165,7 +165,7 @@ run(cfg.duration)
 if pcid == 0:
     sys.path.append('../')
     from analysis import traceExamples, compareKwaves
-    traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8,12,13])
+    traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8])
     plt.close()
     compareKwaves([cfg.filename], [cfg.ox], 'Condition', colors=['r'], figname=cfg.filename+'kwave.png')
     plt.close()

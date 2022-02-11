@@ -8,7 +8,7 @@ import numpy as np
 
 # Run parameters
 cfg = specs.SimConfig()       # object of class cfg to store simulation configuration
-cfg.duration = 5e3        # Duration of the simulation, in ms
+cfg.duration = 2e3        # Duration of the simulation, in ms
 cfg.hParams['v_init'] = -70.0   # set v_init to -65 mV
 cfg.hParams['celsius'] = 37.0
 cfg.dt = 0.1 #0.025              # Internal integration timestep to use
@@ -43,7 +43,7 @@ cfg.N_L5_E  = int(cfg.L5density  * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 
 cfg.N_L5_I  = int(cfg.L5density  * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L5_iprop) 
 
 # slice conditions 
-cfg.ox = 'normoxic' #'perfused'
+cfg.ox = 'perfused'
 if cfg.ox == 'perfused':
     cfg.o2_bath = 0.1
     cfg.alpha_ecs = 0.2 
