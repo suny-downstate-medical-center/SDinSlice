@@ -32,7 +32,7 @@ cfg.L23_eprop = 1766 / (1766 + 315)
 cfg.L23_iprop = 1 - cfg.L23_eprop
 cfg.L4_eprop = 1641 / (1641 + 89 + 182)
 cfg.L4_iprop = 1 - cfg.L4_eprop 
-cfg.L5_eprop = 2310 / (2310 + 613)
+cfg.L5_eprop = 1/2 #2310 / (2310 + 613)
 cfg.L5_iprop = 1 - cfg.L5_eprop
 
 cfg.N_L23_E = int(cfg.L23density * (cfg.sizeX * (1/3) * cfg.sizeY * cfg.sizeZ * 1e-9) * cfg.L23_eprop) 
