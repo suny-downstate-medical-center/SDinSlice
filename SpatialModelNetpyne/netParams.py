@@ -366,11 +366,11 @@ rates['cldiff'] = {'species' : 'cl[ecs]', 'regions' : ['ecs'],
 
 ## Glia K+/Na+ pump current 
 rates['glia_k_current'] = {'species' : 'k[ecs]', 'regions' : ['ecs'],
-    'rate' : '-(%s) - (2.0 * (%s))' % (glia12, gliapump)}
+    'rate' : '1000 * (-(%s) - (2.0 * (%s)))' % (glia12, gliapump)}
 
 rates['glia_na_current'] = {'species' : 'na[ecs]', 'regions' : ['ecs'],
-    'rate' : '3.0 * (%s)' % (gliapump)}
-    
+    'rate' : '1000 * 3.0 * (%s)' % (gliapump)}
+
 ## Glial O2 depletion 
 if cfg.O2consume:
     rates['o2_pump'] = {'species' : o2ecs, 'regions' : ['ecs'],
