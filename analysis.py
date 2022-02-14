@@ -334,7 +334,7 @@ def getSpkMetrics(datadir, includerecs=False, position='center', uniform=False):
     return spkMetrics
         
 
-def getRaster(datadir, center=[0,0,0], includerecs=False, position='center', uniform=False):
+def getRaster(datadir, center=[0,0,0], includerecs=False, position='center', uniform=False, orderBy='r'):
     """Returns spike raster from a simulation as a dictionary (keys - radial distance)"""
     raster = {}
     files = os.listdir(datadir)
@@ -345,15 +345,19 @@ def getRaster(datadir, center=[0,0,0], includerecs=False, position='center', uni
     for file in mem_files:
         with open(os.path.join(datadir,file), 'rb') as fileObj:
             data = pickle.load(fileObj)
-        for v, pos, pop in zip(data[0],data[1], data[2]):
+        for v, pos, pop in zip(data[0], data[1], data[2]):
             pks, _ = find_peaks(v.as_numpy(), 0)
             if len(pks):
                 if uniform:
                     r = ((pos[0]-center[0])**2 + (pos[1]-center[1])**2 + (pos[2]-center[2])**2)**(0.5)
                 else:
                     r = (pos[0]**2 + pos[1]**2)**(0.5)
-                raster[r] = {'t': [data[3][ind] for ind in pks],
-                            'pop' : pop}
+                if orderBy == 'y':
+                    raster[pos[1]] = {'t': [data[3][ind] for ind in pks],
+                        'pop' : pop}
+                else:
+                    raster[r] = {'t': [data[3][ind] for ind in pks],
+                                'pop' : pop}
     ## also get spikes from recs.pkl 
     if includerecs:
         with open(datadir+'recs.pkl', 'rb') as fileObj:
