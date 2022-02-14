@@ -10,10 +10,11 @@ from cfg import cfg
 
 netParams = specs.NetParams()  # object of class NetParams to store the network parameters
 
-netParams.sizeX = cfg.sizeX# - 2*cfg.somaR # x-dimension (horizontal length) size in um
-netParams.sizeY = cfg.sizeY# - 2*cfg.somaR # y-dimension (vertical height or cortical depth) size in um
-netParams.sizeZ = cfg.sizeZ# - 2*cfg.somaR # z-dimension (horizontal length) size in um
+netParams.sizeX = cfg.sizeX        # x-dimension (horizontal length) size in um
+netParams.sizeY = cfg.sizeY        # y-dimension (vertical height or cortical depth) size in um
+netParams.sizeZ = cfg.sizeZ        # z-dimension (horizontal length) size in um
 netParams.propVelocity = 100.0     # propagation velocity (um/ms)
+netParams.defaultDelay = 2.0       # default conn delay (ms)
 netParams.probLengthConst = 150.0  # length constant for conn probability (um)
 
 #------------------------------------------------------------------------------
@@ -53,37 +54,25 @@ netParams.cellParams['I5rule'] = I5Rule
 netParams.synMechParams['exc'] = {'mod': 'Exp2Syn', 'tau1': 0.8, 'tau2': 5.3, 'e': 0}  # NMDA synaptic mechanism
 netParams.synMechParams['inh'] = {'mod': 'Exp2Syn', 'tau1': 0.6, 'tau2': 8.5, 'e': -75}  # GABA synaptic mechanism
 
-# Stimulation parameters
+## Stimulation parameters
 netParams.stimSourceParams['bkg'] = {'type': 'NetStim', 'rate': 20, 'noise': 0.3}
-netParams.stimTargetParams['bkg->all'] = {'source': 'bkg', 'conds': {'cellType': ['E','I']}, 'weight': 0.01, 'delay': 'max(1, normal(5,2))', 'synMech': 'exc'}
+netParams.stimTargetParams['bkg->all'] = {'source': 'bkg', 'conds': {'cellType': ['E','I']}, 'weight': 0.05, 'delay': 'max(1, normal(5,2))', 'synMech': 'exc'}
+### weights -> 0.05 
 
-# netParams.connParams['E->all'] = {
-#     'preConds': {'cellType': 'E'}, 'postConds': {'cellType' : 'E'},  #  E -> all (100-1000 um)
-#     'probability': 0.1 ,                  # probability of connection
-#     'weight': '0.005*post_ynorm',         # synaptic weight
-#     'delay': 'dist_3D/propVelocity',      # transmission delay (ms)
-#     'synMech': 'exc'}                     # synaptic mechanism
-
-# netParams.connParams['I->E'] = {
-#     'preConds': {'cellType': 'I'}, 'postConds': {'pop': ['E2','E4','E5']},       #  I -> E
-#     'probability': '0.4*exp(-dist_3D/probLengthConst)',   # probability of connection
-#     'weight': 0.001,                                      # synaptic weight
-#     'delay': 'dist_3D/propVelocity',                      # transmission delay (ms)
-#     'synMech': 'inh'}                                     # synaptic mechanism
+## Connection parameters
 netParams.connParams['E->all'] = {
-    'preConds': {'cellType': 'E'}, 'postConds': {'cellType' : 'E'},  #  E -> all (100-1000 um)
+    'preConds': {'cellType': 'E'}, 'postConds': {'cellType' : ['E', 'I']},  #  E -> all (100-1000 um)
     'probability': 0.1 ,                  # probability of connection
-    'weight': '0.005*post_ynorm',         # synaptic weight
-    'delay': 1,      # transmission delay (ms)
+    'weight': '0.05*post_ynorm',         # synaptic weight
+    'delay': 'defaultDelay+dist_3D/propVelocity',      # transmission delay (ms)
     'synMech': 'exc'}                     # synaptic mechanism
 
 netParams.connParams['I->E'] = {
-    'preConds': {'cellType': 'I'}, 'postConds': {'pop': ['E2','E4','E5']},       #  I -> E
-    'probability': '0.4*exp(-dist_3D/probLengthConst)',   # probability of connection
-    'weight': 0.001,                                      # synaptic weight
-    'delay': 1,                      # transmission delay (ms)
-    'synMech': 'inh'}                                     # synaptic mechanism
-
+    'preConds': {'cellType': 'I'}, 'postConds': {'cellType': 'E'},   #  I -> E
+    'probability': '0.4*exp(-dist_3D/probLengthConst)',              # probability of connection
+    'weight': 0.001,                                                 # synaptic weight
+    'delay': 'defaultDelay+dist_3D/propVelocity',                    # transmission delay (ms)
+    'synMech': 'inh'}                                                # synaptic mechanism
 
 #------------------------------------------------------------------------------
 ## RxD params
@@ -390,4 +379,5 @@ netParams.rxdParams['rates'] = rates
 # v0.09 - replicates results from SpatialModel.py
 # v0.10 - six populations, probabilistic connectivity, 60k neurons per mm3 
 # v0.11 - separate cell models for separate populations 
-# v0.12 - toggle O2 consumption, different E-I balance 
+# v0.12a - toggle O2 consumption, different E-I balance 
+# v0.12b - increased E->all and bkg->all weights, increased gliapump currents
