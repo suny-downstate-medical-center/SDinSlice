@@ -56,7 +56,10 @@ netParams.synMechParams['inh'] = {'mod': 'Exp2Syn', 'tau1': 0.6, 'tau2': 8.5, 'e
 
 ## Stimulation parameters
 netParams.stimSourceParams['bkg'] = {'type': 'NetStim', 'rate': 20, 'noise': 0.3}
-netParams.stimTargetParams['bkg->all'] = {'source': 'bkg', 'conds': {'cellType': ['E','I']}, 'weight': 0.05, 'delay': 'max(1, normal(5,2))', 'synMech': 'exc'}
+netParams.stimTargetParams['bkg->all'] = {'source': 'bkg', 'conds': {'cellType': ['E','I']}, 'weight': 0.01, 'delay': 'max(1, normal(5,2))', 'synMech': 'exc'}
+
+netParams.stimSourceParams['Ebkg'] = {'type': 'NetStim', 'rate': 50, 'noise': 0.3}
+netParams.stimTargetParams['bkg->E'] = {'source': 'Ebkg', 'conds': {'cellType': ['E']}, 'weight': 0.1, 'delay': 'max(1, normal(5,2))', 'synMech': 'exc'}
 ### weights -> 0.05 
 
 ## Connection parameters
@@ -381,3 +384,4 @@ netParams.rxdParams['rates'] = rates
 # v0.11 - separate cell models for separate populations 
 # v0.12a - toggle O2 consumption, different E-I balance 
 # v0.12b - increased E->all and bkg->all weights, increased gliapump currents
+# v0.12c - second background just for E 
