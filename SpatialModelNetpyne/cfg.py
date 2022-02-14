@@ -14,7 +14,7 @@ cfg.hParams['celsius'] = 37.0
 cfg.dt = 0.1 #0.025              # Internal integration timestep to use
 cfg.verbose = False            # Show detailed messages 
 cfg.recordStep = 1             # Step size in ms to save data (eg. V traces, LFP, etc)
-cfg.filename = 'normox_network_2kxgliapumps_extraBkg/'   # Set file output name
+cfg.filename = 'normox_network_2kxgliapumps_extraBkgw5/'   # Set file output name
 cfg.Kceil = 15.0
 
  # Network dimensions
