@@ -121,3 +121,23 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
 
 def xyOfSpikeTime(datadir):
     pass
+
+def plotMemV(datadir, position='center'):
+    try:
+        os.mkdir(datadir + 'vmembs/')
+    except:
+        pass
+    plt.ioff()
+    files = os.listdir(datadir)
+    count = 0
+    mem_files = [file for file in files if (file.startswith(position + 'membrane'))]
+    for file in mem_files:
+        with open(os.path.join(datadir,file), 'rb') as fileObj:
+            data = pickle.load(fileObj)
+        for v, pos, pop in zip(data[0], data[1], data[2]):
+            plt.figure()
+            plt.plot(v)
+            plt.title(pop)
+            plt.savefig(datadir + 'vmembs/' + pop + '_' + str(count) + '.png')
+            count = count + 1
+            plt.close()
