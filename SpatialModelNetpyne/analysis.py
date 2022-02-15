@@ -5,7 +5,7 @@ from scipy.signal import find_peaks
 import pickle
 import imageio
 
-def rasterPlot(datadir, center = [125, -450, 125], uniform=True, orderBy='y', position='center'):
+def rasterPlot(datadir, center = [125, -450, 125], uniform=True, figname='raster.png' orderBy='y', position='center'):
     files = os.listdir(datadir)
     mem_files = [file for file in files if (file.startswith(position + 'membrane'))]
     raster = {}
@@ -40,6 +40,7 @@ def rasterPlot(datadir, center = [125, -450, 125], uniform=True, orderBy='y', po
     for key in raster.keys():
         c = cols[np.argwhere(pops==raster[key]['pop'])[0][0]]
         plt.plot(np.divide(raster[key]['t'],1000), [key for i in range(len(raster[key]['t']))], '.', color=c)
+    plt.savefig(figname)
 
 def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, includeSpks=False):
     """"Generates an mp4 video with heatmaps for K+, Cl-, Na+, and O2 overlaid with spiking data"""
@@ -47,6 +48,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         os.mkdir(outpath)
     except:
         pass
+    plt.ioff()
     specs = ['k', 'cl', 'na', 'o2']
     k_files = [specs[0]+'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0]    
     cl_files = [specs[1]+'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0]    
@@ -60,7 +62,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         fig.text(0.45, 0.9, condition, fontsize=20)
         if includeSpks:
             posBySpkTime = xyOfSpikeTime(datadir)
-        spkTimes = [key for key in posBySpkTime if (t-50 < key <= t+50)]
+            spkTimes = [key for key in posBySpkTime if (t-50 < key <= t+50)]
         ## K+ plot
         ax1 = fig.add_subplot(141)
         data = np.load(datadir+k_file)
