@@ -14,7 +14,7 @@ cfg.hParams['celsius'] = 37.0
 cfg.dt = 0.1 #0.025              # Internal integration timestep to use
 cfg.verbose = False            # Show detailed messages 
 cfg.recordStep = 1             # Step size in ms to save data (eg. V traces, LFP, etc)
-cfg.filename = 'normox_network_noelk_1kxgliaKNa/'   # Set file output name
+cfg.filename = 'normox_network_noelk_O2consume/'   # Set file output name
 cfg.Kceil = 15.0
 
  # Network dimensions
@@ -57,8 +57,8 @@ elif cfg.ox == 'hypoxic':
     cfg.alpha_ecs = 0.07 
     cfg.tort_ecs = 1.8
 
-cfg.O2consume = False 
-cfg.gliaFactor = 1000.0
+cfg.O2consume = True 
+cfg.gliaFactor = 1.0
 # cfg.prep = 'invitro' #'invivo'
 
 # neuron params 
