@@ -50,10 +50,10 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         pass
     plt.ioff()
     specs = ['k', 'cl', 'na', 'o2']
-    k_files = [specs[0]+'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0]    
-    cl_files = [specs[1]+'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0]    
-    na_files = [specs[2]+'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0]    
-    o2_files = [specs[3]+'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0]    
+    k_files = [specs[0]+'_'+str(i)+'.npy' for i in range(int(dur*900)) if (i%100)==0]    
+    cl_files = [specs[1]+'_'+str(i)+'.npy' for i in range(int(dur*900)) if (i%100)==0]    
+    na_files = [specs[2]+'_'+str(i)+'.npy' for i in range(int(dur*900)) if (i%100)==0]    
+    o2_files = [specs[3]+'_'+str(i)+'.npy' for i in range(int(dur*900)) if (i%100)==0]    
     for k_file, cl_file, na_file, o2_file in zip(k_files, cl_files, na_files, o2_files):
         t = int(k_file.split('.')[0].split('_')[1])
         ttl = 't = ' + str(float(k_file.split('.')[0].split('_')[1]) / 1000) + ' s'
