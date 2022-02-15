@@ -170,7 +170,7 @@ if pcid == 0:
     plt.close()
     vmins = [3.5, 100.0, 30.0, 0.0]
     vmaxes = [40.0, 130.0, 140.0, cfg.o2_bath]
-    allSpeciesMov(cfg.filename, cfg.filename+'speciesFigs/', vmins, vmaxes, cfg.filename + 'all_species.mp4', condition=cfg.ox, dur=cfg.duration)
+    allSpeciesMov(cfg.filename, cfg.filename+'speciesFigs/', vmins, vmaxes, cfg.filename + 'all_species.mp4', condition=cfg.ox, dur=cfg.duration/1000)
     plt.close()
     rasterPlot(cfg.filename, figname=cfg.filename+'raster.png')
     plt.close()
