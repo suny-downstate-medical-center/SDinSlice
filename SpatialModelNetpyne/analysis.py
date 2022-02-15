@@ -5,7 +5,7 @@ from scipy.signal import find_peaks
 import pickle
 import imageio
 
-def rasterPlot(datadir, center = [125, -450, 125], uniform=True, figname='raster.png' orderBy='y', position='center'):
+def rasterPlot(datadir, center = [125, -450, 125], uniform=True, figname='raster.png', orderBy='y', position='center'):
     files = os.listdir(datadir)
     mem_files = [file for file in files if (file.startswith(position + 'membrane'))]
     raster = {}
