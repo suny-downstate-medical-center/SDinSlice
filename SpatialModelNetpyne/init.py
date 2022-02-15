@@ -163,11 +163,16 @@ run(cfg.duration)
 
 ## basic plotting
 if pcid == 0:
-    sys.path.append('../')
-    from analysis import traceExamples, compareKwaves
+    from analysis import *
     traceExamples(cfg.filename, cfg.filename + 'traces.png', iss=[0,4,8])
     plt.close()
-    compareKwaves([cfg.filename], [cfg.ox], 'Condition', colors=['r'], figname=cfg.filename+'kwave.png')
+    compareKwaves([cfg.filename], [cfg.ox], cfg.condition, colors=['r'], figname=cfg.filename+'kwave.png')
+    plt.close()
+    vmins = [3.5, 100.0, 30.0, 0.0]
+    vmaxes = [40.0, 130.0, 140.0, cfg.o2_bath]
+    allSpeciesMov(cfg.filename, cfg.filename+'speciesFigs/', vmins, vmaxes, cfg.filename + 'all_species.mp4', condition=cfg.condition, dur=cfg.duration)
+    plt.close()
+    rasterPlot(cfg.filename, figname=cfg.filename+'raster.png')
     plt.close()
 
 pc.barrier()
