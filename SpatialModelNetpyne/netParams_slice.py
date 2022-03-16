@@ -315,7 +315,7 @@ rates['glia_na_current'] = {'species' : 'na[ecs]', 'regions' : ['ecs'],
     'rate' : '3.0 * (%s)' % (gliapump)}
 
 ## Glial O2 depletion 
-rates['o2_pump'] = {'species' : o2ecs, 'regions' : ['ecs'],
+rates['o2_pump'] = {'species' : o2ecs, 'regions' : ['ecs_o2'],
     'rate' : '-(%s)' % (gliapump)}
 
 netParams.rxdParams['rates'] = rates
