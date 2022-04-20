@@ -96,6 +96,10 @@ if args['ox'] == 'primed':
     clo_initial = clo_initial / 2
     cli_initial = cli_initial / 2
 
+if args['ox'] == 'pad':
+    ko_initial = 10.0
+    oa_bath = 0.01
+
 if args['varCl']:
     factor = args['varCl'] / clo_initial
     clo_initial = clo_initial * factor 
@@ -190,6 +194,9 @@ elif args['ox'] == 'primed':
 elif args['ox'] == 'mannitol':
     alpha0 = alpha4
     tort0 = tort3
+elif args['ox'] == 'pad':
+    alpha0 = 0.13
+    tort0 = 1.8
 
 if args['alphaECS']:
     alpha0 = args['alphaECS']
