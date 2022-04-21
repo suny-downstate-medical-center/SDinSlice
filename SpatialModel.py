@@ -98,14 +98,13 @@ if args['ox'] == 'primed':
 
 if args['ox'] == 'pad':
     ko_initial = 10.0
-    oa_bath = 0.01
 
 if args['varCl']:
     factor = args['varCl'] / clo_initial
     clo_initial = clo_initial * factor 
     cli_initial = cli_initial * factor
 
-if args['ox'] == 'anoxic':
+if args['ox'] == 'anoxic' or args['ox'] == 'pad':
     oa_bath = 0.01
 elif args['ox'] == 'orig' or args['ox'] == 'primed' or args['ox'] == 'mannitol':
     oa_bath = 0.1

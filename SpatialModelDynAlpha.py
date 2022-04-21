@@ -108,7 +108,10 @@ if args['varCl']:
     clo_initial = clo_initial * factor 
     cli_initial = cli_initial * factor
 
-if args['ox'] == 'anoxic':
+if args['ox'] == 'pad':
+    ko_initial = 10.0
+
+if args['ox'] == 'anoxic' or args['ox'] == 'pad':
     oa_bath = 0.01
 elif args['ox'] == 'orig' or args['ox'] == 'primed' or args['ox'] == 'mannitol':
     oa_bath = 0.1
@@ -198,6 +201,9 @@ elif args['ox'] == 'primed':
 elif args['ox'] == 'mannitol':
     alpha0 = alpha4
     tort0 = tort3
+elif args['ox'] == 'pad':
+    alpha0 = 0.13
+    tort0 = 1.8
 
 if args['alphaECS']:
     alpha0 = args['alphaECS']
