@@ -27,10 +27,10 @@ import datetime
 
 # when using multiple processes get the relevant id and number of hosts 
 pc = h.ParallelContext()
-pcid = pc.id()
-nhost = pc.nhost()
-# pcid = 0
-# nhost = 20
+# pcid = pc.id()
+# nhost = pc.nhost()
+pcid = 0
+nhost = 20
 pc.timeout(0)
 
 # load sim configuration
