@@ -1,7 +1,7 @@
 """Simulation of spreading depression"""
 # from mpi4py import MPI
 import sys
-sys.path.insert(0, '../nrn/')
+# sys.path.insert(0, '../nrn/')
 from numpy import random
 from neuron import h, rxd
 #h.nrnmpi_init()
