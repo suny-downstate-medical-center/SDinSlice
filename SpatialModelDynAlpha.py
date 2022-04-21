@@ -1,7 +1,7 @@
 """Simulation of spreading depression"""
 # from mpi4py import MPI
 import sys
-sys.path.insert(0, '../nrn/')
+# sys.path.insert(0, '../nrn/')
 from numpy import random
 from neuron import h, rxd
 #h.nrnmpi_init()
@@ -540,14 +540,14 @@ osm = (1.1029 - 0.1029*exp( ( (nao + ko + clo + 18.0)/vor -
 scalei = (avo*1e-18)
 scaleo = (avo*1e-18)
 
-vol_dyn = rxd.MultiCompartmentReaction(vir, dump[ecs],
+vol_dyn = rxd.MultiCompartmentReaction(vir, dumpo,
                                        -scalei*vtau*(osm-vir) * initial_alpha / alpha_ecs[ecs],
                                        mass_action=False,
                                        membrane=mem,
                                        scale_by_area=False,
                                        membrane_flux=False)
 
-vol_dyn_ecs = rxd.MultiCompartmentReaction(dump[cyt], vor,
+vol_dyn_ecs = rxd.MultiCompartmentReaction(dumpi, vor,
                                        -scaleo*vtau*(osm-vir) * initial_alpha / alpha_ecs[ecs],
                                        mass_action=False,
                                        membrane=mem,
@@ -673,7 +673,7 @@ if pcid == 0:
 na_leak_1 = rxd.MultiCompartmentReaction(dumpi, nao, gnabar_l*(v - ena)*initial_alpha/alpha_ecs[ecs],
                                        mass_action=False, membrane=mem,
                                        membrane_flux=True)
-na_leak_2 = rxd.MultiCompartmentReaction(nai, nao, gnabar_l*(v - ena)*initial_alpha/alpha_ecs,
+na_leak_2 = rxd.MultiCompartmentReaction(nai, nao, gnabar_l*(v - ena),
                                        mass_action=False, membrane=mem,
                                        membrane_flux=True)
 if pcid == 0:
