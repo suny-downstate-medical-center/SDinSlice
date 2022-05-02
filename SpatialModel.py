@@ -98,7 +98,7 @@ if args['ox'] == 'primed':
 
 if args['ox'] == 'pad':
     k_bc = ko_initial
-    ko_initial = 10.0
+    ko_initial = 7.0 #double baseline
 else:
     k_bc = ko_initial
     
