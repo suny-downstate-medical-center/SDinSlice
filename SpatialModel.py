@@ -109,7 +109,7 @@ if args['varCl']:
     cli_initial = cli_initial * factor
 
 if args['ox'] == 'anoxic' or args['ox'] == 'pad':
-    o2_bath = 0.01
+    o2_bath = 0.1
     o2_bc = 0.1
 elif args['ox'] == 'orig' or args['ox'] == 'primed' or args['ox'] == 'mannitol':
     o2_bath = 0.1
@@ -817,7 +817,7 @@ def run(tstop):
                                 'Potassium concentration; t = %6.0fms'
                                 % h.t)
                                 
-                plot_image_data(o2ecs.states3d.mean(2), o2_bath * 0.99, o2_bath, 
+                plot_image_data(o2ecs.states3d.mean(2), 0.0, 0.1, 
                                 'o2_mean_%05d' % int(h.t/100),
                                 'Oxygen concentration; t = %6.0fms'
                                 % h.t)
