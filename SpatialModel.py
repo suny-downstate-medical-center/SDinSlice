@@ -382,7 +382,7 @@ volume_scale = 1e-18 * avo * volume / area
 #extracellular oxygen concentration
 if args['ischemCore'] or args['ischemEdemaCore']:
     o2_extracellular = rxd.Species([ecs_o2], name='o2', d=3.3, initial = lambda nd: 0.01
-                if nd.x3d**2 + nd.y3d**2 + nd.z3d**2 <= r0**2 else 0.04, ecs_boundary_conditions=0.04) # changed for separate ecs for o2 
+                if nd.x3d**2 + nd.y3d**2 + nd.z3d**2 <= r0**2 else 0.1, ecs_boundary_conditions=0.1) # changed for separate ecs for o2 
 else:
     o2_extracellular = rxd.Species([ecs_o2], name='o2', d=3.3, initial=o2_bath, ecs_boundary_conditions=o2_bc) # changed for separate ecs for o2 
 
@@ -572,22 +572,22 @@ if args['ouabain']:
     o2_pump = rxd.Rate(o2ecs, -gliapump * notcore)
     oxygen = rxd.MultiCompartmentReaction(o2ecs, dump[cyt], pump * volume_scale * notcore,
                                         mass_action=False, membrane=mem)
-elif args['ischemCore']:
-    #Na+/K+ pump current in neuron (2K+ in, 3Na+ out)
-    pump_current = rxd.MultiCompartmentReaction(ki, ko, -2.0*pump*volume_scale,
-                                                mass_action=False, membrane=mem,
-                                                membrane_flux=True) 
-    pump_current_na = rxd.MultiCompartmentReaction(nai, nao, 3.0*pump*volume_scale,
-                                                mass_action=False, membrane=mem,
-                                                membrane_flux=True)
-    #Na+/K+ pump current in glia (2K+ in, 3Na+ out)
-    gpump_current_na = rxd.Rate(nao, 3.0*gliapump)
-    #Glia K+ current 
-    glia_k_current = rxd.Rate(ko, -glia12 - 2*gliapump)
-    # O2 dynamics
-    o2_pump = rxd.Rate(o2ecs, -gliapump * iscore)
-    oxygen = rxd.MultiCompartmentReaction(o2ecs, dump[cyt], pump * volume_scale * iscore,
-                                        mass_action=False, membrane=mem)
+# elif args['ischemCore']:
+#     #Na+/K+ pump current in neuron (2K+ in, 3Na+ out)
+#     pump_current = rxd.MultiCompartmentReaction(ki, ko, -2.0*pump*volume_scale,
+#                                                 mass_action=False, membrane=mem,
+#                                                 membrane_flux=True) 
+#     pump_current_na = rxd.MultiCompartmentReaction(nai, nao, 3.0*pump*volume_scale,
+#                                                 mass_action=False, membrane=mem,
+#                                                 membrane_flux=True)
+#     #Na+/K+ pump current in glia (2K+ in, 3Na+ out)
+#     gpump_current_na = rxd.Rate(nao, 3.0*gliapump)
+#     #Glia K+ current 
+#     glia_k_current = rxd.Rate(ko, -glia12 - 2*gliapump)
+#     # O2 dynamics
+#     o2_pump = rxd.Rate(o2ecs, -gliapump * iscore)
+#     oxygen = rxd.MultiCompartmentReaction(o2ecs, dump[cyt], pump * volume_scale * iscore,
+#                                         mass_action=False, membrane=mem)
 elif args['edemaCore']:
     #Na+/K+ pump current in neuron (2K+ in, 3Na+ out)
     pump_current = rxd.MultiCompartmentReaction(ki, ko, -2.0*pump*volume_scale,
