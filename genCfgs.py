@@ -37,6 +37,8 @@ parser.add_argument('--nrnPumpFactor', nargs='?', type=float, default=1)
 parser.add_argument('--glialPumpFactor', nargs='?', type=float, default=1)
 parser.add_argument('--density', nargs='?', type=int, default=90000)
 parser.add_argument('--sa2v', nargs='?', type=float, default=None)
+parser.add_argument('--o2bath', nargs='?', type=float, default=0.01)
+parser.add_argument('--o2bc', nargs='?', type=float, default=0.1)
 parser.add_argument('--restoredir', nargs='?', type=str, default=None)
 parser.add_argument('--p_max', nargs='?', type=float, default=0.8)
 parser.add_argument('--pparam', nargs='?', type=float, default=20.0)
@@ -95,7 +97,9 @@ out = {'tstop' : args.tstop,
          'alphaECS' : args.alphaECS,
          'lambdaECS' : args.lambdaECS,
          'varO2' : args.varO2,
-         'varCl' : args.varCl}
+         'varCl' : args.varCl,
+         'o2bath' : args.o2bath,
+         'o2bc' : args.o2bc}
 
 with open(args.filename, 'w') as fileObj:
     json.dump(out, fileObj)
