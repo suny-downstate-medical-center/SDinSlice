@@ -97,7 +97,11 @@ if args['ox'] == 'primed':
     cli_initial = cli_initial / 2
 
 if args['ox'] == 'pad':
+    k_bc = ko_initial
     ko_initial = 10.0
+else:
+    k_bc = ko_initial
+    
 
 if args['varCl']:
     factor = args['varCl'] / clo_initial
@@ -105,16 +109,20 @@ if args['varCl']:
     cli_initial = cli_initial * factor
 
 if args['ox'] == 'anoxic' or args['ox'] == 'pad':
-    oa_bath = 0.01
+    o2_bath = 0.01
+    o2_bc = 0.1
 elif args['ox'] == 'orig' or args['ox'] == 'primed' or args['ox'] == 'mannitol':
-    oa_bath = 0.1
+    o2_bath = 0.1
+    o2_bc = o2_bath
 else:
-    oa_bath = 0.04 #args.bathO2/alpha
+    o2_bath = 0.04 #args.bathO2/alpha
+    o2_bc = o2_bath
 
 if args['varO2']:
-    oa_bath = args['varO2']
+    o2_bath = args['varO2']
+    o2_bc = o2_bath
 
-# oa_bath = 0.1 # original value from adam's code
+# o2_bath = 0.1 # original value from adam's code
 v_initial = -70 #-74.7 #-70
 
 #sodium activation 'm'
@@ -342,10 +350,9 @@ def concentration(i, o):
     return lambda nd: i if isinstance(nd, rxd.node.Node1D) else o 
 
 # if args['BC'] == 'invivo':
-k_bc = ko_initial
 na_bc = nao_initial
 cl_bc = clo_initial
-o2_bc = oa_bath
+o2_bc = o2_bath
 # else:
 #     k_bc = None 
 #     na_bc = None 
@@ -377,7 +384,7 @@ if args['ischemCore'] or args['ischemEdemaCore']:
     o2_extracellular = rxd.Species([ecs_o2], name='o2', d=3.3, initial = lambda nd: 0.01
                 if nd.x3d**2 + nd.y3d**2 + nd.z3d**2 <= r0**2 else 0.04, ecs_boundary_conditions=0.04) # changed for separate ecs for o2 
 else:
-    o2_extracellular = rxd.Species([ecs_o2], name='o2', d=3.3, initial=oa_bath, ecs_boundary_conditions=o2_bc) # changed for separate ecs for o2 
+    o2_extracellular = rxd.Species([ecs_o2], name='o2', d=3.3, initial=o2_bath, ecs_boundary_conditions=o2_bc) # changed for separate ecs for o2 
 
 o2ecs = o2_extracellular[ecs_o2]
 o2switch = (1.0 + tanh(1e4*(o2ecs-5e-4)))/2.0
@@ -465,7 +472,7 @@ h_gate = rxd.Rate(hgate, (alpha_h * (1.0 - hgate)) - (beta_h * hgate))
 n_gate = rxd.Rate(ngate, (alpha_n * (1.0 - ngate)) - (beta_n * ngate))
 
 #Diffusion
-o2diff = rxd.Rate(o2ecs, ecsbc*(epsilon_o2 * (oa_bath - o2ecs/vor))) 
+o2diff = rxd.Rate(o2ecs, ecsbc*(epsilon_o2 * (o2_bath - o2ecs/vor))) 
 kdiff = rxd.Rate(ko, ecsbc*(epsilon_k * (ko_initial - ko/vor))) 
 nadiff = rxd.Rate(nao, ecsbc*(epsilon_k * (nao_initial - nao/vor))) 
 cldiff = rxd.Rate(clo, ecsbc*(epsilon_k * (clo_initial - clo/vor)))
@@ -810,7 +817,7 @@ def run(tstop):
                                 'Potassium concentration; t = %6.0fms'
                                 % h.t)
                                 
-                plot_image_data(o2ecs.states3d.mean(2), oa_bath * 0.99, oa_bath, 
+                plot_image_data(o2ecs.states3d.mean(2), o2_bath * 0.99, o2_bath, 
                                 'o2_mean_%05d' % int(h.t/100),
                                 'Oxygen concentration; t = %6.0fms'
                                 % h.t)
@@ -941,10 +948,10 @@ h.quit()
 # v0.28 - switch back on pump, upped translation to 5e-4
 # v0.29 - trying constant infusion of K+, turn of saving figs for gifs
 # v0.30 - added option for 2mm x 2mm x 170 um
-# v0.31 - removed anox oa_bath
+# v0.31 - removed anox o2_bath
 # v0.32 - removed dependance on o2switch altogether
 # v0.33 - neuronal pump x100
-# v0.34 - back to original oa_bath, no increase in pump activity
+# v0.34 - back to original o2_bath, no increase in pump activity
 # v0.35 - user speecifies whether to infuse and factors for neural and glial Na/K pumps
 # v0.36 - user specification of cell density and option for brainstem-like volume fraction
 # v0.37 - attempt at 10x pump use of O2 effeciency (as if 10x more o2ecs) 
@@ -952,7 +959,7 @@ h.quit()
 # v0.39 - attempting state saving
 # v0.40 - only save rxd using collect... use savestate for ephys
 # v0.41 - cleaned up saving, not useing SaveState
-# v0.42 - reinstated oa_bath differences, ditched saving, no stims, mini size
+# v0.42 - reinstated o2_bath differences, ditched saving, no stims, mini size
 # v0.43 - reduce saving interval for mini sized / long run sims 
 # v0.44 - user specifies surface area to vol ratio, calculates cell radius and fractional cell volume to keep neuron volume fraction 0.24
 # v0.45 - save state at end of the sim, option to restore state 
