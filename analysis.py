@@ -443,6 +443,17 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
         periph_speed = m / 16.667
     return core_speed, periph_speed
 
+def billKgraph(datadir, dur=10, depth=4):
+    k_files = ['k' +'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0] 
+    kconcs = []
+    for k_file in k_files:
+        data = np.load(datadir+k_file)
+        kconcs.append(list(data[:,:,depth][10][11:]))
+    time = list(np.linspace(0,dur,len(kconcs)))
+    plt.imshow(time, kconcs)
+
+
+
 
 
 def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40):
