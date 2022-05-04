@@ -450,7 +450,7 @@ def billKgraph(datadir, dur=10, depth=8, title='Center'):
         data = np.load(datadir+k_file)
         kconcs.append(list(data[:,:,depth][20][21:]))
     time = list(np.linspace(0,dur,len(kconcs)))
-    plt.imshow(kconcs, extent=(0,dur,0, 500), aspect='auto', origin='lower')
+    plt.imshow(np.array(kconcs).transpose(), aspect='auto', origin='lower', extent=(0,dur,0, 500))
     plt.xlabel('Time (s)')
     plt.ylabel('Radial Distance (um)')
     plt.title(title)
