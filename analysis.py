@@ -450,11 +450,9 @@ def billKgraph(datadir, dur=10, depth=4):
         data = np.load(datadir+k_file)
         kconcs.append(list(data[:,:,depth][10][11:]))
     time = list(np.linspace(0,dur,len(kconcs)))
-    plt.imshow(time, kconcs)
-
-
-
-
+    plt.imshow(kconcs, extent=(0,dur,0, 500), aspect='auto')
+    plt.xlabel('Time (s)')
+    plt.ylabel('Radial Distance (um)')
 
 def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40):
     """"Generates an mp4 video with heatmaps for K+, Cl-, Na+, and O2 overlaid with spiking data"""
