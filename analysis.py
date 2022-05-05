@@ -230,7 +230,7 @@ def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=N
         #     wave_pos.append(float(line.split()[-2]))
         # f.close()
         wave_pos = getKtrace(d)
-        times = np.linspace(0, 10, len(wave_pos))
+        times = np.linspace(0, 10*1000, len(wave_pos))
         if sbplt:
             plt.subplot(sbplt)
         if trimDict:
