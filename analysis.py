@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 import os
 import imageio 
 from scipy.signal import find_peaks 
+from scipy.stats import binned_statistic
 import pickle
 import multiprocessing
 
@@ -221,13 +222,15 @@ def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=N
     """plots K+ wave trajectories from sims stored in list of folders dirs"""
     # plt.figure(figsize=(10,6))
     for d, l, c in zip(dirs, labels, colors):
-        f = open(d + 'wave_progress.txt', 'r')
-        times = []
-        wave_pos = []
-        for line in f.readlines():
-            times.append(float(line.split()[0]))
-            wave_pos.append(float(line.split()[-2]))
-        f.close()
+        # f = open(d + 'wave_progress.txt', 'r')
+        # times = []
+        # wave_pos = []
+        # for line in f.readlines():
+        #     times.append(float(line.split()[0]))
+        #     wave_pos.append(float(line.split()[-2]))
+        # f.close()
+        wave_pos = getKtrace(d)
+        times = np.linspace(0, 10, len(wave_pos))
         if sbplt:
             plt.subplot(sbplt)
         if trimDict:
@@ -443,17 +446,35 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
         periph_speed = m / 16.667
     return core_speed, periph_speed
 
-def billKgraph(datadir, dur=10, depth=8, title='Center'):
+def getKtrace(datadir, dur=10, depth=8, title='Center'):
     k_files = ['k' +'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0] 
     kconcs = []
+    x = np.linspace(-500,500,40)
+    y = np.linspace(-500,500,40)
     for k_file in k_files:
         data = np.load(datadir+k_file)
-        kconcs.append(list(data[:,:,depth][20][21:]))
-    time = list(np.linspace(0,dur,len(kconcs)))
-    plt.imshow(np.array(kconcs).transpose(), aspect='auto', origin='lower', extent=(0,dur,0, 500))
-    plt.xlabel('Time (s)')
-    plt.ylabel('Radial Distance (um)')
-    plt.title(title)
+        dists = []
+        ks = []
+        for xi in range(len(x)):
+            for yi in range(len(y)):
+                ks.append(data[xi,yi,depth])
+                dists.append((x[xi]**2 + y[yi]**2)**(1/2))
+        bin_means, bin_edges, bin_number = binned_statistic(dists, ks, statistic='mean', bins=40)
+        kconcs.append(bin_means)
+    bin_width = (bin_edges[1] - bin_edges[0])
+    bin_centers = bin_edges[1:] - bin_width/2
+    k_trace = []
+    for kconc in kconcs:
+        inds = np.argwhere(kconc > 15)
+        if len(inds):
+            k_trace.append(bin_centers[np.max(inds)])
+        else:
+            k_trace.append(0)
+    # plt.imshow(np.array(kconcs).transpose(), aspect='auto', origin='lower', extent=(0,dur,0, 700))
+    # plt.xlabel('Time (s)')
+    # plt.ylabel('Radial Distance (um)')
+    # plt.title(title)
+    return k_trace
 
 def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40):
     """"Generates an mp4 video with heatmaps for K+, Cl-, Na+, and O2 overlaid with spiking data"""
@@ -1104,3 +1125,4 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
 # v1.0 - minor updates to raster ploting and mp4 functions 
 # v1.1 - added doc strings for most functions
 # v1.2 - make compatible with newest matplotlib version 
+# v1.3 - compareKwaves uses avg K+ in voxels binned by radial distance from the center of the slice
