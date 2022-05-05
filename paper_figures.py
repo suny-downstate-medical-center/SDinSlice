@@ -972,9 +972,9 @@ def sliceConds():
     #             'Data/SD_Data/mannitol_standard_higNrec_v2/',
     #             'Data/SD_Data/primed_standard_highNrec_v2/',
     #             'Data/SD_Data/hypox_standard_highNrec/']
-    datadirs = ['Data/SD_Data/perfuse_standard_highNrec/',
-                'Data/dyn_alpha_10s/',
-                'Data/SD_Data/primed_standard_highNrec_v2/',
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_standard_highNrec/',
+                '/u/craig/spreadingdepression/Data/dyn_alpha_10s/',
+                '/u/craig/spreadingdepression/Data/SD_Data/primed_standard_highNrec_v2/',
                 '/u/craig/SDinSlice/Data/pad_k015_o2bc_0.1_o2bath_0.03_10s/']
                 # 'Data/SD_Data/hypox_standard_highNrec/']
     # colors = ['blue', 'green', 'red']
