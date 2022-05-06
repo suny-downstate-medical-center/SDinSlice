@@ -171,10 +171,12 @@ Vtissue = Lx*Ly*Lz
 # cell numbers 
 Ncell = int(args['density']*(Lx*Ly*Lz*1e-9)) # default 90k / mm^3
 Nrec = args['nrec']
-if args['density'] == 90000:
-    rs = ((args['alphaNrn']*Vtissue)/(2*numpy.pi*Ncell)) ** (1/3) # defaults to 7.52: appropriate radius for neuronal volume fraction of 0.24 given cylinders whose height is the diameter
-else:
+# if args['density'] == 90000:
+    
+if args['constBeta']:
     rs = 7.52
+else:
+    rs = ((args['alphaNrn']*Vtissue)/(2*numpy.pi*Ncell)) ** (1/3) # defaults to 7.52: appropriate radius for neuronal volume fraction of 0.24 given cylinders whose height is the diameter
 
 # compute appropriate radius for given surface area to volume ratio
 if args['sa2v']:
@@ -516,8 +518,6 @@ if args['dendL'] > 0:
                                             mass_action=False, membrane=mem,
                                             membrane_flux=True)
 else:
-    if pcid == 0:
-        print('sphere')
     na_current = rxd.MultiCompartmentReaction(nai, nao, gna * (v - ena),
                                             mass_action=False, membrane=mem,
                                             membrane_flux=True)

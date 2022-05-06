@@ -58,6 +58,7 @@ parser.add_argument('--alphaECS', nargs='?', type=float, default=None)
 parser.add_argument('--lambdaECS', nargs='?', type=float, default=None)
 parser.add_argument('--varO2', nargs='?', type=float, default=None)
 parser.add_argument('--varCl', nargs='?', type=float, default=None)
+parser.add_argument('--constBeta', nargs='?', type=str, default=None)
 parser.add_argument('filename', metavar='filename', type=str)
 args = parser.parse_args()
 # except:
@@ -99,7 +100,8 @@ out = {'tstop' : args.tstop,
          'varO2' : args.varO2,
          'varCl' : args.varCl,
          'o2bath' : args.o2bath,
-         'o2bc' : args.o2bc}
+         'o2bc' : args.o2bc,
+         'constBeta' : args.constBeta}
 
 with open(args.filename, 'w') as fileObj:
     json.dump(out, fileObj)

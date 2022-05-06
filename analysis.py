@@ -137,16 +137,18 @@ def compareDiffuse(dirs, outpath, species='k', figname='kconc', dur=10, start=0,
         imagesc.append(imageio.imread(outpath+filename)) 
     imageio.mimsave(figname + '.gif', imagesc)
 
-def getKwaveSpeed(datadir, r0=0, rmax=None, tcut=None):
+def getKwaveSpeed(datadir, r0=0, rmax=None, tcut=None, dur=10):
     """computes K+ wave speed, handles lists of data folders, drops points below r0"""
     if not isinstance(datadir, list):
-        f = open(datadir + 'wave_progress.txt', 'r')
-        times = []
-        wave_pos = []
-        for line in f.readlines():
-            times.append(float(line.split()[0]))
-            wave_pos.append(float(line.split()[-2]))
-        f.close()
+        # f = open(datadir + 'wave_progress.txt', 'r')
+        # times = []
+        # wave_pos = []
+        # for line in f.readlines():
+        #     times.append(float(line.split()[0]))
+        #     wave_pos.append(float(line.split()[-2]))
+        # f.close()
+        wave_pos = getKtrace(datadir)
+        times = np.linspace(0, dur*1000, len(wave_pos))
         if wave_pos:
             if tcut:
                 wave_pos = [w for t, w in zip(times, wave_pos) if t <= tcut * 1000]
@@ -169,13 +171,15 @@ def getKwaveSpeed(datadir, r0=0, rmax=None, tcut=None):
     else:
         speeds = []
         for d in datadir:
-            f = open(d + 'wave_progress.txt', 'r')
-            times = []
-            wave_pos = []
-            for line in f.readlines():
-                times.append(float(line.split()[0]))
-                wave_pos.append(float(line.split()[-2]))
-            f.close()
+            # f = open(d + 'wave_progress.txt', 'r')
+            # times = []
+            # wave_pos = []
+            # for line in f.readlines():
+            #     times.append(float(line.split()[0]))
+            #     wave_pos.append(float(line.split()[-2]))
+            # f.close()
+            wave_pos = getKtrace(d)
+            times = np.linspace(0, dur*1000, len(wave_pos))
             if wave_pos:
                 if tcut:
                     wave_pos = [w for t, w in zip(times, wave_pos) if t <= tcut * 1000]
@@ -218,7 +222,7 @@ def getSpkWaveSpeed(datadir, pos, r0=0):
                 speeds.append(slope / 16.667)
         return speeds
 
-def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=None):
+def compareKwaves(dirs, labels, legendTitle, dur=10, colors=None, trimDict=None, sbplt=None):
     """plots K+ wave trajectories from sims stored in list of folders dirs"""
     # plt.figure(figsize=(10,6))
     for d, l, c in zip(dirs, labels, colors):
@@ -230,7 +234,7 @@ def compareKwaves(dirs, labels, legendTitle, colors=None, trimDict=None, sbplt=N
         #     wave_pos.append(float(line.split()[-2]))
         # f.close()
         wave_pos = getKtrace(d)
-        times = np.linspace(0, 10*1000, len(wave_pos))
+        times = np.linspace(0, dur*1000, len(wave_pos))
         if sbplt:
             plt.subplot(sbplt)
         if trimDict:
