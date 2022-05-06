@@ -24,7 +24,7 @@ file.write('#SBATCH -p shared\n')
 file.write('#SBATCH --nodes=1\n')
 file.write('#SBATCH --ntasks-per-node=48\n')
 file.write('#SBATCH --account csd403')
-log_line = '#SBATCH -e /home/ckelley/SDinSlice/logs/' + sys.argv[-1] + '.log\n'
+log_line = '#SBATCH -o /home/ckelley/SDinSlice/logs/' + sys.argv[-1] + '.log\n'
 file.write(log_line)
 err_line = '#SBATCH -e /home/ckelley/SDinSlice/errs/' + sys.argv[-1] + '.err\n'
 file.write(err_line)
