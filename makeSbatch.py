@@ -22,8 +22,9 @@ file.write(job_name)
 file.write('#SBATCH -t 24:00:00\n')
 file.write('#SBATCH -p shared\n')
 file.write('#SBATCH --nodes=1\n')
-file.write('#SBATCH --ntasks-per-node=48\n')
+file.write('#SBATCH --ntasks-per-node=80\n')
 file.write('#SBATCH --account csd403')
+file.write('#SBATCH --mem=4000M')
 log_line = '#SBATCH -o /home/ckelley/SDinSlice/logs/' + sys.argv[-1] + '.log\n'
 file.write(log_line)
 err_line = '#SBATCH -e /home/ckelley/SDinSlice/errs/' + sys.argv[-1] + '.err\n'
@@ -37,6 +38,6 @@ file.write('module load slurm\n')
 file.write('module load cpu\n')
 file.write('module load gcc/10.2.0\n')
 file.write('module load openmpi/4.0.4\n')
-run_line = 'mpiexec -n 48 nrniv -python -mpi SpatialModel.py cfgs/' + sys.argv[-1] + '.json\n'
+run_line = 'mpiexec -n 80 nrniv -python -mpi SpatialModel.py cfgs/' + sys.argv[-1] + '.json\n'
 file.write(run_line)
 file.close()
