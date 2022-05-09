@@ -1455,7 +1455,7 @@ def tissueProps():
                 '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv6/']
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
     ratios_anox = [0.02, 1, 2, 3, 4, 5, 6]
-    datadirs = [#'Data/pad_data/s2v02/', 
+    datadirs = ['Data/pad_data/s2v02/', 
                 'Data/pad_data/s2v1/',
                 'Data/pad_data/s2v2/',  
                 'Data/pad_data/pad_standard/',
