@@ -1506,11 +1506,11 @@ def tissueProps():
         fontsize=18, fontweight='bold', va='top', ha='right')
 
     ## cell density - constant morph 
-    datadirs = ['Data/pad_data/d45000/',
-                'Data/pad_data/d67500/',  
+    datadirs = ['Data/pad_data/d45000_constBeta/',
+                'Data/pad_data/d67500_constBeta/',  
                 'Data/pad_data/pad_standard/',
-                'Data/pad_data/d112500/', 
-                'Data/pad_data/d120000/']
+                'Data/pad_data/d112500_constBeta/', 
+                'Data/pad_data/d120000_constBeta/']
     speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     densities_anox = [45, 67.5, 90, 112.5, 120]
     datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_d45/',
@@ -1541,11 +1541,11 @@ def tissueProps():
                 '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125_volfrac/', 
                 '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120_volfrac/']
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
-    datadirs = ['Data/pad_data/d45000_constBeta/',
-                'Data/pad_data/d67500_constBeta/',  
+    datadirs = ['Data/pad_data/d45000/',
+                'Data/pad_data/d67500/',  
                 'Data/pad_data/pad_standard/',
-                'Data/pad_data/d112500_constBeta/', 
-                'Data/pad_data/d120000_constBeta/']
+                'Data/pad_data/d112500/', 
+                'Data/pad_data/d120000/']
     speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     ax3 = plt.subplot(324)
     ax3.plot(densities_anox, speeds_normox, '*-', color='blue', linewidth=4, markersize=8, label='Perfused')
