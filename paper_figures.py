@@ -1446,13 +1446,13 @@ def tissueProps():
     # Figure 6
     fig = plt.figure(figsize=(14,12))
     ## surface to volume ratio 
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/hypox_sv02/', 
-                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv1/',
-                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv2/',  
-                '/u/craig/spreadingdepression/Data/hypox_standard/',
-                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv4/', 
-                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv5/',
-                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv6/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv02/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv1/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv2/',  
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv4/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv5/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv6/']
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
     ratios_anox = [0.02, 1, 2, 3, 4, 5, 6]
     datadirs = ['Data/pad_data/s2v02/', 
@@ -1559,9 +1559,9 @@ def tissueProps():
     ax3.text(-0.1, 1.4, 'D)', transform=ax3.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
-    ax4 = plt.subplot(313)
-    waveSpeedVsSurfaceArea(sbplt=ax4)
-    ax4.text(-0.05, 1.1, 'E)', transform=ax4.transAxes,
-        fontsize=18, fontweight='bold', va='top', ha='right')
+    # ax4 = plt.subplot(313)
+    # waveSpeedVsSurfaceArea(sbplt=ax4)
+    # ax4.text(-0.05, 1.1, 'E)', transform=ax4.transAxes,
+    #     fontsize=18, fontweight='bold', va='top', ha='right')
 
     plt.tight_layout()
