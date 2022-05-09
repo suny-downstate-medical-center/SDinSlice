@@ -11,14 +11,14 @@ def centerVsPeriphThick():
     # Figure 7A
     fig = plt.figure(figsize=(12, 5))
     ax = plt.subplot(111)
-    datadirs = ['Data/perfuse_lz100/',
-                'Data/perfuse_lz200/',
-                'Data/perfuse_lz300/',
-                'Data/perfuse_standard/',
-                'Data/perfuse_lz500/',
-                'Data/perfuse_lz600/',
-                'Data/SD_Data/perfuse_lz700/',
-                'Data/perfuse_lz800/']
+    datadirs = ['/u/craig/spreadingdepression/Data/perfuse_lz100/',
+                '/u/craig/spreadingdepression/Data/perfuse_lz200/',
+                '/u/craig/spreadingdepression/Data/perfuse_lz300/',
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/Data/perfuse_lz500/',
+                '/u/craig/spreadingdepression/Data/perfuse_lz600/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lz700/',
+                '/u/craig/spreadingdepression/Data/perfuse_lz800/']
     rmaxs = [300, 300, 400, 500, 600, 600, 600, 600]
     speeds_core_perfuse = []
     speeds_periph_perfuse = []
@@ -27,18 +27,18 @@ def centerVsPeriphThick():
         speeds_core_perfuse.append(core)
         speeds_periph_perfuse.append(periph)
     speeds_periph_perfuse[1] = 0
-    datadirs = ['Data/SD_Data/hypox_lz100/',
-                'Data/SD_Data/hypox_lz200/',
-                'Data/SD_Data/hypox_lz300/',
+    datadirs = ['Data/pad_data/thick100/',
+                'Data/pad_data/thick200/',
+                'Data/pad_data/thick300/',
                 'Data/hypox_standard/',
-                'Data/SD_Data/hypox_lz500/',
-                'Data/SD_Data/hypox_lz600/',
-                'Data/SD_Data/hypox_lz700/',
-                'Data/hypox_lz800/']
+                'Data/pad_data/thick500/',
+                'Data/pad_data/thick600/',
+                'Data/pad_data/thick700/',
+                'Data/pad_data/thick800/']
     speeds_core_hypox = []
     speeds_periph_hypox = []
     for datadir in datadirs:
-        core, periph = centerVsPeriphKspeed(datadir, 10)
+        core, periph = centerVsPeriphKspeed(datadir, 6)
         speeds_core_hypox.append(core)
         speeds_periph_hypox.append(periph)
     thick = [100, 200, 300, 400, 500, 600, 700, 800]
