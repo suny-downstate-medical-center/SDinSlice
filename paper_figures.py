@@ -1129,23 +1129,24 @@ def sliceConds():
     datadirs = ['Data/SD_Data/perfuse_standard_highNrec/',
                 'Data/dyn_alpha_10s/',
                 'Data/SD_Data/primed_standard_highNrec_v2/',
-                '/u/craig/SDinSlice/Data/pad_k015_o2bc_0.1_o2bath_0.03_10s/']
+                '/u/craig/SDinSlice/Data/pad_k015_o2bc_0.1_o2bath_0.03_10s/',
+                '/u/craig/SDinSlice/Data/pad_data/pad_standard/']
                 # 'Data/SD_Data/hypox_standard_highNrec/']
     # colors = ['blue', 'green', 'red']
-    colors = ['blue', 'purple', 'green', 'red']
+    colors = ['blue', 'purple', 'green', 'black', 'red']
     pos = ['center' for d in datadirs]
     speeds = getKwaveSpeed(datadirs, r0=100, tcut=8)
     # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Mannitol Treated', 'Propionate Treated','Hypoxic'],speeds)]
     # labels = [cond for cond, s in zip(['Perfused', 'Mannitol', 'Propionate','Hypoxic'],speeds)]
     # labels = [cond for cond, s in zip(['Perfused', 'Propionate','Hypoxic'],speeds)]
-    labels = [cond for cond, s in zip(['Perfused', r'Dynamic $\alpha_{ECS}$', 'Propionate','Hypoxic'],speeds)]
+    labels = [cond for cond, s in zip(['Perfused', r'Dynamic $\alpha_{ECS}$', 'Propionate','Hypoxic SD-like Depol.', r'Hypoxia + 70 mM K$^+$'],speeds)]
     legendTitle = 'Slice Condition'r'Dynamic $\alpha_{ECS}$'
     fig = plt.figure()
     fig.set_figheight(9)
     fig.set_figwidth(18)
     ax0 = plt.subplot(311)
-    compareKwaves(datadirs, labels, legendTitle, colors=colors, sbplt=311)
-    ax0.set_xlim(0.0, 10)
+    compareKwaves(datadirs, labels, legendTitle, colors=colors, sbplt=311, dur=6)
+    ax0.set_xlim(0.0, 6)
     ax0.set_ylim(0,700)
     metrics = [getSpkMetrics(d, uniform=True, position=p) for d, p in zip(datadirs,pos)]
     ax0.set_title(r'K$^+$ Wave', fontsize=18)
@@ -1168,7 +1169,7 @@ def sliceConds():
     ax2.set_title('Depolarization Wave', fontsize=18)
     plt.setp(ax2.get_xticklabels(), fontsize=14)
     plt.setp(ax2.get_yticklabels(), fontsize=14)
-    ax2.set_xlim(0,10)
+    ax2.set_xlim(0,6)
     ax2.set_ylim(0,700)
     ax2.text(-0.125, 1.25, 'B)', transform=ax2.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
