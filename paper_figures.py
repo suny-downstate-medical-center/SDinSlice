@@ -1446,13 +1446,13 @@ def tissueProps():
     # Figure 6
     fig = plt.figure(figsize=(14,12))
     ## surface to volume ratio 
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv02/', 
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv1/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv2/',  
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perufse_sv02/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv1/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv2/',  
                 '/u/craig/spreadingdepression/Data/perfuse_standard/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv4/', 
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv5/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_sv6/']
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv4/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv5/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv6/']
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
     ratios_anox = [0.02, 1, 2, 3, 4, 5, 6]
     datadirs = ['Data/pad_data/s2v02/', 
