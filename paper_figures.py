@@ -1543,7 +1543,7 @@ def tissueProps():
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
     datadirs = ['Data/pad_data/d45000_constBeta/',
                 'Data/pad_data/d67500_constBeta/',  
-                'Data/pad_data/hypox_standard/',
+                'Data/pad_data/pad_standard/',
                 'Data/pad_data/d112500_constBeta/', 
                 'Data/pad_data/d120000_constBeta/']
     speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
