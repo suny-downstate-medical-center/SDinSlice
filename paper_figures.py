@@ -1458,7 +1458,7 @@ def tissueProps():
     datadirs = [#'Data/pad_data/s2v02/', 
                 'Data/pad_data/s2v1/',
                 'Data/pad_data/s2v2/',  
-                'Data/pad_standard/',
+                'Data/pad_data/pad_standard/',
                 'Data/pad_data/s2v4/', 
                 'Data/pad_data/s2v5/',
                 'Data/pad_data/s2v6/']
@@ -1485,12 +1485,12 @@ def tissueProps():
                 '/u/craig/spreadingdepression/SD_Data/perfuse_nv465/',
                 '/u/craig/spreadingdepression/SD_Data/perfuse_nv54/']
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
-    datadirs = ['pad_data/betaNrn_165/',
-                'pad_data/pad_standard/',
-                'pad_data/betaNrn_315/',
-                'pad_data/betaNrn_39/',
-                'pad_data/betaNrn_465/',
-                'pad_data/betaNrn_54/']
+    datadirs = ['Data/pad_data/betaNrn_165/',
+                'Data/pad_data/pad_standard/',
+                'Data/pad_data/betaNrn_315/',
+                'Data/pad_data/betaNrn_39/',
+                'Data/pad_data/betaNrn_465/',
+                'Data/pad_data/betaNrn_54/']
     speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     alphas = [0.165, 0.24, 0.315, 0.39, 0.465, 0.54]
     ax1 = plt.subplot(322)
