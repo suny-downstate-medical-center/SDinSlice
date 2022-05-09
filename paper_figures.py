@@ -1278,73 +1278,73 @@ def waveSpeedVsSurfaceArea(sbplt):
     #     fig = plt.figure(figsize=(10,10))
 
     ## s:v
-    datadirs = ['Data/SD_Data/perufse_sv02/', 
-                'Data/SD_Data/perufse_sv1/',
-                'Data/SD_Data/perufse_sv2/',  
-                'Data/perfuse_standard/',
-                'Data/SD_Data/perufse_sv4/', 
-                'Data/SD_Data/perufse_sv5/',
-                'Data/SD_Data/perufse_sv6/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perufse_sv02/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv1/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv2/',  
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv4/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv5/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perufse_sv6/']
     sa2vs = [0.02, 1.0, 2.0, 3.0, 4.0 , 5.0, 6.0]
     sa_normox = [totalSurfaceArea(1000, 1000, 400, 90000, 0.24, sa2v) for sa2v in sa2vs]
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
-    datadirs = ['Data/SD_Data/hypox_sv02/', 
-                'Data/SD_Data/hypox_sv1/',
-                'Data/SD_Data/hypox_sv2/',  
-                'Data/hypox_standard/',
-                'Data/SD_Data/hypox_sv4/', 
-                'Data/SD_Data/hypox_sv5/',
-                'Data/SD_Data/hypox_sv6/']
+    datadirs = ['Data/pad_data/s2v02/', 
+                'Data/pad_data/s2v1/',
+                'Data/pad_data/s2v2/',  
+                'Data/pad_data/pad_standard/',
+                'Data/pad_data/s2v4/', 
+                'Data/pad_data/s2v5/',
+                'Data/pad_data/s2v6/']
     speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=600)
 
     ## cell density - constant morphology
     densities = [45, 67.5, 90, 112.5, 120]
-    datadirs = ['Data/SD_Data/perfuse_d45/',
-                'Data/SD_Data/perfuse_d675/',  
-                'Data/perfuse_standard/',
-                'Data/SD_Data/perfuse_d1125/', 
-                'Data/SD_Data/perfuse_d120/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_d45/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d675/',  
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120/']
     sa_normox.extend([totalSurfaceArea(1000, 1000, 400, d*1000, 0.24, 3.0, rs=7.52) for d in densities])
     speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400))
-    datadirs = ['Data/SD_Data/hypox_d45/',
-                'Data/SD_Data/hypox_d675/',  
-                'Data/hypox_standard/',
-                'Data/SD_Data/hypox_d1125/', 
-                'Data/SD_Data/hypox_d120/']
+    datadirs = ['Data/pad_data/d45000_constBeta/',
+                'Data/pad_data/d67500_constBeta/',  
+                'Data/pad_data/pad_standard/',
+                'Data/pad_data/d112500_constBeta/', 
+                'Data/pad_data/d120000_constBeta/']
     speeds_anox.extend(getKwaveSpeed(datadirs, r0=100, rmax=600))
 
     ## cell density - constant neuronal volume fraction 
     densities = [45, 67.5, 90, 112.5, 120]
-    datadirs = ['Data/SD_Data/perfuse_d45_volfrac/',
-                'Data/SD_Data/perfuse_d675_volfrac/',  
-                'Data/perfuse_standard/',
-                'Data/SD_Data/perfuse_d1125_volfrac/', 
-                'Data/SD_Data/perfuse_d120_volfrac/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_d45/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d675/',  
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120/']
     speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=475))
     sa_normox.extend([totalSurfaceArea(1000, 1000, 400, d*1000, 0.24, 3.0) for d in densities])
-    datadirs = ['Data/SD_Data/hypox_d45_volfrac/',
-                'Data/SD_Data/hypox_d675_volfrac/',  
-                'Data/hypox_standard/',
-                'Data/SD_Data/hypox_d1125_volfrac/', 
-                'Data/SD_Data/hypox_d120_volfrac/']
+    datadirs = ['Data/pad_data/d45000/',
+                'Data/pad_data/d67500/',  
+                'Data/pad_data/pad_standard/',
+                'Data/pad_data/d112500/', 
+                'Data/pad_data/d120000/']
     speeds_anox.extend(getKwaveSpeed(datadirs, r0=100, rmax=600))
 
     ## neuronal volume fraction 
-    datadirs = ['SD_Data/perfuse_nv165/',
-                'Data/perfuse_standard/',
-                'SD_Data/perfuse_nv315/',
-                'SD_Data/perfuse_nv39/',
-                'SD_Data/perfuse_nv465/',
-                'SD_Data/perfuse_nv54/']
+    datadirs = ['/u/craig/spreadingdepression/SD_Data/perfuse_nv165/',
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv315/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv39/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv465/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv54/']
     speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=475))
     alphas = [0.165, 0.24, 0.315, 0.39, 0.465, 0.54]
     sa_normox.extend([totalSurfaceArea(1000, 1000, 400, 90000, a, 3.0) for a in alphas])
-    datadirs = ['SD_Data/hypox_nv165/',
-                'Data/hypox_standard/',
-                'SD_Data/hypox_nv315/',
-                'SD_Data/hypox_nv39/',
-                'SD_Data/hypox_nv465/',
-                'SD_Data/hypox_nv54/']
+    datadirs = ['Data/pad_data/betaNrn_165/',
+                'Data/pad_data/pad_standard/',
+                'Data/pad_data/betaNrn_315/',
+                'Data/pad_data/betaNrn_39/',
+                'Data/pad_data/betaNrn_465/',
+                'Data/pad_data/betaNrn_54/']
     speeds_anox.extend(getKwaveSpeed(datadirs, r0=100, rmax=600))
 
     ## linear regression
@@ -1379,7 +1379,7 @@ def waveSpeedVsSurfaceArea(sbplt):
         plt.ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
     sbplt.set_title('Total Neuronal Surface Area', fontsize=18)
     # sbplt.set_ylim(-0.1, 15.5)
-    sbplt.set_ylim(-0.1, 5)
+    sbplt.set_ylim(-0.1, 6.6)
     leg = plt.legend(fontsize=14, title='Slice Condition')
     plt.setp(leg.get_title(), fontsize=16)
     plt.setp(sbplt.get_xticklabels(), fontsize=14)
@@ -1471,7 +1471,7 @@ def tissueProps():
     ax0.set_xlabel(r'S:V (mm$^{-1}$)', fontsize=16)
     ax0.set_title('S:V', fontsize=18)
     # ax0.set_ylim(-0.1, 15.5)
-    # ax0.set_ylim(-0.1, 5)
+    ax0.set_ylim(-0.1, 6.5)
     # leg = plt.legend(fontsize=14, title='Slice Condition')
     # plt.setp(leg.get_title(), fontsize=16)
     ax0.text(-0.1, 1.1, 'A)', transform=ax0.transAxes,
@@ -1501,7 +1501,7 @@ def tissueProps():
     ax1.set_xlabel(r'$\beta_{nrn}$', fontsize=16)
     ax1.set_title(r'Neuronal Volume Fraction ($\beta_{nrn}$)', fontsize=18)
     # ax1.set_ylim(-0.1, 15.5)
-    # ax1.set_ylim(-0.1, 5)
+    ax1.set_ylim(-0.1, 6.5)
     ax1.text(-0.1, 1.1, 'B)', transform=ax1.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
@@ -1528,7 +1528,7 @@ def tissueProps():
     ax2.set_title(r'Cell Density - Constant S$_{nrn}$, vol$_{nrn}$', fontsize=18)
     ax2.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
     # # ax2.set_ylim(-0.1, 15.5)
-    # ax2.set_ylim(-0.1, 5)
+    ax2.set_ylim(-0.1, 6.5)
     ax2.text(-0.1, 1.4, 'C)', transform=ax2.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
@@ -1555,13 +1555,13 @@ def tissueProps():
     ax3.set_xlabel(r'Cell Density (neurons/mm$^3$)', fontsize=16)
     ax3.set_title(r'Cell Density - Constant $\beta_{nrn}$, S:V', fontsize=18)
     # ax3.set_ylim(-0.1, 15.5)
-    # ax3.set_ylim(-0.1, 5.5)
+    ax3.set_ylim(-0.1, 6.5)
     ax3.text(-0.1, 1.4, 'D)', transform=ax3.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
-    # ax4 = plt.subplot(313)
-    # waveSpeedVsSurfaceArea(sbplt=ax4)
-    # ax4.text(-0.05, 1.1, 'E)', transform=ax4.transAxes,
-    #     fontsize=18, fontweight='bold', va='top', ha='right')
+    ax4 = plt.subplot(313)
+    waveSpeedVsSurfaceArea(sbplt=ax4)
+    ax4.text(-0.05, 1.1, 'E)', transform=ax4.transAxes,
+        fontsize=18, fontweight='bold', va='top', ha='right')
 
     plt.tight_layout()
