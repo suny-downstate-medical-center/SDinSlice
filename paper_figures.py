@@ -1453,25 +1453,25 @@ def tissueProps():
                 '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv4/', 
                 '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv5/',
                 '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv6/']
-    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
+    speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
     ratios_anox = [0.02, 1, 2, 3, 4, 5, 6]
-    datadirs = ['Data/pad_data/s2v02/', 
+    datadirs = [#'Data/pad_data/s2v02/', 
                 'Data/pad_data/s2v1/',
                 'Data/pad_data/s2v2/',  
                 'Data/pad_standard/',
                 'Data/pad_data/s2v4/', 
                 'Data/pad_data/s2v5/',
                 'Data/pad_data/s2v6/']
-    speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
+    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     ax0 = plt.subplot(321)
     ax0.plot(ratios_anox, speeds_normox, '*-', color='blue', linewidth=4, markersize=8, label='Perfused')
-    # ax0.plot(ratios_anox, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
+    ax0.plot(ratios_anox, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
     plt.setp(ax0.get_xticklabels(), fontsize=14)
     plt.setp(ax0.get_yticklabels(), fontsize=14)
     ax0.set_xlabel(r'S:V (mm$^{-1}$)', fontsize=16)
     ax0.set_title('S:V', fontsize=18)
     # ax0.set_ylim(-0.1, 15.5)
-    ax0.set_ylim(-0.1, 5)
+    # ax0.set_ylim(-0.1, 5)
     # leg = plt.legend(fontsize=14, title='Slice Condition')
     # plt.setp(leg.get_title(), fontsize=16)
     ax0.text(-0.1, 1.1, 'A)', transform=ax0.transAxes,
@@ -1495,13 +1495,13 @@ def tissueProps():
     alphas = [0.165, 0.24, 0.315, 0.39, 0.465, 0.54]
     ax1 = plt.subplot(322)
     ax1.plot(alphas, speeds_normox, '*-', color='blue', linewidth=4, markersize=8, label='Perfused')
-    # ax1.plot(alphas, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
+    ax1.plot(alphas, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
     plt.setp(ax1.get_xticklabels(), fontsize=14)
     plt.setp(ax1.get_yticklabels(), fontsize=14)
     ax1.set_xlabel(r'$\beta_{nrn}$', fontsize=16)
     ax1.set_title(r'Neuronal Volume Fraction ($\beta_{nrn}$)', fontsize=18)
     # ax1.set_ylim(-0.1, 15.5)
-    ax1.set_ylim(-0.1, 5)
+    # ax1.set_ylim(-0.1, 5)
     ax1.text(-0.1, 1.1, 'B)', transform=ax1.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
@@ -1528,7 +1528,7 @@ def tissueProps():
     ax2.set_title(r'Cell Density - Constant S$_{nrn}$, vol$_{nrn}$', fontsize=18)
     ax2.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
     # # ax2.set_ylim(-0.1, 15.5)
-    ax2.set_ylim(-0.1, 5)
+    # ax2.set_ylim(-0.1, 5)
     ax2.text(-0.1, 1.4, 'C)', transform=ax2.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
