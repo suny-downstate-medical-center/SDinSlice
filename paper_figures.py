@@ -30,7 +30,7 @@ def centerVsPeriphThick():
     datadirs = ['Data/pad_data/thick100/',
                 'Data/pad_data/thick200/',
                 'Data/pad_data/thick300/',
-                'Data/hypox_standard/',
+                'Data/pad_data/pad_standard/',
                 'Data/pad_data/thick500/',
                 'Data/pad_data/thick600/',
                 'Data/pad_data/thick700/',
