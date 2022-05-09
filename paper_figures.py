@@ -8,6 +8,7 @@ from mpl_toolkits import axisartist
 from mpl_toolkits.axisartist.parasite_axes import HostAxes, ParasiteAxes
 
 def centerVsPeriphThick():
+    # Figure 7A
     fig = plt.figure(figsize=(12, 5))
     ax = plt.subplot(111)
     datadirs = ['Data/perfuse_lz100/',
@@ -273,6 +274,7 @@ def SD():
         fontsize=18, fontweight='bold', va='top', ha='right')
 
 def sliceDepthKwave():
+    # Figure 7B
     datadir = 'Data/SD_Data/perfuse_standard_highNrec/'
     k_files = ['k_0.npy', 'k_2500.npy', 'k_5000.npy', 'k_7500.npy']
     times = ['0', '2.5', '5.0', '7.5']
@@ -804,6 +806,7 @@ def alphaNrn():
     plt.tight_layout()
 
 def centerAndThick():
+    ## Figure 8
     # datadirs = ['Data/perfuse_lz100/',
     #             'Data/perfuse_lz200/',
     #             'Data/perfuse_lz300/',
@@ -967,14 +970,165 @@ def centerVsPeriphSpkProp():
     # fig.set_figwidth(14)
     plt.tight_layout()
 
-def sliceConds():
+def hypoxicSDlikeDepol():
+    ## Figure 5A,B
     # datadirs = ['Data/SD_Data/perfuse_standard_highNrec/',
     #             'Data/SD_Data/mannitol_standard_higNrec_v2/',
     #             'Data/SD_Data/primed_standard_highNrec_v2/',
     #             'Data/SD_Data/hypox_standard_highNrec/']
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_standard_highNrec/',
-                '/u/craig/spreadingdepression/Data/dyn_alpha_10s/',
-                '/u/craig/spreadingdepression/Data/SD_Data/primed_standard_highNrec_v2/',
+    datadirs = ['Data/SD_Data/perfuse_standard_highNrec/',
+                '/u/craig/SDinSlice/Data/pad_k015_o2bc_0.1_o2bath_0.03_10s/']
+    # colors = ['blue', 'green', 'red']
+    colors = ['blue', 'red']
+    pos = ['center' for d in datadirs]
+    norm_speed = getKwaveSpeed(datadirs[0], r0=100, tcut=8)
+    anox_speed = getKwaveSpeed(datadirs[1], r0=0, tcut=8)
+    speeds = [norm_speed, anox_speed]
+    # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Mannitol Treated', 'Propionate Treated','Hypoxic'],speeds)]
+    # labels = [cond for cond, s in zip(['Perfused', 'Mannitol', 'Propionate','Hypoxic'],speeds)]
+    # labels = [cond for cond, s in zip(['Perfused', 'Propionate','Hypoxic'],speeds)]
+    labels = [cond for cond, s in zip(['SD in Perfused Slice', 'Hypoxic SD-like Depolarization'],speeds)]
+    legendTitle = 'Depolarization Type'
+    fig = plt.figure()
+    fig.set_figheight(7)
+    fig.set_figwidth(10)
+    ax0 = plt.subplot(211)
+    compareKwaves(datadirs, labels, legendTitle, colors=colors, sbplt=211)
+    ax0.set_xlim(0.0, 10)
+    ax0.set_ylim(0,700)
+    metrics = [getSpkMetrics(d, uniform=True, position=p) for d, p in zip(datadirs,pos)]
+    ax0.set_title(r'K$^+$ Wave', fontsize=18)
+    ax0.text(-0.125, 1.25, 'A)', transform=ax0.transAxes,
+        fontsize=18, fontweight='bold', va='top', ha='right')
+    spkSpeeds = getSpkWaveSpeed(datadirs, pos, r0=100)
+    # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Mannitol Treated', 'Propionate Treated','Hypoxic'],spkSpeeds)]
+    # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Propionate Treated','Hypoxic'],spkSpeeds)]
+    labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', r'Dynamic $\alpha_{ECS}$', 'Propionate Treated','Hypoxic'],spkSpeeds)]
+    ax2 = plt.subplot(212)
+    for m, l, c in zip(metrics, labels, colors):
+        r = [k for k in m.keys()]
+        spkDur = [m[k]['spkDur'] for k in m.keys()]
+        spkFreq = [m[k]['spkFreq'] for k in m.keys()]
+        nSpks = [m[k]['nSpks'] for k in m.keys()]
+        t2firstSpk = [m[k]['t2firstSpk'] for k in m.keys()]
+        ax2.scatter(t2firstSpk, r, label=l, color=c)
+    ax2.set_ylabel(r'Radial Cell Position ($\mu$m)', fontsize=16)
+    ax2.set_xlabel('Time to First Spike (s)', fontsize=16)
+    ax2.set_title('Depolarization Wave', fontsize=18)
+    plt.setp(ax2.get_xticklabels(), fontsize=14)
+    plt.setp(ax2.get_yticklabels(), fontsize=14)
+    ax2.set_xlim(0,10)
+    ax2.set_ylim(0,700)
+    ax2.text(-0.125, 1.25, 'B)', transform=ax2.transAxes,
+        fontsize=18, fontweight='bold', va='top', ha='right')
+    # legend = plt.legend(title=legendTitle, fontsize=12, bbox_to_anchor=(-0.2, 1.05))
+    # plt.setp(legend.get_title(), fontsize=14)
+
+    # host = host_subplot(212, axes_class=axisartist.Axes)
+    # par1 = host.twiny()
+    # par2 = host.twiny()
+    # par1.axis['bottom'] = par1.new_fixed_axis(loc='bottom', offset=(0,-50))
+    # par2.axis['bottom'] = par2.new_fixed_axis(loc='bottom', offset=(0,-100))
+
+    # ax3 = plt.subplot(313)
+    # datadirs = ['Data/SD_Data/perfuse_alpha07/',
+    #             'Data/SD_Data/perfuse_alpha13/',
+    #             'Data/SD_Data/perfuse_alpha20/',
+    #             'Data/SD_Data/perfuse_alpha26/',
+    #             'Data/SD_Data/perfuse_alpha32/',
+    #             'Data/alpha42/']
+    # speeds_alpha = getKwaveSpeed(datadirs, r0=100, tcut=8)
+    # alphas = [0.07, 0.13, 0.20, 0.26, 0.32, 0.42]
+    # # p0, = host.plot(alphas, speeds, '*-', linewidth=4, markersize=8, color='darkorange', label=r'$\alpha_{ECS}$')
+    # datadirs = ['Data/SD_Data/perfuse_lambda14/',
+    #             'Data/SD_Data/perfuse_lambda155/',
+    #             'Data/SD_Data/perfuse_lambda17/',
+    #             'Data/SD_Data/perfuse_lambda185/',
+    #             'Data/SD_Data/perfuse_lambda2/']
+    # lambdas = [1.4, 1.55, 1.7, 1.85, 2.0]
+    # speeds_lambda = getKwaveSpeed(datadirs, r0=100, tcut=8)
+    # # p1, = par1.plot(lambdas, speeds, '*-', linewidth=4, markersize=8, color='aqua', label=r'$\lambda_{ECS}$')
+    # datadirs = ['Data/SD_Data/varO201/',
+    #             'Data/SD_Data/varO20325/',
+    #             'Data/SD_Data/varO2055/',
+    #             'Data/SD_Data/varO20775/',
+    #             'Data/SD_Data/varO21/']
+    # o2 = [0.01, 0.0325, 0.055, 0.0775, 0.1]
+    # speeds_o2 = getKwaveSpeed(datadirs, r0=100, tcut=8)
+    # datadirs = ['Data/SD_Data/cl65/',
+    #             'Data/SD_Data/cl81/',
+    #             'Data/SD_Data/cl98/',
+    #             'Data/SD_Data/cl114/',
+    #             'Data/SD_Data/perfuse_standard_highNrec/']
+    # speeds_cl = getKwaveSpeed(datadirs, r0=100, tcut=8)
+    # ax3.plot([i for i in range(len(speeds_alpha))], speeds_alpha, '*-', linewidth=4, markersize=8, color='orange', label=r'$\alpha_{ECCS}$')
+    # ax3.plot([i for i in range(len(speeds_lambda))], speeds_lambda, '*-', linewidth=4, markersize=8, color='aqua', label=r'$\lambda_{ECS}$')
+    # ax3.plot([i for i in range(len(speeds_o2))], speeds_o2, '*-', linewidth=4, markersize=8, color='black', label=r'[O$_2$]')
+    # ax3.plot([i for i in range(len(speeds_cl))], speeds_cl, '*-', linewidth=4, markersize=8, color='lime', label=r'[Cl$^-$]')
+    # ax3.set_ylabel(r'K$^+$ Wave Speed', fontsize=16)
+    # ax3.set_xticks([])
+    # ax3.set_title(r'Influence of $\alpha_{ECS}$, $\lambda_{ECS}$, [Cl$^-$], [O$_2$]', fontsize=18)
+    # ax3.set_xlim(0,len(speeds_cl)-1)
+    # plt.setp(ax3.get_yticklabels(), fontsize=14)
+    # ax3.text(-0.125, 1.25, 'C)', transform=ax3.transAxes,
+    #     fontsize=18, fontweight='bold', va='top', ha='right')
+    # # legend = plt.legend(title='Variable', fontsize=12)#, bbox_to_anchor=(-0.2, 1.05))
+    # legend = plt.legend(fontsize=12)#, bbox_to_anchor=(-0.2, 1.05))
+    # plt.setp(legend.get_title(), fontsize=14)
+
+    # host.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
+    # host.set_xlabel(r'$\alpha_{ECS}$', fontsize=16)
+    # par1.set_xlabel(r'$\lambda_{ECS}$', fontsize=16)
+    # par2.set_xlabel(r'[O$_2$]$_{bath}$', fontsize=16)
+    # host.axis['bottom'].label.set_color(p0.get_color())
+    # par1.axis['bottom'].label.set_color(p1.get_color())
+    # par2.axis['bottom'].label.set_color(p2.get_color())
+    # host.axis['bottom'].label.set_fontsize(16)
+    # par1.axis['bottom'].label.set_fontsize(16)
+    # par2.axis['bottom'].label.set_fontsize(16)
+    # host.axis['bottom'].label.set_fontweight('bold')
+    # par1.axis['bottom'].label.set_fontweight('bold')
+    # par2.axis['bottom'].label.set_fontweight('bold')
+    # host.axis['left'].label.set_fontsize(16)
+    # host.text(-0.05, 1.25, 'C)', transform=host.transAxes,
+    #     fontsize=18, fontweight='bold', va='top', ha='right')
+    # host.axis['bottom'].major_ticklabels.set_fontsize(14)
+    # par1.axis['bottom'].major_ticklabels.set_fontsize(14)
+    # par2.axis['bottom'].major_ticklabels.set_fontsize(14)
+    # host.axis['left'].major_ticklabels.set_fontsize(14) 
+    # ttl = r'Influence of $\alpha_{ECS}$, $\lambda_{ECS}$, and [O$_2$]$_{bath}$'
+    # host.set_title(ttl)
+    # host.title.set_fontsize(18)  
+
+    # plt.setp(host.get_xticklabels(), fontsize=14)
+    # plt.setp(host.get_yticklabels(), fontsize=14)
+    # plt.setp(par1.get_xticklabels(), fontsize=14)
+    # # plt.setp(par1.get_yticklabels(), fontsize=14)
+    # plt.setp(par2.get_xticklabels(), fontsize=14)
+    # plt.setp(par2.get_yticklabels(), fontsize=14)
+
+    # ax3.plot(alphas, speeds, '*-', linewidth=4, markersize=8, color='blue')
+    # ax3.set_xlabel(r'$\alpha_{ECS}$', fontsize=16)
+    # ax3.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
+    # ax3.set_title(r'Influence of $\alpha_{ECS}$', fontsize=18)
+    # ax3.text(-0.05, 1.1, 'C)', transform=ax3.transAxes,
+    #     fontsize=18, fontweight='bold', va='top', ha='right')
+    # plt.setp(ax3.get_xticklabels(), fontsize=14)
+    # plt.setp(ax3.get_yticklabels(), fontsize=14)
+    # fig.set_figheight(9)
+    # fig.set_figwidth(14)
+    plt.draw()
+    plt.tight_layout()
+
+def sliceConds():
+    ## Figure 5
+    # datadirs = ['Data/SD_Data/perfuse_standard_highNrec/',
+    #             'Data/SD_Data/mannitol_standard_higNrec_v2/',
+    #             'Data/SD_Data/primed_standard_highNrec_v2/',
+    #             'Data/SD_Data/hypox_standard_highNrec/']
+    datadirs = ['Data/SD_Data/perfuse_standard_highNrec/',
+                'Data/dyn_alpha_10s/',
+                'Data/SD_Data/primed_standard_highNrec_v2/',
                 '/u/craig/SDinSlice/Data/pad_k015_o2bc_0.1_o2bath_0.03_10s/']
                 # 'Data/SD_Data/hypox_standard_highNrec/']
     # colors = ['blue', 'green', 'red']
@@ -1028,35 +1182,35 @@ def sliceConds():
     # par2.axis['bottom'] = par2.new_fixed_axis(loc='bottom', offset=(0,-100))
 
     ax3 = plt.subplot(313)
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha07/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha13/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha20/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha26/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha32/',
-                '/u/craig/spreadingdepression/Data/alpha42/']
+    datadirs = ['Data/SD_Data/perfuse_alpha07/',
+                'Data/SD_Data/perfuse_alpha13/',
+                'Data/SD_Data/perfuse_alpha20/',
+                'Data/SD_Data/perfuse_alpha26/',
+                'Data/SD_Data/perfuse_alpha32/',
+                'Data/alpha42/']
     speeds_alpha = getKwaveSpeed(datadirs, r0=100, tcut=8)
     alphas = [0.07, 0.13, 0.20, 0.26, 0.32, 0.42]
     # p0, = host.plot(alphas, speeds, '*-', linewidth=4, markersize=8, color='darkorange', label=r'$\alpha_{ECS}$')
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda14/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda155/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda17/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda185/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda2/']
+    datadirs = ['Data/SD_Data/perfuse_lambda14/',
+                'Data/SD_Data/perfuse_lambda155/',
+                'Data/SD_Data/perfuse_lambda17/',
+                'Data/SD_Data/perfuse_lambda185/',
+                'Data/SD_Data/perfuse_lambda2/']
     lambdas = [1.4, 1.55, 1.7, 1.85, 2.0]
     speeds_lambda = getKwaveSpeed(datadirs, r0=100, tcut=8)
     # p1, = par1.plot(lambdas, speeds, '*-', linewidth=4, markersize=8, color='aqua', label=r'$\lambda_{ECS}$')
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/varO201/',
-                '/u/craig/spreadingdepression/Data/SD_Data/varO20325/',
-                '/u/craig/spreadingdepression/Data/SD_Data/varO2055/',
-                '/u/craig/spreadingdepression/Data/SD_Data/varO20775/',
-                '/u/craig/spreadingdepression/Data/SD_Data/varO21/']
+    datadirs = ['Data/SD_Data/varO201/',
+                'Data/SD_Data/varO20325/',
+                'Data/SD_Data/varO2055/',
+                'Data/SD_Data/varO20775/',
+                'Data/SD_Data/varO21/']
     o2 = [0.01, 0.0325, 0.055, 0.0775, 0.1]
     speeds_o2 = getKwaveSpeed(datadirs, r0=100, tcut=8)
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/cl65/',
-                '/u/craig/spreadingdepression/Data/SD_Data/cl81/',
-                '/u/craig/spreadingdepression/Data/SD_Data/cl98/',
-                '/u/craig/spreadingdepression/Data/SD_Data/cl114/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_standard_highNrec/']
+    datadirs = ['Data/SD_Data/cl65/',
+                'Data/SD_Data/cl81/',
+                'Data/SD_Data/cl98/',
+                'Data/SD_Data/cl114/',
+                'Data/SD_Data/perfuse_standard_highNrec/']
     speeds_cl = getKwaveSpeed(datadirs, r0=100, tcut=8)
     ax3.plot([i for i in range(len(speeds_alpha))], speeds_alpha, '*-', linewidth=4, markersize=8, color='orange', label=r'$\alpha_{ECCS}$')
     ax3.plot([i for i in range(len(speeds_lambda))], speeds_lambda, '*-', linewidth=4, markersize=8, color='aqua', label=r'$\lambda_{ECS}$')
@@ -1217,14 +1371,15 @@ def waveSpeedVsSurfaceArea(sbplt):
     perfuse_label = r'Perfused: r$^2$ = %0.2f' % (perfuse_r2)
     hypoxic_label = r'Hypoxic: r$^2$ = %0.2f' % (hypoxic_r2)
     sbplt.plot(sa_normox, speeds_normox, '*', color='blue', markersize=8)
-    sbplt.plot(sa_normox, speeds_anox, '*', color='red', markersize=8)
+    # sbplt.plot(sa_normox, speeds_anox, '*', color='red', markersize=8)
     sbplt.plot(sa_pred, p_pred, '--', color='blue', label=perfuse_label, linewidth=4)
-    sbplt.plot(sa_pred, h_pred, '--', color='red', label=hypoxic_label, linewidth=4)
+    # sbplt.plot(sa_pred, h_pred, '--', color='red', label=hypoxic_label, linewidth=4)
     sbplt.set_xlabel(r'Total Neuronal Surface Area ($\mu$m$^2$)', fontsize=16)
     if not sbplt:
         plt.ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
     sbplt.set_title('Total Neuronal Surface Area', fontsize=18)
-    sbplt.set_ylim(-0.1, 15.5)
+    # sbplt.set_ylim(-0.1, 15.5)
+    sbplt.set_ylim(-0.1, 5)
     leg = plt.legend(fontsize=14, title='Slice Condition')
     plt.setp(leg.get_title(), fontsize=16)
     plt.setp(sbplt.get_xticklabels(), fontsize=14)
@@ -1288,78 +1443,81 @@ def waveSpeedVsSurfaceArea(sbplt):
 #     plt.tight_layout()
 
 def tissueProps():
+    # Figure 6
     fig = plt.figure(figsize=(14,12))
     ## surface to volume ratio 
-    datadirs = ['Data/SD_Data/hypox_sv02/', 
-                'Data/SD_Data/hypox_sv1/',
-                'Data/SD_Data/hypox_sv2/',  
-                'Data/hypox_standard/',
-                'Data/SD_Data/hypox_sv4/', 
-                'Data/SD_Data/hypox_sv5/',
-                'Data/SD_Data/hypox_sv6/']
-    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=600)
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/hypox_sv02/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv1/',
+                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv2/',  
+                '/u/craig/spreadingdepression/Data/hypox_standard/',
+                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv4/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv5/',
+                '/u/craig/spreadingdepression/Data/SD_Data/hypox_sv6/']
+    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     ratios_anox = [0.02, 1, 2, 3, 4, 5, 6]
-    datadirs = ['Data/SD_Data/perufse_sv02/', 
-                'Data/SD_Data/perufse_sv1/',
-                'Data/SD_Data/perufse_sv2/',  
-                'Data/perfuse_standard/',
-                'Data/SD_Data/perufse_sv4/', 
-                'Data/SD_Data/perufse_sv5/',
-                'Data/SD_Data/perufse_sv6/']
+    datadirs = ['Data/pad_data/s2v02/', 
+                'Data/pad_data/s2v1/',
+                'Data/pad_data/s2v2/',  
+                'Data/pad_standard/',
+                'Data/pad_data/s2v4/', 
+                'Data/pad_data/s2v5/',
+                'Data/pad_data/s2v6/']
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
     ax0 = plt.subplot(321)
     ax0.plot(ratios_anox, speeds_normox, '*-', color='blue', linewidth=4, markersize=8, label='Perfused')
-    ax0.plot(ratios_anox, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
+    # ax0.plot(ratios_anox, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
     plt.setp(ax0.get_xticklabels(), fontsize=14)
     plt.setp(ax0.get_yticklabels(), fontsize=14)
     ax0.set_xlabel(r'S:V (mm$^{-1}$)', fontsize=16)
     ax0.set_title('S:V', fontsize=18)
-    ax0.set_ylim(-0.1, 15.5)
-    leg = plt.legend(fontsize=14, title='Slice Condition')
-    plt.setp(leg.get_title(), fontsize=16)
+    # ax0.set_ylim(-0.1, 15.5)
+    ax0.set_ylim(-0.1, 5)
+    # leg = plt.legend(fontsize=14, title='Slice Condition')
+    # plt.setp(leg.get_title(), fontsize=16)
     ax0.text(-0.1, 1.1, 'A)', transform=ax0.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
     ## cell volume fraction 
-    datadirs = ['SD_Data/perfuse_nv165/',
-                'Data/perfuse_standard/',
-                'SD_Data/perfuse_nv315/',
-                'SD_Data/perfuse_nv39/',
-                'SD_Data/perfuse_nv465/',
-                'SD_Data/perfuse_nv54/']
-    speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=475)
-    datadirs = ['SD_Data/hypox_nv165/',
-                'Data/hypox_standard/',
-                'SD_Data/hypox_nv315/',
-                'SD_Data/hypox_nv39/',
-                'SD_Data/hypox_nv465/',
-                'SD_Data/hypox_nv54/']
-    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=600)
+    datadirs = ['/u/craig/spreadingdepression/SD_Data/perfuse_nv165/',
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv315/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv39/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv465/',
+                '/u/craig/spreadingdepression/SD_Data/perfuse_nv54/']
+    speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
+    datadirs = ['pad_data/betaNrn_165/',
+                'pad_data/pad_standard/',
+                'pad_data/betaNrn_315/',
+                'pad_data/betaNrn_39/',
+                'pad_data/betaNrn_465/',
+                'pad_data/betaNrn_54/']
+    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     alphas = [0.165, 0.24, 0.315, 0.39, 0.465, 0.54]
     ax1 = plt.subplot(322)
     ax1.plot(alphas, speeds_normox, '*-', color='blue', linewidth=4, markersize=8, label='Perfused')
-    ax1.plot(alphas, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
+    # ax1.plot(alphas, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
     plt.setp(ax1.get_xticklabels(), fontsize=14)
     plt.setp(ax1.get_yticklabels(), fontsize=14)
     ax1.set_xlabel(r'$\beta_{nrn}$', fontsize=16)
     ax1.set_title(r'Neuronal Volume Fraction ($\beta_{nrn}$)', fontsize=18)
-    ax1.set_ylim(-0.1, 15.5)
+    # ax1.set_ylim(-0.1, 15.5)
+    ax1.set_ylim(-0.1, 5)
     ax1.text(-0.1, 1.1, 'B)', transform=ax1.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
     ## cell density - constant morph 
-    datadirs = ['Data/SD_Data/hypox_d45/',
-                'Data/SD_Data/hypox_d675/',  
-                'Data/hypox_standard/',
-                'Data/SD_Data/hypox_d1125/', 
-                'Data/SD_Data/hypox_d120/']
-    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=600)
+    datadirs = ['Data/pad_data/d45000/',
+                'Data/pad_data/d67500/',  
+                'Data/pad_data/pad_standard/',
+                'Data/pad_data/d112500/', 
+                'Data/pad_data/d120000/']
+    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     densities_anox = [45, 67.5, 90, 112.5, 120]
-    datadirs = ['Data/SD_Data/perfuse_d45/',
-                'Data/SD_Data/perfuse_d675/',  
-                'Data/perfuse_standard/',
-                'Data/SD_Data/perfuse_d1125/', 
-                'Data/SD_Data/perfuse_d120/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_d45/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d675/',  
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120/']
     speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
     ax2 = plt.subplot(323)
     ax2.plot(densities_anox, speeds_normox, '*-', color='blue', linewidth=4, markersize=8, label='Perfused')
@@ -1369,25 +1527,26 @@ def tissueProps():
     ax2.set_xlabel(r'Cell Density (neurons/mm$^3$)', fontsize=16)
     ax2.set_title(r'Cell Density - Constant S$_{nrn}$, vol$_{nrn}$', fontsize=18)
     ax2.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
-    ax2.set_ylim(-0.1, 15.5)
+    # # ax2.set_ylim(-0.1, 15.5)
+    ax2.set_ylim(-0.1, 5)
     ax2.text(-0.1, 1.4, 'C)', transform=ax2.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
     ## cell density - constant neuronal volume fraction 
     ## cell density - constant neuronal volume fraction 
     densities = [45, 67.5, 90, 112.5, 120]
-    datadirs = ['Data/SD_Data/perfuse_d45_volfrac/',
-                'Data/SD_Data/perfuse_d675_volfrac/',  
-                'Data/perfuse_standard/',
-                'Data/SD_Data/perfuse_d1125_volfrac/', 
-                'Data/SD_Data/perfuse_d120_volfrac/']
-    speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=475)
-    datadirs = ['Data/SD_Data/hypox_d45_volfrac/',
-                'Data/SD_Data/hypox_d675_volfrac/',  
-                'Data/hypox_standard/',
-                'Data/SD_Data/hypox_d1125_volfrac/', 
-                'Data/SD_Data/hypox_d120_volfrac/']
-    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=600)
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_d45_volfrac/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d675_volfrac/',  
+                '/u/craig/spreadingdepression/Data/perfuse_standard/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125_volfrac/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120_volfrac/']
+    speeds_normox = getKwaveSpeed(datadirs, r0=100, rmax=400)
+    datadirs = ['Data/pad_data/d45000_constBeta/',
+                'Data/pad_data/d67500_constBeta/',  
+                'Data/pad_data/hypox_standard/',
+                'Data/pad_data/d112500_constBeta/', 
+                'Data/pad_data/d120000_constBeta/']
+    speeds_anox = getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6)
     ax3 = plt.subplot(324)
     ax3.plot(densities_anox, speeds_normox, '*-', color='blue', linewidth=4, markersize=8, label='Perfused')
     ax3.plot(densities_anox, speeds_anox, '*-', color='red', linewidth=4, markersize=8, label='Hypoxic')
@@ -1395,7 +1554,8 @@ def tissueProps():
     plt.yticks(fontsize=14)
     ax3.set_xlabel(r'Cell Density (neurons/mm$^3$)', fontsize=16)
     ax3.set_title(r'Cell Density - Constant $\beta_{nrn}$, S:V', fontsize=18)
-    ax3.set_ylim(-0.1, 15.5)
+    # ax3.set_ylim(-0.1, 15.5)
+    # ax3.set_ylim(-0.1, 5.5)
     ax3.text(-0.1, 1.4, 'D)', transform=ax3.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
