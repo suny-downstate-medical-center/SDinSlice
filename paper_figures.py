@@ -1320,7 +1320,7 @@ def waveSpeedVsSurfaceArea(sbplt):
                 '/u/craig/spreadingdepression/Data/perfuse_standard/',
                 '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125/', 
                 '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120/']
-    speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6))
+    speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400))
     sa_normox.extend([totalSurfaceArea(1000, 1000, 400, d*1000, 0.24, 3.0) for d in densities])
     datadirs = ['Data/pad_data/d45000/',
                 'Data/pad_data/d67500/',  
@@ -1336,7 +1336,7 @@ def waveSpeedVsSurfaceArea(sbplt):
                 '/u/craig/spreadingdepression/SD_Data/perfuse_nv39/',
                 '/u/craig/spreadingdepression/SD_Data/perfuse_nv465/',
                 '/u/craig/spreadingdepression/SD_Data/perfuse_nv54/']
-    speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6))
+    speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400))
     alphas = [0.165, 0.24, 0.315, 0.39, 0.465, 0.54]
     sa_normox.extend([totalSurfaceArea(1000, 1000, 400, 90000, a, 3.0) for a in alphas])
     datadirs = ['Data/pad_data/betaNrn_165/',
@@ -1345,7 +1345,7 @@ def waveSpeedVsSurfaceArea(sbplt):
                 'Data/pad_data/betaNrn_39/',
                 'Data/pad_data/betaNrn_465/',
                 'Data/pad_data/betaNrn_54/']
-    speeds_anox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400))
+    speeds_anox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400, dur=6))
 
     ## linear regression
     perfuse_train = np.array(speeds_normox[:-8]).reshape(-1,1)
