@@ -1315,11 +1315,11 @@ def waveSpeedVsSurfaceArea(sbplt):
 
     ## cell density - constant neuronal volume fraction 
     densities = [45, 67.5, 90, 112.5, 120]
-    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_d45/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d675/',  
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_d45_volfrac/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d675_volfrac/',
                 '/u/craig/spreadingdepression/Data/perfuse_standard/',
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125/', 
-                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120/']
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d1125_volfrac/', 
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_d120_volfrac/']
     speeds_normox.extend(getKwaveSpeed(datadirs, r0=100, rmax=400))
     sa_normox.extend([totalSurfaceArea(1000, 1000, 400, d*1000, 0.24, 3.0) for d in densities])
     datadirs = ['Data/pad_data/d45000/',
@@ -1371,9 +1371,9 @@ def waveSpeedVsSurfaceArea(sbplt):
     perfuse_label = r'Perfused: r$^2$ = %0.2f' % (perfuse_r2)
     hypoxic_label = r'Hypoxic: r$^2$ = %0.2f' % (hypoxic_r2)
     sbplt.plot(sa_normox, speeds_normox, '*', color='blue', markersize=8)
-    # sbplt.plot(sa_normox, speeds_anox, '*', color='red', markersize=8)
+    sbplt.plot(sa_normox, speeds_anox, '*', color='red', markersize=8)
     sbplt.plot(sa_pred, p_pred, '--', color='blue', label=perfuse_label, linewidth=4)
-    # sbplt.plot(sa_pred, h_pred, '--', color='red', label=hypoxic_label, linewidth=4)
+    sbplt.plot(sa_pred, h_pred, '--', color='red', label=hypoxic_label, linewidth=4)
     sbplt.set_xlabel(r'Total Neuronal Surface Area ($\mu$m$^2$)', fontsize=16)
     if not sbplt:
         plt.ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
