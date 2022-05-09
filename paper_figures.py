@@ -1135,7 +1135,7 @@ def sliceConds():
     # colors = ['blue', 'green', 'red']
     colors = ['blue', 'purple', 'green', 'black', 'red']
     pos = ['center' for d in datadirs]
-    speeds = getKwaveSpeed(datadirs, r0=100, tcut=8)
+    speeds = getKwaveSpeed(datadirs, r0=100, dur=6)
     # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Mannitol Treated', 'Propionate Treated','Hypoxic'],speeds)]
     # labels = [cond for cond, s in zip(['Perfused', 'Mannitol', 'Propionate','Hypoxic'],speeds)]
     # labels = [cond for cond, s in zip(['Perfused', 'Propionate','Hypoxic'],speeds)]
