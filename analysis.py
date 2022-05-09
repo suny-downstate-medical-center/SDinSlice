@@ -147,7 +147,7 @@ def getKwaveSpeed(datadir, r0=0, rmax=None, tcut=None, dur=10):
         #     times.append(float(line.split()[0]))
         #     wave_pos.append(float(line.split()[-2]))
         # f.close()
-        wave_pos = getKtrace(datadir)
+        wave_pos = getKtrace(datadir, dur=dur)
         times = np.linspace(0, dur*1000, len(wave_pos))
         if wave_pos:
             if tcut:
@@ -178,7 +178,7 @@ def getKwaveSpeed(datadir, r0=0, rmax=None, tcut=None, dur=10):
             #     times.append(float(line.split()[0]))
             #     wave_pos.append(float(line.split()[-2]))
             # f.close()
-            wave_pos = getKtrace(d)
+            wave_pos = getKtrace(d, dur=dur)
             times = np.linspace(0, dur*1000, len(wave_pos))
             if wave_pos:
                 if tcut:
@@ -233,7 +233,7 @@ def compareKwaves(dirs, labels, legendTitle, dur=10, colors=None, trimDict=None,
         #     times.append(float(line.split()[0]))
         #     wave_pos.append(float(line.split()[-2]))
         # f.close()
-        wave_pos = getKtrace(d)
+        wave_pos = getKtrace(d, dur=dur)
         times = np.linspace(0, dur*1000, len(wave_pos))
         if sbplt:
             plt.subplot(sbplt)
