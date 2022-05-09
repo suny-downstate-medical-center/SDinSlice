@@ -1379,7 +1379,7 @@ def waveSpeedVsSurfaceArea(sbplt):
         plt.ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
     sbplt.set_title('Total Neuronal Surface Area', fontsize=18)
     # sbplt.set_ylim(-0.1, 15.5)
-    sbplt.set_ylim(-0.1, 7.0)
+    sbplt.set_ylim(-0.1, 7.3)
     leg = plt.legend(fontsize=14, title='Slice Condition')
     plt.setp(leg.get_title(), fontsize=16)
     plt.setp(sbplt.get_xticklabels(), fontsize=14)
@@ -1414,7 +1414,7 @@ def waveSpeedVsSurfaceArea(sbplt):
 #     ax0.text(-0.05, 1.1, 'A)', transform=ax0.transAxes,
 #         fontsize=18, fontweight='bold', va='top', ha='right')
 #     ax0.set_title(r'K$^+$ Bolus Radius', fontsize=18)
-#     ax0.set_ylim(0, 7.0)
+#     ax0.set_ylim(0, 7.3)
     
 #     datadirs = ['Data/SD_Data/perufse_k030/',
 #                 'Data/SD_Data/perufse_k040/',
@@ -1434,7 +1434,7 @@ def waveSpeedVsSurfaceArea(sbplt):
 #     ax1.plot(densities, speeds_anox, '*-', linewidth=4, markersize=8, color='red', label='Hypoxic')
 #     ax1.set_xlabel(r'Initial Bolus [K$^+$] (mM)', fontsize=16)
 #     ax1.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
-#     ax1.set_ylim(0, 7.0)
+#     ax1.set_ylim(0, 7.3)
 #     plt.setp(ax1.get_xticklabels(), fontsize=14)
 #     plt.setp(ax1.get_yticklabels(), fontsize=14)
 #     ax1.text(-0.05, 1.1, 'B)', transform=ax1.transAxes,
@@ -1471,7 +1471,7 @@ def tissueProps():
     ax0.set_xlabel(r'S:V (mm$^{-1}$)', fontsize=16)
     ax0.set_title('S:V', fontsize=18)
     # ax0.set_ylim(-0.1, 15.5)
-    ax0.set_ylim(-0.1, 7.0)
+    ax0.set_ylim(-0.1, 7.3)
     # leg = plt.legend(fontsize=14, title='Slice Condition')
     # plt.setp(leg.get_title(), fontsize=16)
     ax0.text(-0.1, 1.1, 'A)', transform=ax0.transAxes,
@@ -1501,7 +1501,7 @@ def tissueProps():
     ax1.set_xlabel(r'$\beta_{nrn}$', fontsize=16)
     ax1.set_title(r'Neuronal Volume Fraction ($\beta_{nrn}$)', fontsize=18)
     # ax1.set_ylim(-0.1, 15.5)
-    ax1.set_ylim(-0.1, 7.0)
+    ax1.set_ylim(-0.1, 7.3)
     ax1.text(-0.1, 1.1, 'B)', transform=ax1.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
@@ -1528,7 +1528,7 @@ def tissueProps():
     ax2.set_title(r'Cell Density - Constant S$_{nrn}$, vol$_{nrn}$', fontsize=18)
     ax2.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16)
     # # ax2.set_ylim(-0.1, 15.5)
-    ax2.set_ylim(-0.1, 7.0)
+    ax2.set_ylim(-0.1, 7.3)
     ax2.text(-0.1, 1.4, 'C)', transform=ax2.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
@@ -1555,7 +1555,7 @@ def tissueProps():
     ax3.set_xlabel(r'Cell Density (neurons/mm$^3$)', fontsize=16)
     ax3.set_title(r'Cell Density - Constant $\beta_{nrn}$, S:V', fontsize=18)
     # ax3.set_ylim(-0.1, 15.5)
-    ax3.set_ylim(-0.1, 7.0)
+    ax3.set_ylim(-0.1, 7.3)
     ax3.text(-0.1, 1.4, 'D)', transform=ax3.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
 
