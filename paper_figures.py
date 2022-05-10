@@ -845,9 +845,9 @@ def centerAndThick():
     poolsize=16 
     rmax = 680 
     duration = 10
-    fig = plt.figure(figsize=(7,10))
-    ax1 = plt.subplot(211)
-    ax2 = plt.subplot(212)
+    fig = plt.figure(figsize=(11,6))
+    ax1 = plt.subplot(121)
+    ax2 = plt.subplot(122)
     # ax3 = plt.subplot(223)
     # ax4 = plt.subplot(224)
     hmap1, cbar1 = comboVmembPlot(datadir, duration, fig, ax1, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, top=True, left=True)
