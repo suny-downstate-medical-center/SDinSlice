@@ -1155,7 +1155,7 @@ def sliceConds():
     spkSpeeds = getSpkWaveSpeed(datadirs, pos, r0=100)
     # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Mannitol Treated', 'Propionate Treated','Hypoxic'],spkSpeeds)]
     # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Propionate Treated','Hypoxic'],spkSpeeds)]
-    labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', r'Dynamic $\alpha_{ECS}$', 'Propionate Treated','Hypoxic'],spkSpeeds)]
+    labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', r'Dynamic $\alpha_{ECS}$', 'Propionate','Hypoxic SD-like Depol.', r'Hypoxia + 70 mM K$^+$'],spkSpeeds)]
     ax2 = plt.subplot(312)
     for m, l, c in zip(metrics, labels, colors):
         r = [k for k in m.keys()]
