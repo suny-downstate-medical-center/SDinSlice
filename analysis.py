@@ -241,14 +241,14 @@ def compareKwaves(dirs, labels, legendTitle, dur=10, colors=None, trimDict=None,
             plt.subplot(sbplt)
         if trimDict:
             if d in trimDict.keys():
-                plt.plot(np.divide(times,1000)[:trimDict[d]], wave_pos[:trimDict[d]], label=l, linewidth=5, color=c)
+                plt.plot(np.divide(times,1000)[:trimDict[d]], wave_pos[:trimDict[d]], label=l, linewidth=5, color=c, linestyle=ls)
             else:
-                plt.plot(np.divide(times,1000), wave_pos, label=l, linewidth=5, color=c)
+                plt.plot(np.divide(times,1000), wave_pos, label=l, linewidth=5, color=c, linestyle=ls)
         else:
             if colors:
-                plt.plot(np.divide(times,1000), wave_pos, label=l, linewidth=5, color=c)
+                plt.plot(np.divide(times,1000), wave_pos, label=l, linewidth=5, color=c, linestyle=ls)
             else:
-                plt.plot(np.divide(times,1000), wave_pos, label=l, linewidth=5)
+                plt.plot(np.divide(times,1000), wave_pos, label=l, linewidth=5, linestyle=ls)
     # legend = plt.legend(title=legendTitle, fontsize=12)#, bbox_to_anchor=(-0.2, 1.05))
     legend = plt.legend(fontsize=12, loc='upper left')#, bbox_to_anchor=(-0.2, 1.05))
     # plt.setp(legend.get_title(), fontsize=14)
