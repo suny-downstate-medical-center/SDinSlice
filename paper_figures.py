@@ -845,16 +845,16 @@ def centerAndThick():
     poolsize=16 
     rmax = 680 
     duration = 10
-    fig = plt.figure(figsize=(12,10))
-    ax1 = plt.subplot(221)
-    ax2 = plt.subplot(222)
-    ax3 = plt.subplot(223)
-    ax4 = plt.subplot(224)
+    fig = plt.figure(figsize=(7,10))
+    ax1 = plt.subplot(211)
+    ax2 = plt.subplot(212)
+    # ax3 = plt.subplot(223)
+    # ax4 = plt.subplot(224)
     hmap1, cbar1 = comboVmembPlot(datadir, duration, fig, ax1, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, top=True, left=True)
     hmap2, cbar2 = comboVmembPlot(datadir, duration, fig, ax2, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph', top=True)
     datadir = 'Data/SD_Data/hypox_nonuniform_highNrec_v4/'
-    hmap3, cbar3 = comboVmembPlot(datadir, duration, fig, ax3, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, left=True)
-    hmap4, cbar4 = comboVmembPlot(datadir, duration, fig, ax4, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph')
+    # hmap3, cbar3 = comboVmembPlot(datadir, duration, fig, ax3, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, left=True)
+    # hmap4, cbar4 = comboVmembPlot(datadir, duration, fig, ax4, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph')
     ax1.set_ylim(0,600)
     ax1.set_title('Perfused - Core', fontsize=18)
     ax1.text(-0.25, 1.1, 'A)', transform=ax1.transAxes,
@@ -863,14 +863,14 @@ def centerAndThick():
     ax2.set_title('Perfused - Periphery', fontsize=18)
     ax2.text(-0.25, 1.1, 'B)', transform=ax2.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
-    ax3.set_ylim(0,600)
-    ax3.set_title('Hypoxic - Core', fontsize=18)
-    ax3.text(-0.25, 1.1, 'C)', transform=ax3.transAxes,
-            fontsize=18, fontweight='bold', va='top', ha='right')
-    ax4.set_ylim(0,600)
-    ax4.set_title('Hypoxic - Periphery', fontsize=18)
-    ax4.text(-0.25, 1.1, 'D)', transform=ax4.transAxes,
-            fontsize=18, fontweight='bold', va='top', ha='right')
+    # ax3.set_ylim(0,600)
+    # ax3.set_title('Hypoxic - Core', fontsize=18)
+    # ax3.text(-0.25, 1.1, 'C)', transform=ax3.transAxes,
+    #         fontsize=18, fontweight='bold', va='top', ha='right')
+    # ax4.set_ylim(0,600)
+    # ax4.set_title('Hypoxic - Periphery', fontsize=18)
+    # ax4.text(-0.25, 1.1, 'D)', transform=ax4.transAxes,
+    #         fontsize=18, fontweight='bold', va='top', ha='right')
     fig.text(0.3, 0.95, 'Depth Dependent SD Propagation', fontsize=20, fontweight='bold')
 
 
