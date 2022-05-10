@@ -857,11 +857,11 @@ def centerAndThick():
     # hmap4, cbar4 = comboVmembPlot(datadir, duration, fig, ax4, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph')
     ax1.set_ylim(0,600)
     ax1.set_title('Core', fontsize=18)
-    ax1.text(-0.25, 1.1, 'A)', transform=ax1.transAxes,
+    ax1.text(-0.25, 1.05, 'A)', transform=ax1.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
     ax2.set_ylim(0,600)
     ax2.set_title('Periphery', fontsize=18)
-    ax2.text(-0.25, 1.1, 'B)', transform=ax2.transAxes,
+    ax2.text(-0.25, 1.05, 'B)', transform=ax2.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
     ax2.set_xlabel('Time (s)', fontsize=16)
     # ax3.set_ylim(0,600)
