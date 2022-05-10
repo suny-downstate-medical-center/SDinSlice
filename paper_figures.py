@@ -850,8 +850,8 @@ def centerAndThick():
     ax2 = plt.subplot(122)
     # ax3 = plt.subplot(223)
     # ax4 = plt.subplot(224)
-    hmap1, cbar1 = comboVmembPlot(datadir, duration, fig, ax1, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, top=True, left=True)
-    hmap2, cbar2 = comboVmembPlot(datadir, duration, fig, ax2, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph', top=True)
+    hmap1, cbar1 = comboVmembPlot(datadir, duration, fig, ax1, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, top=False, left=True)
+    hmap2, cbar2 = comboVmembPlot(datadir, duration, fig, ax2, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph', top=False)
     datadir = 'Data/SD_Data/hypox_nonuniform_highNrec_v4/'
     # hmap3, cbar3 = comboVmembPlot(datadir, duration, fig, ax3, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, left=True)
     # hmap4, cbar4 = comboVmembPlot(datadir, duration, fig, ax4, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph')
@@ -863,6 +863,7 @@ def centerAndThick():
     ax2.set_title('Periphery', fontsize=18)
     ax2.text(-0.25, 1.1, 'B)', transform=ax2.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
+    ax2.set_xlabel('Time (s)', fontsize=16)
     # ax3.set_ylim(0,600)
     # ax3.set_title('Hypoxic - Core', fontsize=18)
     # ax3.text(-0.25, 1.1, 'C)', transform=ax3.transAxes,
@@ -871,7 +872,7 @@ def centerAndThick():
     # ax4.set_title('Hypoxic - Periphery', fontsize=18)
     # ax4.text(-0.25, 1.1, 'D)', transform=ax4.transAxes,
     #         fontsize=18, fontweight='bold', va='top', ha='right')
-    # fig.text(0.3, 0.95, 'Depth Dependent SD Propagation', fontsize=20, fontweight='bold')
+    fig.text(0.3, 0.95, 'Depth Dependent SD Propagation', fontsize=20, fontweight='bold')
 
 
     # fig.text(0.35, 0.95, 'Depth-Dependent SD Propagation', fontsize=18)
