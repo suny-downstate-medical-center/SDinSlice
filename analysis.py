@@ -222,10 +222,12 @@ def getSpkWaveSpeed(datadir, pos, r0=0):
                 speeds.append(slope / 16.667)
         return speeds
 
-def compareKwaves(dirs, labels, legendTitle, dur=10, colors=None, trimDict=None, sbplt=None):
+def compareKwaves(dirs, labels, legendTitle, dur=10, colors=None, trimDict=None, sbplt=None, linestyles=None):
     """plots K+ wave trajectories from sims stored in list of folders dirs"""
     # plt.figure(figsize=(10,6))
-    for d, l, c in zip(dirs, labels, colors):
+    if not linestyles:
+        linestyles = ['-' for i in range(len(dirs))]
+    for d, l, c, ls in zip(dirs, labels, colors, linestyles):
         # f = open(d + 'wave_progress.txt', 'r')
         # times = []
         # wave_pos = []

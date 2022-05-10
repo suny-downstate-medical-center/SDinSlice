@@ -1131,6 +1131,7 @@ def sliceConds():
                 '/u/craig/spreadingdepression/Data/SD_Data/primed_standard_highNrec_v2/',
                 '/u/craig/SDinSlice/Data/pad_k015_o2bc_0.1_o2bath_0.03_10s/',
                 '/u/craig/SDinSlice/Data/pad_standard/']
+    linestyles = ['-', ':', '-', '--', '-']
                 # 'Data/SD_Data/hypox_standard_highNrec/']
     # colors = ['blue', 'green', 'red']
     colors = ['blue', 'purple', 'green', 'black', 'red']
@@ -1145,7 +1146,7 @@ def sliceConds():
     fig.set_figheight(9)
     fig.set_figwidth(18)
     ax0 = plt.subplot(311)
-    compareKwaves(datadirs, labels, legendTitle, colors=colors, sbplt=311)
+    compareKwaves(datadirs, labels, legendTitle, colors=colors, sbplt=311, linestyles=linestyles)
     ax0.set_xlim(0.0, 10)
     ax0.set_ylim(0,700)
     metrics = [getSpkMetrics(d, uniform=True, position=p) for d, p in zip(datadirs,pos)]
