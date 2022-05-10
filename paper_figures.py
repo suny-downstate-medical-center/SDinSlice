@@ -1183,35 +1183,35 @@ def sliceConds():
     # par2.axis['bottom'] = par2.new_fixed_axis(loc='bottom', offset=(0,-100))
 
     ax3 = plt.subplot(313)
-    datadirs = ['Data/SD_Data/perfuse_alpha07/',
-                'Data/SD_Data/perfuse_alpha13/',
-                'Data/SD_Data/perfuse_alpha20/',
-                'Data/SD_Data/perfuse_alpha26/',
-                'Data/SD_Data/perfuse_alpha32/',
-                'Data/alpha42/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha07/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha13/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha20/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha26/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_alpha32/',
+                '/u/craig/spreadingdepression/Data/alpha42/']
     speeds_alpha = getKwaveSpeed(datadirs, r0=100, tcut=8)
     alphas = [0.07, 0.13, 0.20, 0.26, 0.32, 0.42]
     # p0, = host.plot(alphas, speeds, '*-', linewidth=4, markersize=8, color='darkorange', label=r'$\alpha_{ECS}$')
-    datadirs = ['Data/SD_Data/perfuse_lambda14/',
-                'Data/SD_Data/perfuse_lambda155/',
-                'Data/SD_Data/perfuse_lambda17/',
-                'Data/SD_Data/perfuse_lambda185/',
-                'Data/SD_Data/perfuse_lambda2/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda14/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda155/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda17/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda185/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_lambda2/']
     lambdas = [1.4, 1.55, 1.7, 1.85, 2.0]
     speeds_lambda = getKwaveSpeed(datadirs, r0=100, tcut=8)
     # p1, = par1.plot(lambdas, speeds, '*-', linewidth=4, markersize=8, color='aqua', label=r'$\lambda_{ECS}$')
-    datadirs = ['Data/SD_Data/varO201/',
-                'Data/SD_Data/varO20325/',
-                'Data/SD_Data/varO2055/',
-                'Data/SD_Data/varO20775/',
-                'Data/SD_Data/varO21/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/varO201/',
+                '/u/craig/spreadingdepression/Data/SD_Data/varO20325/',
+                '/u/craig/spreadingdepression/Data/SD_Data/varO2055/',
+                '/u/craig/spreadingdepression/Data/SD_Data/varO20775/',
+                '/u/craig/spreadingdepression/Data/SD_Data/varO21/']
     o2 = [0.01, 0.0325, 0.055, 0.0775, 0.1]
     speeds_o2 = getKwaveSpeed(datadirs, r0=100, tcut=8)
-    datadirs = ['Data/SD_Data/cl65/',
-                'Data/SD_Data/cl81/',
-                'Data/SD_Data/cl98/',
-                'Data/SD_Data/cl114/',
-                'Data/SD_Data/perfuse_standard_highNrec/']
+    datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/cl65/',
+                '/u/craig/spreadingdepression/Data/SD_Data/cl81/',
+                '/u/craig/spreadingdepression/Data/SD_Data/cl98/',
+                '/u/craig/spreadingdepression/Data/SD_Data/cl114/',
+                '/u/craig/spreadingdepression/Data/SD_Data/perfuse_standard_highNrec/']
     speeds_cl = getKwaveSpeed(datadirs, r0=100, tcut=8)
     ax3.plot([i for i in range(len(speeds_alpha))], speeds_alpha, '*-', linewidth=4, markersize=8, color='orange', label=r'$\alpha_{ECCS}$')
     ax3.plot([i for i in range(len(speeds_lambda))], speeds_lambda, '*-', linewidth=4, markersize=8, color='aqua', label=r'$\lambda_{ECS}$')
