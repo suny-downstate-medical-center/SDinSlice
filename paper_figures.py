@@ -1146,7 +1146,7 @@ def sliceConds():
     fig.set_figwidth(18)
     ax0 = plt.subplot(311)
     compareKwaves(datadirs, labels, legendTitle, colors=colors, sbplt=311)
-    ax0.set_xlim(0.0, 6)
+    ax0.set_xlim(0.0, 10)
     ax0.set_ylim(0,700)
     metrics = [getSpkMetrics(d, uniform=True, position=p) for d, p in zip(datadirs,pos)]
     ax0.set_title(r'K$^+$ Wave', fontsize=18)
@@ -1169,7 +1169,7 @@ def sliceConds():
     ax2.set_title('Depolarization Wave', fontsize=18)
     plt.setp(ax2.get_xticklabels(), fontsize=14)
     plt.setp(ax2.get_yticklabels(), fontsize=14)
-    ax2.set_xlim(0,6)
+    ax2.set_xlim(0,10)
     ax2.set_ylim(0,700)
     ax2.text(-0.125, 1.25, 'B)', transform=ax2.transAxes,
         fontsize=18, fontweight='bold', va='top', ha='right')
