@@ -839,7 +839,7 @@ def centerAndThick():
     #         fontsize=18, fontweight='bold', va='top', ha='right')
     # plt.setp(ax0.get_xticklabels(), fontsize=14)
     # plt.setp(ax0.get_yticklabels(), fontsize=14)
-    datadir = 'Data/SD_Data/perfuse_nonuniform_highNrec_v4/'
+    datadir = '/u/craig/spreadingdepression/Data/SD_Data/perfuse_nonuniform_highNrec_v4/'
     spatialBin = 50 
     noverlap = 10 
     poolsize=16 
