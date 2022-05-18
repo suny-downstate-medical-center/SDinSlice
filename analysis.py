@@ -482,7 +482,7 @@ def getKtrace(datadir, dur=10, depth=8, title='Center'):
     # plt.title(title)
     return k_trace
 
-def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40):
+def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused', dur=10, extent=None, fps=40, shift=0):
     """"Generates an mp4 video with heatmaps for K+, Cl-, Na+, and O2 overlaid with spiking data"""
     try:
         os.mkdir(outpath)
@@ -508,7 +508,7 @@ def allSpeciesMov(datadir, outpath, vmins, vmaxes, figname, condition='Perfused'
         # # big_axes._frameon = False
         # plt.tight_layout()
         fig.text(.45, 0.825, ttl, fontsize=20)
-        fig.text(0.45, 0.9, condition, fontsize=20)
+        fig.text(0.45+shift, 0.9, condition, fontsize=20)
         posBySpkTime = xyOfSpikeTime(datadir)
         spkTimes = [key for key in posBySpkTime if (t-50 < key <= t+50)]
 

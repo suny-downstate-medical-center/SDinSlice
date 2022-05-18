@@ -863,7 +863,7 @@ def centerAndThick():
     ax2.set_title('Periphery', fontsize=18)
     ax2.text(-0.25, 1.05, 'B)', transform=ax2.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
-    ax2.set_xlabel('Time (s)', fontsize=16)
+    # ax2.set_xlabel('Time (s)', fontsize=16)
     # ax3.set_ylim(0,600)
     # ax3.set_title('Hypoxic - Core', fontsize=18)
     # ax3.text(-0.25, 1.1, 'C)', transform=ax3.transAxes,
