@@ -1372,7 +1372,7 @@ def waveSpeedVsSurfaceArea(sbplt):
     h_pred = regr_hypoxic.predict(sa_pred)
 
     perfuse_label = r'Perfused: r$^2$ = %0.2f' % (perfuse_r2)
-    hypoxic_label = r'Hypoxic: r$^2$ = %0.2f' % (hypoxic_r2)
+    hypoxic_label = r'Hypoxia + 70 mM K$^+$: r$^2$ = %0.2f' % (hypoxic_r2)
     sbplt.plot(sa_normox, speeds_normox, '*', color='blue', markersize=8)
     sbplt.plot(sa_normox, speeds_anox, '*', color='red', markersize=8)
     sbplt.plot(sa_pred, p_pred, '--', color='blue', label=perfuse_label, linewidth=4)
