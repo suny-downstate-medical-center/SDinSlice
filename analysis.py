@@ -432,22 +432,22 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
             wave_pos_periph.append(np.max(ds_periph))
         else:
             wave_pos_periph.append(0)
-        wave_pos_cut = [w for w in wave_pos_core if w > rmax]
-        t_cut = [t for t, w in zip(time, wave_pos_core) if w > rmax]
+        # wave_pos_cut = [w for w in wave_pos_core if w > rmax]
+        # t_cut = [t for t, w in zip(time, wave_pos_core) if w > rmax]
         
-        if len(wave_pos_cut):
-            m = (wave_pos_cut[0] - wave_pos_core[0]) / (t_cut[0] - time[0])
-        elif np.max(wave_pos_core) > 200:
+        # if len(wave_pos_cut):
+        #     m = (wave_pos_cut[0] - wave_pos_core[0]) / (t_cut[0] - time[0])
+        if np.max(wave_pos_core) > 200:
             startindcore = np.argwhere(np.array(wave_pos_core) > 100)[0][0]
             m = (np.max(wave_pos_core) - wave_pos_core[startindcore]) / (time[np.argmax(wave_pos_core)]-time[startindcore])
         else:
             m = 0
         core_speed = m / 16.667
-        wave_pos_cut = [w for w in wave_pos_periph if w > rmax]
-        t_cut = [t for t, w in zip(time, wave_pos_periph) if w > rmax]
-        if len(wave_pos_cut):
-            m = (wave_pos_cut[0] - wave_pos_periph[0]) / (t_cut[0] - time[0])
-        elif np.max(wave_pos_periph) > 200:
+        # wave_pos_cut = [w for w in wave_pos_periph if w > rmax]
+        # t_cut = [t for t, w in zip(time, wave_pos_periph) if w > rmax]
+        # if len(wave_pos_cut):
+        #     m = (wave_pos_cut[0] - wave_pos_periph[0]) / (t_cut[0] - time[0])
+        if np.max(wave_pos_periph) > 200:
             startindperiph = np.argwhere(np.array(wave_pos_periph) > 100)[0][0]
             m = (np.max(wave_pos_periph) - wave_pos_periph[startindperiph]) / (time[np.argmax(wave_pos_periph)]-time[startindperiph])
         else:
