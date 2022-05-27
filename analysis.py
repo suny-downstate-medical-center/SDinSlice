@@ -453,7 +453,7 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
     # t_cut = [t for t, w in zip(time, wave_pos_periph) if w > rmax]
     # if len(wave_pos_cut):
     #     m = (wave_pos_cut[0] - wave_pos_periph[0]) / (t_cut[0] - time[0])
-    if np.max(wave_pos_periph) > 200:
+    if np.max(wave_pos_periph) > 100:
         startindperiph = np.argwhere(np.array(wave_pos_periph) > 100)[0][0]
         print(datadir + ' periph start: ' + str(time[startindperiph]) + ' at ' + str(wave_pos_periph[startindperiph]))
         print('ends at ' + str(np.max(wave_pos_periph)))
