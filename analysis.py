@@ -432,39 +432,54 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
             wave_pos_periph.append(np.max(ds_periph))
         else:
             wave_pos_periph.append(0)
-        # wave_pos_cut = [w for w in wave_pos_core if w > rmax]
-        # t_cut = [t for t, w in zip(time, wave_pos_core) if w > rmax]
+        wave_pos_cut = [w for w in wave_pos_core if w > rmax]
+        t_cut = [t for t, w in zip(time, wave_pos_core) if w > rmax]
+        
+        if len(wave_pos_cut):
+            m = (wave_pos_cut[0] - wave_pos_core[0]) / (t_cut[0] - time[0])
+        elif np.max(wave_pos_core) > 200:
+            m = (np.max(wave_pos_core) - wave_pos_core[0]) / (time[np.argmax(wave_pos_core)]-time[0])
+        else:
+            m = 0
+        core_speed = m / 16.667
         
         # if len(wave_pos_cut):
         #     m = (wave_pos_cut[0] - wave_pos_core[0]) / (t_cut[0] - time[0])
-    if np.max(wave_pos_core) > 200:
-        startindcore = np.argwhere(np.array(wave_pos_core) > 100)[0][0]
-        print(datadir + ' core start: ' + str(time[startindcore]) + ' at ' + str(wave_pos_core[startindcore]))
-        print('ends at ' + str(np.max(wave_pos_core)))
-        if np.max(wave_pos_core) > 600:
-            ep = np.argwhere(wave_pos_core > 600)[0][0] - 1
-            m = (600 - wave_pos_core[startindcore]) / (time[ep]-time[startindcore])
-        else:
-            m = (np.max(wave_pos_core) - wave_pos_core[startindcore]) / (time[np.argmax(wave_pos_core)]-time[startindcore])
-    else:
-        m = 0
+    # if np.max(wave_pos_core) > 200:
+    #     startindcore = np.argwhere(np.array(wave_pos_core) > 100)[0][0]
+    #     print(datadir + ' core start: ' + str(time[startindcore]) + ' at ' + str(wave_pos_core[startindcore]))
+    #     print('ends at ' + str(np.max(wave_pos_core)))
+    #     if np.max(wave_pos_core) > 600:
+    #         ep = np.argwhere(wave_pos_core > 600)[0][0] - 1
+    #         m = (600 - wave_pos_core[startindcore]) / (time[ep]-time[startindcore])
+    #     else:
+    #         m = (np.max(wave_pos_core) - wave_pos_core[startindcore]) / (time[np.argmax(wave_pos_core)]-time[startindcore])
+    # else:
+    #     m = 0
     core_speed = m / 16.667
-    # wave_pos_cut = [w for w in wave_pos_periph if w > rmax]
-    # t_cut = [t for t, w in zip(time, wave_pos_periph) if w > rmax]
-    # if len(wave_pos_cut):
-    #     m = (wave_pos_cut[0] - wave_pos_periph[0]) / (t_cut[0] - time[0])
-    if np.max(wave_pos_periph) > 100:
-        startindperiph = np.argwhere(np.array(wave_pos_periph) > 100)[0][0]
-        print(datadir + ' periph start: ' + str(time[startindperiph]) + ' at ' + str(wave_pos_periph[startindperiph]))
-        print('ends at ' + str(np.max(wave_pos_periph)))
-        if np.max(wave_pos_periph) > 600:
-            ep = np.argwhere(wave_pos_core > 600)[0][0] - 1
-            m = (600 - wave_pos_periph[startindperiph]) / (time[ep]-time[startindperiph])
-        else:
-            m = (np.max(wave_pos_periph) - wave_pos_periph[startindperiph]) / (time[np.argmax(wave_pos_periph)]-time[startindperiph])
+    wave_pos_cut = [w for w in wave_pos_periph if w > rmax]
+    t_cut = [t for t, w in zip(time, wave_pos_periph) if w > rmax]
+    if len(wave_pos_cut):
+        m = (wave_pos_cut[0] - wave_pos_periph[0]) / (t_cut[0] - time[0])
+    elif np.max(wave_pos_core) > 200:
+        m = (np.max(wave_pos_periph) - wave_pos_periph[0]) / (time[np.argmax(wave_pos_periph)]-time[0])
     else:
         m = 0
     periph_speed = m / 16.667
+    # if len(wave_pos_cut):
+    #     m = (wave_pos_cut[0] - wave_pos_periph[0]) / (t_cut[0] - time[0])
+    # if np.max(wave_pos_periph) > 100:
+    #     startindperiph = np.argwhere(np.array(wave_pos_periph) > 100)[0][0]
+    #     print(datadir + ' periph start: ' + str(time[startindperiph]) + ' at ' + str(wave_pos_periph[startindperiph]))
+    #     print('ends at ' + str(np.max(wave_pos_periph)))
+    #     if np.max(wave_pos_periph) > 600:
+    #         ep = np.argwhere(wave_pos_core > 600)[0][0] - 1
+    #         m = (600 - wave_pos_periph[startindperiph]) / (time[ep]-time[startindperiph])
+    #     else:
+    #         m = (np.max(wave_pos_periph) - wave_pos_periph[startindperiph]) / (time[np.argmax(wave_pos_periph)]-time[startindperiph])
+    # else:
+    #     m = 0
+    # periph_speed = m / 16.667
     return core_speed, periph_speed
 
 def getKtrace(datadir, dur=10, depth=8, title='Center'):
