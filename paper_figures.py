@@ -51,7 +51,7 @@ def centerVsPeriphThick():
     thick = [100, 200, 300, 400, 500, 600, 700, 800]
     ax.plot(thick, speeds_core_perfuse, 'b*-', label='Perfused', linewidth=4, markersize=8)
     # ax.plot(thick, speeds_periph_perfuse, 'b*--', label='Periphery', linewidth=4, markersize=8)
-    ax.plot(thick, speeds_core_hypox, 'r*-', label=r'Hypoxic + 70 mM K$^+$', linewidth=4, markersize=8)
+    # ax.plot(thick, speeds_core_hypox, 'r*-', label=r'Hypoxic + 70 mM K$^+$', linewidth=4, markersize=8)
     # ax.plot(thick, speeds_periph_hypox, 'r*--', label='Hypoxic - Periphery', linewidth=4, markersize=8)
     ax.set_xlabel(r'Slice Thickness ($\mu$m)', fontsize=16)
     ax.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16) 
