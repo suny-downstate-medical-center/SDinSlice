@@ -26,7 +26,14 @@ def centerVsPeriphThick():
         core, periph = centerVsPeriphKspeed(datadir, 10, rmax=rmax)
         speeds_core_perfuse.append(core)
         speeds_periph_perfuse.append(periph)
-    speeds_periph_perfuse[1] = 0
+    # speeds_periph_perfuse[3] = 2.2
+    # speeds_periph_perfuse[2] = 0.9
+    # speeds_periph_perfuse[1] = 2.7
+    # speeds_periph_perfuse[4] = 2.5   
+    # speeds_periph_perfuse[3] = 2.2
+    # speeds_periph_perfuse[2] = 0.9
+    # speeds_periph_perfuse[1] = 0.2
+    # speeds_periph_perfuse[0] = 0
     datadirs = ['Data/pad_data/thick100/',
                 'Data/pad_data/thick200/',
                 'Data/pad_data/thick300/',
@@ -42,9 +49,9 @@ def centerVsPeriphThick():
         speeds_core_hypox.append(core)
         speeds_periph_hypox.append(periph)
     thick = [100, 200, 300, 400, 500, 600, 700, 800]
-    ax.plot(thick, speeds_core_perfuse, 'b*-', label='Core', linewidth=4, markersize=8)
-    ax.plot(thick, speeds_periph_perfuse, 'b*--', label='Periphery', linewidth=4, markersize=8)
-    # ax.plot(thick, speeds_core_hypox, 'r*-', label='Hypoxic - Core', linewidth=4, markersize=8)
+    ax.plot(thick, speeds_core_perfuse, 'b*-', label='Perfused', linewidth=4, markersize=8)
+    # ax.plot(thick, speeds_periph_perfuse, 'b*--', label='Periphery', linewidth=4, markersize=8)
+    ax.plot(thick, speeds_core_hypox, 'r*-', label=r'Hypoxic + 70 mM K$^+$', linewidth=4, markersize=8)
     # ax.plot(thick, speeds_periph_hypox, 'r*--', label='Hypoxic - Periphery', linewidth=4, markersize=8)
     ax.set_xlabel(r'Slice Thickness ($\mu$m)', fontsize=16)
     ax.set_ylabel(r'K$^+$ Wave Speed (mm/min)', fontsize=16) 
