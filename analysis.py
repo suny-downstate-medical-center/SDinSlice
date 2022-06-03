@@ -482,6 +482,45 @@ def centerVsPeriphKspeed(datadir, dur, rmax=600):
     # periph_speed = m / 16.667
     return core_speed, periph_speed
 
+def plotKtrace(datadir, fig, sbplt, dur=10, depth=8, title='Center', left=False, top=False):
+    k_files = ['k' +'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0] 
+    kconcs = []
+    x = np.linspace(-500,500,40)
+    y = np.linspace(-500,500,40)
+    for k_file in k_files:
+        data = np.load(datadir+k_file)
+        dists = []
+        ks = []
+        for xi in range(len(x)):
+            for yi in range(len(y)):
+                ks.append(data[xi,yi,depth])
+                dists.append((x[xi]**2 + y[yi]**2)**(1/2))
+        bin_means, bin_edges, bin_number = binned_statistic(dists, ks, statistic='mean', bins=40)
+        kconcs.append(bin_means)
+    bin_width = (bin_edges[1] - bin_edges[0])
+    bin_centers = bin_edges[1:] - bin_width/2
+    k_trace = []
+    for kconc in kconcs:
+        inds = np.argwhere(kconc > 15)
+        if len(inds):
+            k_trace.append(bin_centers[np.max(inds)])
+        else:
+            k_trace.append(0)
+    hmap = sbplt.imshow(np.array(kconcs).transpose(), aspect='auto', origin='lower', extent=(0,dur,0, 700), cmap='inferno', vmin=3.5, vmax=40)
+    # plt.title(title)
+    cbar = fig.colorbar(hmap, ax=sbplt)
+    if not left:
+        cbar.set_label(r'Avg. V$_{memb}$ (mV)', fontsize=14)
+    cbar.ax.tick_params(labelsize=12)
+    if not top:
+        sbplt.set_xlabel('Time (s)', fontsize=16)
+    if left:
+        sbplt.set_ylabel(r'Radial Distance ($\mu$m)', fontsize=16)
+    plt.setp(sbplt.get_xticklabels(), fontsize=14)
+    plt.setp(sbplt.get_yticklabels(), fontsize=14)
+    # plt.clim(3.5,40)
+    # return k_trace
+
 def getKtrace(datadir, dur=10, depth=8, title='Center'):
     k_files = ['k' +'_'+str(i)+'.npy' for i in range(int(dur*1000)) if (i%100)==0] 
     kconcs = []

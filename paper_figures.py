@@ -846,29 +846,42 @@ def centerAndThick():
     #         fontsize=18, fontweight='bold', va='top', ha='right')
     # plt.setp(ax0.get_xticklabels(), fontsize=14)
     # plt.setp(ax0.get_yticklabels(), fontsize=14)
-    datadir = '/u/craig/spreadingdepression/Data/SD_Data/perfuse_nonuniform_highNrec_v4/'
+    # datadir = '/u/craig/spreadingdepression/Data/SD_Data/perfuse_nonuniform_highNrec_v4/'
+    datadir = 'Data/perfuse_nonuniform_highNrec_v4/'
     spatialBin = 50 
     noverlap = 10 
     poolsize=16 
     rmax = 680 
     duration = 10
-    fig = plt.figure(figsize=(11,6))
-    ax1 = plt.subplot(121)
-    ax2 = plt.subplot(122)
+    fig = plt.figure(figsize=(12,14))
+    ax1 = plt.subplot(221)
+    ax2 = plt.subplot(222)
+    ax3 = plt.subplot(223)
+    ax4 = plt.subplot(224)
     # ax3 = plt.subplot(223)
     # ax4 = plt.subplot(224)
-    hmap1, cbar1 = comboVmembPlot(datadir, duration, fig, ax1, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, top=False, left=True)
-    hmap2, cbar2 = comboVmembPlot(datadir, duration, fig, ax2, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph', top=False)
+    plotKtrace(datadir, fig, ax1, dur=duration, left=True, top=True)
+    plotKtrace(datadir, fig, ax2, dur=duration, depth=1, title='Periphery', top=True)
+    hmap1, cbar1 = comboVmembPlot(datadir, duration, fig, ax3, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, top=False, left=True)
+    hmap2, cbar2 = comboVmembPlot(datadir, duration, fig, ax4, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph', top=False)
     datadir = 'Data/SD_Data/hypox_nonuniform_highNrec_v4/'
     # hmap3, cbar3 = comboVmembPlot(datadir, duration, fig, ax3, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, left=True)
     # hmap4, cbar4 = comboVmembPlot(datadir, duration, fig, ax4, -80, -15, spatialbin=spatialBin, noverlap=noverlap, poolsize=poolsize, rmax=rmax, position='periph')
     ax1.set_ylim(0,600)
-    ax1.set_title('Core', fontsize=18)
-    ax1.text(-0.25, 1.05, 'A)', transform=ax1.transAxes,
+    ax1.set_title(r'K$^+$ Wave', fontsize=18)
+    ax1.text(-0.2, 1.05, 'A)', transform=ax1.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
     ax2.set_ylim(0,600)
-    ax2.set_title('Periphery', fontsize=18)
-    ax2.text(-0.25, 1.05, 'B)', transform=ax2.transAxes,
+    ax2.set_title(r'K$^+$ Wave', fontsize=18)
+    ax2.text(-0.13, 1.05, 'B)', transform=ax2.transAxes,
+            fontsize=18, fontweight='bold', va='top', ha='right')
+    ax3.set_ylim(0,600)
+    ax3.set_title('SD', fontsize=18)
+    ax3.text(-0.2, 1.05, 'C)', transform=ax3.transAxes,
+            fontsize=18, fontweight='bold', va='top', ha='right')
+    ax4.set_ylim(0,600)
+    ax4.set_title('No SD', fontsize=18)
+    ax4.text(-0.13, 1.05, 'D)', transform=ax4.transAxes,
             fontsize=18, fontweight='bold', va='top', ha='right')
     # ax2.set_xlabel('Time (s)', fontsize=16)
     # ax3.set_ylim(0,600)
@@ -879,8 +892,9 @@ def centerAndThick():
     # ax4.set_title('Hypoxic - Periphery', fontsize=18)
     # ax4.text(-0.25, 1.1, 'D)', transform=ax4.transAxes,
     #         fontsize=18, fontweight='bold', va='top', ha='right')
-    fig.text(0.3, 0.95, 'Depth Dependent SD Propagation', fontsize=20, fontweight='bold')
-
+    fig.text(0.3, 0.97, 'Depth Dependent SD Propagation', fontsize=20, fontweight='bold')
+    fig.text(0.24, 0.925, 'Core', fontsize=20, fontweight='bold')
+    fig.text(0.63, 0.925, 'Periphery', fontsize=20, fontweight='bold')
 
     # fig.text(0.35, 0.95, 'Depth-Dependent SD Propagation', fontsize=18)
 
