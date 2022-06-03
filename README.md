@@ -90,7 +90,7 @@ simulation, we recommend only running this on an HPC.  The number of threads (nt
 and number of processes passed to MPI (-n) can be changed depending on the available 
 resources.  
 ```
-python3 genCfgs.py --tstop=10000 --ox=anoxic --k0=70 --r0=100 --pas=-70.0 --uniformRec=True \
+python3 genCfgs.py --tstop=10000 --ox=pad --k0=70 --r0=100 --pas=-70.0 --uniformRec=True \
 --nthreads=40 --nrec=40 --dir=Data/hypox_1mmmx1mmx400um_10s/ --sa2v=3.0 --O2consume=True \
 cfgs/hypox_1mmx1mmx400um_10s.json
 mpiexec -n 40 nrniv -python -mpi SpatialModel.py cfgs/hypox_1mmx1mmx400um_10s.json
