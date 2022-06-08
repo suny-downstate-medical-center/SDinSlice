@@ -1118,13 +1118,13 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
     axs[0][0].set_ylabel('Membrane Potential (mV)', fontsize=16)
     plt.setp(axs[0][0].get_xticklabels(), fontsize=14)
     plt.setp(axs[0][0].get_yticklabels(), fontsize=14)
-    axs[0][0].text(-0.15, 1.0, 'A)', transform=axs[0][0].transAxes,
+    axs[0][0].text(-0.17, 1.0, 'A)', transform=axs[0][0].transAxes,
         fontsize=16, fontweight='bold', va='top', ha='right')
 
     axs[1][0].set_ylabel(r'Extracellular [O$_{2}$] (mM)', fontsize=16)
     plt.setp(axs[1][0].get_xticklabels(), fontsize=14)
     plt.setp(axs[1][0].get_yticklabels(), fontsize=14)
-    axs[1][0].text(-0.15, 1., 'E)', transform=axs[1][0].transAxes,
+    axs[1][0].text(-0.17, 1., 'E)', transform=axs[1][0].transAxes,
         fontsize=16, fontweight='bold', va='top', ha='right')
     
     axs[0][1].set_ylabel(r'Intracellular [K$^{+}$] (mM)', fontsize=16)
@@ -1154,13 +1154,13 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
     axs[0][3].set_ylabel(r'Intracellular [Cl$^{-}$] (mM)', fontsize=16)
     plt.setp(axs[0][3].get_xticklabels(), fontsize=14)
     plt.setp(axs[0][3].get_yticklabels(), fontsize=14)
-    axs[0][3].text(-0.2, 1.0, 'D)', transform=axs[0][3].transAxes,
+    axs[0][3].text(-0.21, 1.0, 'D)', transform=axs[0][3].transAxes,
       fontsize=18, fontweight='bold', va='top', ha='right')
     
     axs[1][3].set_ylabel(r'Extracellular [Cl$^{-}$] (mM)', fontsize=16)
     plt.setp(axs[1][3].get_xticklabels(), fontsize=14)
     plt.setp(axs[1][3].get_yticklabels(), fontsize=14)
-    axs[1][3].text(-0.2, 1.0, 'H)', transform=axs[1][3].transAxes,
+    axs[1][3].text(-0.21, 1.0, 'H)', transform=axs[1][3].transAxes,
       fontsize=18, fontweight='bold', va='top', ha='right')
 
     fig.text(0.55, 0.01, 'Time (s)', fontsize=16)
