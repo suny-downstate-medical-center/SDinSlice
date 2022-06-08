@@ -1100,8 +1100,8 @@ def traceExamples(datadir, figname, iss=[0, 7, 15], recNum=None):
             data = pickle.load(fileObj)
     # fig = plt.figure(figsize=(18,9))
     fig, axs = plt.subplots(2,4)
-    fig.set_figheight(3.45)
-    fig.set_figwidth(6.9)
+    fig.set_figheight(9)
+    fig.set_figwidth(18)
     for i in iss:
         l = r'%s $\mu$m' % str(np.round((data['pos'][i][0] ** 2 + data['pos'][i][1] ** 2 + data['pos'][i][2] ** 2)**(0.5),1))
         axs[0][0].plot(np.divide(data['t'],1000), data['v'][i], label=l)
