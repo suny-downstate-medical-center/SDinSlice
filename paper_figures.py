@@ -1157,6 +1157,11 @@ def animateSliceConds():
     metrics = [getSpkMetrics(d, uniform=True, position=p) for d, p in zip(datadirs,pos)]
     legendTitle = 'Slice Condition'r'Dynamic $\alpha_{ECS}$'
     for figi in range(len(datadirs)):
+        datadirs = ['/u/craig/spreadingdepression/Data/SD_Data/perfuse_standard_highNrec/',
+            '/u/craig/spreadingdepression/Data/dyn_alpha_10s/',
+            '/u/craig/spreadingdepression/Data/SD_Data/primed_standard_highNrec_v2/',
+            '/u/craig/SDinSlice/Data/pad_k015_o2bc_0.1_o2bath_0.03_10s/',
+            '/u/craig/SDinSlice/Data/pad_standard/']
         fig = plt.figure()
         fig.set_figheight(9)
         fig.set_figwidth(18)
@@ -1169,7 +1174,7 @@ def animateSliceConds():
             fontsize=18, fontweight='bold', va='top', ha='right')
         # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Mannitol Treated', 'Propionate Treated','Hypoxic'],spkSpeeds)]
         # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', 'Propionate Treated','Hypoxic'],spkSpeeds)]
-        labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', r'Dynamic $\alpha_{ECS}$', 'Propionate','Hypoxic SD-like Depol.', r'Hypoxia + 70 mM K$^+$'],spkSpeeds)]
+        # labels = [cond + r': %.2f mm/min' % (s) for cond, s in zip(['Perfused', r'Dynamic $\alpha_{ECS}$', 'Propionate','Hypoxic SD-like Depol.', r'Hypoxia + 70 mM K$^+$'],spkSpeeds[:figi+1])]
         ax2 = plt.subplot(312)
         for m, l, c in zip(metrics[:figi+1], labels[:figi+1], colors[:figi+1]):
             r = [k for k in m.keys()]
