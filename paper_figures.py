@@ -1239,7 +1239,7 @@ def animateSliceConds():
         legend = plt.legend(fontsize=12)#, bbox_to_anchor=(-0.2, 1.05))
         plt.setp(legend.get_title(), fontsize=14)
         fig.set_figheight(14)
-        fig.set_figwidth(9)
+        fig.set_figwidth(11)
         plt.draw()
         plt.tight_layout()
         fig.savefig('slice_conds_' + str(figi) + '.svg')
